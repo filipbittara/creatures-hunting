@@ -2,36 +2,47 @@ package cz.muni.fi.pa165.persistence.dao;
 
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Filip Bittara
  */
+@Repository
 public class CreatureManagerImpl implements CreatureManager {
 
+    @PersistenceContext
+    private EntityManager em;
+    
     @Override
     public Creature findCreature(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.find(Creature.class, id);
     }
 
     @Override
     public void addCreature(Creature creature) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.persist(creature);
     }
 
     @Override
     public void deleteCreature(Creature creature) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.remove(creature);
     }
 
     @Override
     public void updateCreature(Creature creature) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(em.find(Creature.class, creature.getId()) == null) {
+            throw new IllegalArgumentException("Creature could not be found in DB");
+        }
+        em.merge(creature);
     }
 
     @Override
     public List<Creature> findAllCreatures() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return em.createQuery("select c from Creature c", Creature.class)
+				.getResultList();
     }
     
 }

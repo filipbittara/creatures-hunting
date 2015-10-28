@@ -6,36 +6,44 @@ package cz.muni.fi.pa165.persistence.dao;
 
 import cz.muni.fi.pa165.persistence.entity.Area;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Ondrej Klein
  */
+@Repository
 public class AreaManagerImp implements AreaManager {
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public Area findArea(Long id) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return em.find(Area.class, id);
 	}
 
 	@Override
 	public void addArea(Area a) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		em.persist(a);
 	}
 
 	@Override
 	public void deleteArea(Area a) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		em.remove(a);
 	}
 
 	@Override
 	public void updateArea(Area a) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		em.merge(a);
 	}
 
 	@Override
 	public List<Area> findAllAreas() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return em.createQuery("select a from Area a", Area.class)
+				.getResultList();
 	}
 	
 }

@@ -16,6 +16,5 @@ public interface AreaManager {
 	public void addArea(Area a);
 	public void deleteArea(Area a);
 	public void updateArea(Area a);
-	public List<Area> findAllAreas();  
-	public void addCreature();
+	public List<Area> findAllAreas();
 }

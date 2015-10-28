@@ -34,7 +34,7 @@ public class WeaponManagerImpl implements WeaponManager {
     @Override
     public void updateWeapon(Weapon weapon) {
         if (em.find(Weapon.class, weapon.getId()) == null) {
-            throw new IllegalArgumentException("Weapon could not be found in DB.")
+            throw new IllegalArgumentException("Weapon could not be found in DB.");
         }
     }
 

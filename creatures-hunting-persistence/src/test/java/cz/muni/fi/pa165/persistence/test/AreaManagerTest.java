@@ -39,20 +39,9 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private CreatureManager creatureManager;
     
-    private EntityManagerFactory emf;
+    @PersistenceContext 
     private EntityManager em;
-    
-    @BeforeTransaction
-    public void beforeTransaction() {
-        new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
-        emf = Persistence.createEntityManagerFactory("default");
-    }
-    
-    @AfterTransaction
-    public void afterTransaction() {
-        emf.close();
-    }
-    
+        
     @Test
     public void findAll(){
         Area a1 = new Area();
@@ -113,6 +102,7 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
             areaManager.addArea(a);
             Creature c = new Creature();
             c.setName("Creature 1");
+            creatureManager.addCreature(c);
             a.addCreature(c);		
             Creature found = creatureManager.findCreature(c.getId());
             Assert.assertEquals(found.getAreas().size(), 1);

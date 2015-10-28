@@ -39,19 +39,8 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
     @Autowired
     UserManager userManager;
     
-    private EntityManagerFactory emf;
+    @PersistenceContext 
     private EntityManager em;
-    
-    @BeforeTransaction
-    public void beforeTransaction() {
-        new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
-        emf = Persistence.createEntityManagerFactory("default");
-    }
-    
-    @AfterTransaction
-    public void afterTransaction() {
-        emf.close();
-    }
     
     @Test
     public void findAll(){

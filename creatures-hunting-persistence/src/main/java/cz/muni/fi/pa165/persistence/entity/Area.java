@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.persistence.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class Area {
     private double longitude;
     
     @ManyToMany
-    private List<Creature> creatures;
+    private List<Creature> creatures = new ArrayList<Creature>();
     
     public Long getId() {
         return id;
@@ -81,9 +82,10 @@ public class Area {
         this.creatures = creatures;
     }
 	
-	public void addCreature(Creature c) {
-		this.creatures.add(c);
-	}
+    public void addCreature(Creature c) {
+	creatures.add(c);
+        c.addArea(this);
+    }
     
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,11 @@
 package cz.muni.fi.pa165.persistence.entity;
 
-import com.sun.istack.internal.NotNull;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
  *

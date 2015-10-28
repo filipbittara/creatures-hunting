@@ -5,7 +5,6 @@
  */
 package cz.muni.fi.pa165.persistence;
 
-import cz.muni.fi.pa165.persistence.dao.UserManager;
 import javax.sql.DataSource;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -27,11 +26,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  *
  * @author Filip Bittara
  */
-
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses={UserManager.class})
+@ComponentScan(basePackages = "cz.muni.fi.pa165.persistence.dao")
 public class PersistenceApplicationContext {
 	
 	@Bean 

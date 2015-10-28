@@ -55,7 +55,7 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(expectedExceptions=ConstraintViolationException.class)
-    public void nullCategoryNameNotAllowed(){
+    public void nullAreaNameNotAllowed(){
             Area a = new Area();
             a.setName(null);
             areaManager.addArea(a);		

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 public class AreaManagerImp implements AreaManager {
 	
 	@PersistenceContext
-		private EntityManager em;
+	private EntityManager em;
 
 	@Override
 	public Area findArea(Long id) {

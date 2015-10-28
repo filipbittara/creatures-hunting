@@ -56,4 +56,27 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Area)) {
+            return false;
+        }
+        User other = (User) o;
+        if (other.username == null) {
+            if (this.username != null) {
+                return false;
+            } else if (this.username != other.username) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 }

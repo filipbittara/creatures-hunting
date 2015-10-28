@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.persistence.dao;
 
 import cz.muni.fi.pa165.persistence.entity.User;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -38,4 +39,12 @@ public class UserManagerImpl implements UserManager {
 	public void updateUser(User user) {
 		em.merge(user);
 	}
+
+	@Override
+	public List<User> findAllUsers() {
+		return em.createQuery("select u from User u", User.class)
+				.getResultList();
+	}
+	
+	
 }

@@ -5,6 +5,7 @@
 package cz.muni.fi.pa165.persistence.dao;
 
 import cz.muni.fi.pa165.persistence.entity.User;
+import java.util.List;
 
 /**
  *
@@ -15,4 +16,5 @@ public interface UserManager {
 	public void addUser(User user);
 	public void deleteUser(User user);
 	public void updateUser(User user);	
+	public List<User> findAllUsers();
 }

@@ -14,6 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,6 +51,9 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 	private Weapon w1;
 	private Weapon w2;
 	
+	private String wName1;
+	private String wName2;
+	
 	@BeforeTransaction
 	public void beforeTransaction() {
 		new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
@@ -62,11 +67,14 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 	
 	@BeforeMethod
 	public void createProducts() {
+		wName1 = "shotgun1";
+		wName2 = "machete2";
+		
 		w1 = new Weapon();
 		w2 = new Weapon();
 
-		w1.setName("shotgun1");
-		w2.setName("machete2");
+		w1.setName(wName1);
+		w2.setName(wName2);
 		
 		w1.setGunReach(Double.valueOf(25.3));
 		w2.setGunReach(Double.valueOf(0.9));
@@ -97,6 +105,39 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		Weapon testWeapon = wm.findWeapon(w3.getId());
 		Assert.assertEquals(testWeapon, w3);
 	}
+	
+	@Test(expectedExceptions=ConstraintViolationException.class)
+    public void nullAreaNameNotAllowed(){
+            Weapon w3 = new Weapon();
+            w3.setName(null);
+            wm.addWeapon(w3);		
+    }
+	
+	@Test(expectedExceptions = PersistenceException.class)
+	public void notUniqueName() {
+		Weapon w3 = new Weapon();
+		w3.setName(wName1);
+		wm.addWeapon(w3);
+	}
+	
+	@Test
+	public void deleteWeapon() {
+		Assert.assertNotNull(wm.findWeapon(w1.getId()));
+		wm.deleteWeapon(wm.findWeapon(w1.getId()));
+		Assert.assertNull(wm.findWeapon(w1.getId()));
+	}
+	
+	@Test
+	public void updateWeapon() {
+		Assert.assertEquals(wm.findWeapon(w1.getId()).getName(), wName1);
+		String newName = "newName";
+		w1.setName(newName);
+		wm.updateWeapon(w1);
+		Assert.assertEquals(wm.findWeapon(w1.getId()).getName(), newName);
+	}
+	
+	
+	
 	
 	
 	

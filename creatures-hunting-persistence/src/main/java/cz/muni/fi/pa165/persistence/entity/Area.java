@@ -80,6 +80,10 @@ public class Area {
     public void setCreatures(List<Creature> creatures) {
         this.creatures = creatures;
     }
+	
+	public void addCreature(Creature c) {
+		this.creatures.add(c);
+	}
     
     @Override
     public boolean equals(Object o) {

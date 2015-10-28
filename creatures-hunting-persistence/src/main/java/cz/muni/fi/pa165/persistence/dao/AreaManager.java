@@ -17,4 +17,5 @@ public interface AreaManager {
 	public void deleteArea(Area a);
 	public void updateArea(Area a);
 	public List<Area> findAllAreas();  
+	public void addCreature();
 }

@@ -5,17 +5,36 @@
 package cz.muni.fi.pa165.persistence.entity;
 
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Ondrej Klein
  */
+
+@Entity
 public class Area {
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    
+    @NotNull
+    @Column(nullable=false, unique=true)
     private String name;
+    
     private String description;
+    
     private double latitude;
     private double longitude;
+    
+    @ManyToMany
     private List<Creature> creatures;
     
     public Long getId() {
@@ -60,6 +79,29 @@ public class Area {
 
     public void setCreatures(List<Creature> creatures) {
         this.creatures = creatures;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Area)) {
+            return false;
+        }
+        Area other = (Area) o;
+        if (other.name == null) {
+            if (this.name != null) {
+                return false;
+            } else if (this.name != other.name) {
+                return false;
+            }
+        }
+        return true;
+
     }
 }
 

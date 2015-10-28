@@ -5,18 +5,24 @@
  */
 package cz.muni.fi.pa165.persistence.test;
 
+import cz.muni.fi.pa165.persistence.InMemoryDatabaseSpring;
 import cz.muni.fi.pa165.persistence.PersistenceApplicationContext;
 import cz.muni.fi.pa165.persistence.dao.UserManager;
 import cz.muni.fi.pa165.persistence.entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.AfterTransaction;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
@@ -33,8 +39,19 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
     @Autowired
     UserManager userManager;
     
-    @PersistenceContext 
+    private EntityManagerFactory emf;
     private EntityManager em;
+    
+    @BeforeTransaction
+    public void beforeTransaction() {
+        new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
+        emf = Persistence.createEntityManagerFactory("default");
+    }
+    
+    @AfterTransaction
+    public void afterTransaction() {
+        emf.close();
+    }
     
     @Test
     public void findAll(){

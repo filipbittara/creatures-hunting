@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.persistence;
 
+import cz.muni.fi.pa165.persistence.dao.UserManager;
 import javax.sql.DataSource;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;

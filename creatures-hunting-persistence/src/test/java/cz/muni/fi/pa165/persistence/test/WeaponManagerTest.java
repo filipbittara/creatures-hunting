@@ -97,6 +97,11 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(testWeapon, w3);
 	}
 	
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void addNull() {
+		wm.addWeapon(null);
+	}
+	
 	@Test(expectedExceptions=ConstraintViolationException.class)
     public void nullAreaNameNotAllowed(){
             Weapon w3 = new Weapon();
@@ -118,6 +123,11 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNull(wm.findWeapon(w1.getId()));
 	}
 	
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void deleteNull(){
+		wm.deleteWeapon(null);
+	}
+	
 	@Test
 	public void updateWeapon() {
 		Assert.assertEquals(wm.findWeapon(w1.getId()).getName(), wName1);
@@ -125,12 +135,6 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		w1.setName(newName);
 		wm.updateWeapon(w1);
 		Assert.assertEquals(wm.findWeapon(w1.getId()).getName(), newName);
-	}
-	
-	
-	
-	
-	
-	
+	}	
 	
 }

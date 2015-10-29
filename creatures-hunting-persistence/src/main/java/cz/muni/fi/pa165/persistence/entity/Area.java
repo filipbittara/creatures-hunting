@@ -4,8 +4,8 @@
  */
 package cz.muni.fi.pa165.persistence.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +37,7 @@ public class Area {
     private double longitude;
     
     @ManyToMany
-    private List<Creature> creatures = new ArrayList<Creature>();
+    private Set<Creature> creatures = new HashSet<Creature>();
     
     public Long getId() {
         return id;
@@ -75,11 +75,11 @@ public class Area {
         this.longitude = longitude;
     }
 
-    public List<Creature> getCreatures() {
+    public Set<Creature> getCreatures() {
         return creatures;
     }
 
-    public void setCreatures(List<Creature> creatures) {
+    public void setCreatures(Set<Creature> creatures) {
         this.creatures = creatures;
     }
 	

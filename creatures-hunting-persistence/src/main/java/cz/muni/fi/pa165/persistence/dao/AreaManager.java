@@ -42,7 +42,7 @@ public interface AreaManager {
     /**
      * Searches for all area records.
      *
-     * @return a list of all areas found
+     * @return a set of all areas found
      */
 	public List<Area> findAllAreas();
 }

@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.persistence.entity;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,6 +59,15 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 71 * hash + ((id == null) ? 0 : id.hashCode());
+		hash = 71 * hash + ((username == null) ? 0 : username.hashCode());
+		return hash;
+	}
+	
 	
 	@Override
     public boolean equals(Object o) {

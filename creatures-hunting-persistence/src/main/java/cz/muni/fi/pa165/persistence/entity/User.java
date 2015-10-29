@@ -27,12 +27,12 @@ public class User {
 	private int role;
 	
 	@NotNull
-        @Column(nullable=false, unique=true)
+    @Column(nullable=false, unique=true)
 	private String username;
 	
 	private String password;
 	
-		public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -63,7 +63,6 @@ public class User {
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		hash = 71 * hash + ((id == null) ? 0 : id.hashCode());
 		hash = 71 * hash + ((username == null) ? 0 : username.hashCode());
 		return hash;
 	}
@@ -77,7 +76,7 @@ public class User {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Area)) {
+        if (!(o instanceof User)) {
             return false;
         }
         User other = (User) o;
@@ -87,7 +86,7 @@ public class User {
             } else if (this.username != other.username) {
                 return false;
             }
-        }
+        }	
         return true;
 
     }

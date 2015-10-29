@@ -91,7 +91,6 @@ public class Area {
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		hash = 23 * hash + ((id == null) ? 0 : id.hashCode());
 		hash = 23 * hash + ((name == null) ? 0 : name.hashCode());
 		return hash;
 	}
@@ -108,9 +107,6 @@ public class Area {
 			return false;
 		}
 		final Area other = (Area) obj;
-		if (!Objects.equals(this.id, other.id)) {
-			return false;
-		}
 		if (!Objects.equals(this.name, other.name)) {
 			return false;
 		}

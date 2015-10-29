@@ -106,6 +106,20 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
     }
 
     /**
+     * Checks that entity could be updated.
+     */
+    @Test
+    public void update(){
+            Area a = new Area();
+            a.setName("Area 1");
+            areaManager.addArea(a);
+            Assert.assertEquals(areaManager.findArea(a.getId()).getName(), "Area 1");
+            a.setName("Other area");
+            areaManager.updateArea(a);
+            Assert.assertEquals(areaManager.findArea(a.getId()).getName(), "Other area");
+    }
+    
+    /**
      * Checks that assigning area to creature works.
      */
     @Test

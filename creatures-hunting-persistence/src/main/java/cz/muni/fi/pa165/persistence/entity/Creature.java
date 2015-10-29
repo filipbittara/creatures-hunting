@@ -133,7 +133,7 @@ public class Creature {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -145,13 +145,17 @@ public class Creature {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Locale.Category)) {
+        if (!(obj instanceof Creature)) {
             return false;
         }
-        final Creature other = (Creature) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        Creature other = (Creature) obj;
+	if (name == null) {
+            if (other.getName() != null) {
+		return false;
+            }
+        } else if (!name.equals(other.getName())) {
             return false;
         }
-        return true;
+	return true;
     }
 }

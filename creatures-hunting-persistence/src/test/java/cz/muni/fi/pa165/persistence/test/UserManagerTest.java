@@ -92,12 +92,26 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
      */
     @Test()
     public void delete(){
-            User a = new User();
-            a.setUsername("User 1");
-            userManager.addUser(a);
-            Assert.assertNotNull(userManager.findUser(a.getId()));
-            userManager.deleteUser(a);
-            Assert.assertNull(userManager.findUser(a.getId()));
+            User u = new User();
+            u.setUsername("User 1");
+            userManager.addUser(u);
+            Assert.assertNotNull(userManager.findUser(u.getId()));
+            userManager.deleteUser(u);
+            Assert.assertNull(userManager.findUser(u.getId()));
+    }
+    
+    /**
+     * Checks that entity could be updated.
+     */
+    @Test
+    public void update(){
+            User u = new User();
+            u.setUsername("User 1");
+            userManager.addUser(u);
+            Assert.assertEquals(userManager.findUser(u.getId()).getUsername(), "User 1");
+            u.setUsername("Other user");
+            userManager.updateUser(u);
+            Assert.assertEquals(userManager.findUser(u.getId()).getUsername(), "Other user");
     }
 }
 

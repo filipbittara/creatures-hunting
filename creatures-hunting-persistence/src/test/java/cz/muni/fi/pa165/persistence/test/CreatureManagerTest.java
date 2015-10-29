@@ -24,6 +24,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
+ * Test class for DAO class CreatureManager.
  *
  * @author Kizivat
  */

@@ -6,6 +6,7 @@ package cz.muni.fi.pa165.persistence.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -86,29 +87,38 @@ public class Area {
 	creatures.add(c);
         c.addArea(this);
     }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Area)) {
-            return false;
-        }
-        Area other = (Area) o;
-        if (other.name == null) {
-            if (this.name != null) {
-                return false;
-            } else if (this.name != other.name) {
-                return false;
-            }
-        }
-        return true;
 
-    }
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 23 * hash + ((id == null) ? 0 : id.hashCode());
+		hash = 23 * hash + ((name == null) ? 0 : name.hashCode());
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Area)) {
+			return false;
+		}
+		final Area other = (Area) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.name, other.name)) {
+			return false;
+		}
+		return true;
+	}
+	
+    
+
 }
 
 

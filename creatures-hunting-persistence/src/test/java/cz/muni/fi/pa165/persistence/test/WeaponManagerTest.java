@@ -40,7 +40,7 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 	
 	@PersistenceContext
 	public EntityManager em;
-	private EntityManagerFactory emf;
+
 
 	@Autowired
 	public WeaponManager wm;
@@ -54,19 +54,10 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 	private String wName1;
 	private String wName2;
 	
-	@BeforeTransaction
-	public void beforeTransaction() {
-		new AnnotationConfigApplicationContext(InMemoryDatabaseSpring.class);
-		emf = Persistence.createEntityManagerFactory("default");
-	}
 
-	@AfterTransaction
-	public void afterTransaction() {
-		emf.close();
-	}
 	
 	@BeforeMethod
-	public void createProducts() {
+	public void createWeapons() {
 		wName1 = "shotgun1";
 		wName2 = "machete2";
 		
@@ -135,6 +126,7 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		wm.updateWeapon(w1);
 		Assert.assertEquals(wm.findWeapon(w1.getId()).getName(), newName);
 	}
+	
 	
 	
 	

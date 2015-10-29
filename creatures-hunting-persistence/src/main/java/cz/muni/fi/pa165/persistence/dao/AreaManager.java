@@ -1,20 +1,48 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.persistence.dao;
 
 import cz.muni.fi.pa165.persistence.entity.Area;
+
 import java.util.List;
 
 /**
+ * Areas data access object.
  *
  * @author Ondrej Klein
  */
 public interface AreaManager {
+	/**
+	 * Find an area by its ID in Areas table.
+	 *
+	 * @param id ID of the weapon that is being searched for
+	 * @return weapon with she sufficient ID
+	 */
 	public Area findArea(Long id);
-	public void addArea(Area a);
-	public void deleteArea(Area a);
-	public void updateArea(Area a);
+
+	/**
+	 * Adds an area record.
+	 *
+	 * @param area instance of the area to be added.
+	 */
+	public void addArea(Area area);
+
+    /**
+     * Removes an area record.
+     *
+     * @param area instance of the area to be removed
+     */
+	public void deleteArea(Area area);
+
+    /**
+     * Updates chosen areas's column's values.
+     *
+     * @param area instance of the area to be updated featuring new data values
+     */
+	public void updateArea(Area area);
+
+    /**
+     * Searches for all area records.
+     *
+     * @return a list of all areas found
+     */
 	public List<Area> findAllAreas();
 }

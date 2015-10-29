@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.persistence.entity.Creature;
 import java.util.List;
 
 /**
+ * Creatures data access object.
  *
  * @author Filip Bittara
  */

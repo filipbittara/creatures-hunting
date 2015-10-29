@@ -30,7 +30,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *
+ * Test class for WeaponManager
  * @author Ondrej Klein
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
@@ -55,7 +55,9 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 	private String wName2;
 	
 
-	
+	/**
+     * Fill the DB prior to tests
+     */
 	@BeforeMethod
 	public void createWeapons() {
 		wName1 = "shotgun1";
@@ -77,6 +79,9 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		wm.addWeapon(w2);
 	}
 	
+	/**
+     * Test returning all entries
+     */
 	@Test
 	public void findAll() {
 		List<Weapon> weapons = wm.findAllWeapons();
@@ -86,6 +91,9 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		
 	}
 	
+	/**
+     * Tests adding Weapon entry
+     */
 	@Test
 	public void addWeapon() {
 		Weapon w3 = new Weapon();
@@ -97,11 +105,17 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(testWeapon, w3);
 	}
 	
+	/**
+     * Test throwing exception when adding null
+     */
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void addNull() {
 		wm.addWeapon(null);
 	}
 	
+	/**
+     * Test adding Weapon with null name
+     */
 	@Test(expectedExceptions=ConstraintViolationException.class)
     public void nullAreaNameNotAllowed(){
             Weapon w3 = new Weapon();
@@ -109,6 +123,9 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
             wm.addWeapon(w3);		
     }
 	
+	/**
+     * Tests adding Weapon with already existing name
+     */
 	@Test(expectedExceptions = PersistenceException.class)
 	public void notUniqueName() {
 		Weapon w3 = new Weapon();
@@ -116,6 +133,9 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		wm.addWeapon(w3);
 	}
 	
+	/**
+     * Test of deleting a Weapon
+     */
 	@Test
 	public void deleteWeapon() {
 		Assert.assertNotNull(wm.findWeapon(w1.getId()));
@@ -123,11 +143,17 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNull(wm.findWeapon(w1.getId()));
 	}
 	
+	/**
+     * Test of deleting null
+     */
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void deleteNull(){
 		wm.deleteWeapon(null);
 	}
 	
+	/**
+     * Test of updating Weapon's attributes
+     */
 	@Test
 	public void updateWeapon() {
 		Assert.assertEquals(wm.findWeapon(w1.getId()).getName(), wName1);

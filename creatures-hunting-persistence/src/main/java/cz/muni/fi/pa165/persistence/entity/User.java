@@ -59,7 +59,7 @@ public class User {
 		this.password = password;
 	}
 	
-	    @Override
+	@Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;

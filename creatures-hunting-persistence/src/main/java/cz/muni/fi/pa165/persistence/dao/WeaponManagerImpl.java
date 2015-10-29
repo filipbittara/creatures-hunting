@@ -8,7 +8,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by kizivat on 28/10/15.
+ *
+ * @author David Kizivat
  */
 
 @Repository
@@ -36,6 +37,7 @@ public class WeaponManagerImpl implements WeaponManager {
         if (em.find(Weapon.class, weapon.getId()) == null) {
             throw new IllegalArgumentException("Weapon could not be found in DB.");
         }
+        em.merge(weapon);
     }
 
     @Override

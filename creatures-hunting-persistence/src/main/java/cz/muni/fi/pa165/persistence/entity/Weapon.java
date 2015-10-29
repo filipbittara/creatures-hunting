@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.persistence.entity;
 
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +20,16 @@ public class Weapon {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @NotNull
     private Double gunReach;
 
-    @NotNull
     private String ammunition;
 
     @ManyToMany
     private List<Creature> creatures = new ArrayList<Creature>();
+
+    public void addCreature(Creature creature) {
+        getCreatures().add(creature);
+    }
 
     public Long getId() {
         return id;

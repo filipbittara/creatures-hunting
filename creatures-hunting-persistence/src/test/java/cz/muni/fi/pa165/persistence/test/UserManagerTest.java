@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.persistence.test;
 
 import cz.muni.fi.pa165.persistence.PersistenceApplicationContext;
@@ -24,7 +19,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
- *
+ * Test class to test area manager functionality.
  * @author Filip Bittara
  */
 @ContextConfiguration(classes=PersistenceApplicationContext.class)
@@ -37,6 +32,9 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
     @PersistenceContext 
     private EntityManager em;
     
+    /**
+     * Checks insert to DB as well as obtaining all elements from it.
+     */
     @Test
     public void findAll(){
         User u1 = new User();
@@ -55,6 +53,9 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
 
     }
 
+     /**
+     * Checks that entity with null name cannot be saved.
+     */
     @Test(expectedExceptions=ConstraintViolationException.class)
     public void nullUserNameNotAllowed(){
             User u = new User();
@@ -62,6 +63,9 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
             userManager.addUser(u);		
     }
 
+    /**
+     * Checks that entity name must be unique.
+     */
     @Test(expectedExceptions=PersistenceException.class)
     public void nameIsUnique(){
             User u = new User();
@@ -72,6 +76,9 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
             userManager.addUser(u);
     }
 
+    /**
+     * Checks that name is saved properly.
+     */
     @Test()
     public void savesName(){
             User u = new User();
@@ -80,6 +87,9 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
             Assert.assertEquals(userManager.findUser(u.getId()).getUsername(), "User 1");
     }
 
+    /**
+     * Checks that entity could be removed.
+     */
     @Test()
     public void delete(){
             User a = new User();

@@ -21,14 +21,13 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
- *
+ * Test class to test area manager functionality.
  * @author Filip Bittara
  */
 @ContextConfiguration(classes=PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class
-        AreaManagerTest extends AbstractTestNGSpringContextTests {
+public class AreaManagerTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private AreaManager areaManager;
     
@@ -37,7 +36,10 @@ public class
     
     @PersistenceContext 
     private EntityManager em;
-        
+    
+    /**
+     * Checks insert to DB as well as obtaining all elements from it.
+     */
     @Test
     public void findAll(){
         Area a1 = new Area();
@@ -56,6 +58,9 @@ public class
 
     }
 
+    /**
+     * Checks that entity with null name cannot be saved.
+     */
     @Test(expectedExceptions=ConstraintViolationException.class)
     public void nullAreaNameNotAllowed(){
             Area a = new Area();
@@ -63,6 +68,9 @@ public class
             areaManager.addArea(a);		
     }
 
+    /**
+     * Checks that entity name must be unique.
+     */
     @Test(expectedExceptions=PersistenceException.class)
     public void nameIsUnique(){
             Area a = new Area();
@@ -73,6 +81,9 @@ public class
             areaManager.addArea(a);
     }
 
+    /**
+     * Checks that name is saved properly.
+     */
     @Test()
     public void savesName(){
             Area a = new Area();
@@ -81,6 +92,9 @@ public class
             Assert.assertEquals(areaManager.findArea(a.getId()).getName(), "Area 1");
     }
 
+    /**
+     * Checks that entity could be removed.
+     */
     @Test()
     public void delete(){
             Area a = new Area();
@@ -91,6 +105,9 @@ public class
             Assert.assertNull(areaManager.findArea(a.getId()));
     }
 
+    /**
+     * Checks that assigning area to creature works.
+     */
     @Test
     public void creaturesInArea(){
             Area a = new Area();

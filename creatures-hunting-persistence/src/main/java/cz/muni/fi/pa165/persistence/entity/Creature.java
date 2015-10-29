@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.persistence.entity;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 /**
- *
+ * Basic entity class - Creature.
+ * For reference model see project's github wiki (https://github.com/kizivat/creatures-hunting/wiki). 
  * @author Filip Bittara
  */
-
 @Entity
 public class Creature {
     @Id
@@ -35,15 +35,25 @@ public class Creature {
     private String weakness;
     
     @ManyToMany(mappedBy="creatures")
-    private List<Weapon> weapons = new ArrayList<Weapon>();
+    private Set<Weapon> weapons = new HashSet<Weapon>();
     
     @ManyToMany(mappedBy="creatures")
-    private List<Area> areas = new ArrayList<Area>();
+    private Set<Area> areas = new HashSet<Area>();
     
+    /**
+     * Method assigns weapon to creature.
+     * Should NOT be used, use addCreature() method of Weapon class instead.
+     * @param weapon weapon to be added 
+     */
     public void addWeapon(Weapon weapon) {
         weapons.add(weapon);
     }
     
+    /**
+     * Method assigns area to creature.
+     * Should NOT be used, use addCreature() method of Area class instead.
+     * @param area area to be added 
+     */
     public void addArea(Area area) {
         areas.add(area);
     }
@@ -104,19 +114,19 @@ public class Creature {
         this.weakness = weakness;
     }
 
-    public List<Weapon> getWeapons() {
+    public Set<Weapon> getWeapons() {
         return weapons;
     }
 
-    public void setWeapons(List<Weapon> weapons) {
+    public void setWeapons(Set<Weapon> weapons) {
         this.weapons = weapons;
     }
 
-    public List<Area> getAreas() {
+    public Set<Area> getAreas() {
         return areas;
     }
 
-    public void setAreas(List<Area> areas) {
+    public void setAreas(Set<Area> areas) {
         this.areas = areas;
     }
 

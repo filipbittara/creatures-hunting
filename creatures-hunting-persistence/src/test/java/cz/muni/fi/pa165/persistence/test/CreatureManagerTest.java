@@ -202,6 +202,7 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
     public void updateNullNameTest() {
         cm.addCreature(c1);
         c2.setName(null);
+        cm.updateCreature(c2);
     }
 
     /**

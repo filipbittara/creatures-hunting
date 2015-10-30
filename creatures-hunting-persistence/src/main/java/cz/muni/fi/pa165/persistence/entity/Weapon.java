@@ -1,11 +1,12 @@
 package cz.muni.fi.pa165.persistence.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
+ * Entity class representing a weapon.
  *
  * @author David Kizivat
  */
@@ -25,8 +26,13 @@ public class Weapon {
     private String ammunition;
 
     @ManyToMany
-    private List<Creature> creatures = new ArrayList<Creature>();
+    private Set<Creature> creatures = new HashSet<>();
 
+    /**
+     * Assigns a creature that the weapon is effective against.
+     *
+     * @param creature instance of creature to be assigned
+     */
     public void addCreature(Creature creature) {
         getCreatures().add(creature);
     }
@@ -59,29 +65,29 @@ public class Weapon {
         this.ammunition = ammunition;
     }
 
-    public List<Creature> getCreatures() {
+    public Set<Creature> getCreatures() {
         return creatures;
     }
 
-    public void setCreatures(List<Creature> creatures) {
+    public void setCreatures(Set<Creature> creatures) {
         this.creatures = creatures;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * 3 + ((id == null) ? 0 : id.hashCode());
+        hash = 97 * hash + ((name == null) ? 0 : name.hashCode());
         return hash;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Weapon)) return false;
 
         Weapon weapon = (Weapon) o;
 
-        return getId().equals(weapon.getId());
+        return getName().equals(weapon.getName());
 
     }
 }

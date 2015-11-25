@@ -16,6 +16,6 @@ public interface WeaponFacade {
 	public void removeWeapon(WeaponDTO weapon);
 	public WeaponDTO getWeaponById(Long id);
 	public WeaponDTO getWeaponByName(String name);
-	public Set<CreatureDTO> getCreaturesByWeapon(WeaponDTO weapon);
+	public Set<WeaponDTO> getWeaponByCreature(CreatureDTO creature);
 	public Set<WeaponDTO> getAllWeapons();
 }

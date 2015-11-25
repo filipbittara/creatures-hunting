@@ -1,5 +1,9 @@
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.persistence.dao.WeaponManager;
+import cz.muni.fi.pa165.persistence.dao.CreatureManager;
+import cz.muni.fi.pa165.persistence.entity.Weapon;
+
 import java.util.List;
 
 import javax.inject.Inject;

@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.persistence.entity.Weapon;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;

@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 import cz.muni.fi.pa165.service.WeaponService;
+import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +110,7 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
         weaponService.addWeapon(weapon1);
         weaponService.addWeapon(weapon2);
         
-        verify(weaponManager, times(1)).addWeapon(weapon2);
+        verify(weaponManager, times(1)).addWeapon(weapon1);
         verify(weaponManager, times(1)).addWeapon(weapon2);
         
         when(weaponManager.findAllWeapons()).thenReturn(weapons);
@@ -136,6 +137,5 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
         weaponService.assignCreature(weapon2, creature);
         Assert.assertTrue(weaponService.getWeaponsForCreature().contains(weapon1));
         Assert.assertTrue(weaponService.getWeaponsForCreature().contains(weapon2));
-    }
-    
+    }   
 }

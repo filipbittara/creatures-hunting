@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.persistence.dao;
 
+import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 import org.springframework.stereotype.Repository;
 
@@ -46,14 +47,16 @@ public class WeaponManagerImpl implements WeaponManager {
         return em.createQuery("select w from Weapon w", Weapon.class).getResultList();
     }
 
-	@Override
-	public Weapon findWeaponByName(String name) {
-		if (name == null || name.isEmpty())
-			throw new IllegalArgumentException("Cannot search for empty or null name");
-		try {
+    
+    @Override
+    public Weapon findWeaponByName(String name) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Cannot search for null name");
+        try {
             return em.createQuery("select w from Weapon w where name=:name", Weapon.class).setParameter("name", name).getSingleResult();
-		} catch (NoResultException exception) {
-			return null;
-		}
-	}
+        } catch (NoResultException nre) {
+            return null;
+        }   
+    }
+
 }

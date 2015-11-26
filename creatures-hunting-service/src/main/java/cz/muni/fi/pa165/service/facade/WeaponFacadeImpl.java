@@ -35,15 +35,14 @@ public class WeaponFacadeImpl implements WeaponFacade {
 	}
 
 	@Override
-	public void assignToCreature(WeaponDTO weapon, CreatureDTO creature) {
-		weapon.addCreature(creature);
-		weaponService.updateWeapon(beanMappingService.mapTo(weapon, Weapon.class));
+	public void assignCreature(WeaponDTO weapon, CreatureDTO creature) {
+		weaponService.assignCreature(beanMappingService.mapTo(weapon, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
 	}
 
 	@Override
-	public void removeFromCreature(WeaponDTO weapon, CreatureDTO creature) {
-		weapon.removeCreature(creature);
-		weaponService.updateWeapon(beanMappingService.mapTo(weapon, Weapon.class));
+	public void removeCreature(WeaponDTO weapon, CreatureDTO creature) {
+		weaponService.removeCreature(beanMappingService.mapTo(weapon, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
+		
 	}
 
 	@Override

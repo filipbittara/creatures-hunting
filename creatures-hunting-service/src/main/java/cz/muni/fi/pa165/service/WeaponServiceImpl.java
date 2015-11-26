@@ -54,4 +54,26 @@ public class WeaponServiceImpl implements WeaponService {
 	public List<Weapon> findWeaponsByCreature(Creature creature) {
 		return new ArrayList(creature.getWeapons());
 	}
+
+	@Override
+	public void assignCreature(Weapon weapon, Creature creature) {
+		if (creature != null && weapon != null) {
+			weapon.addCreature(creature);
+		} else {
+			throw new IllegalArgumentException();
+		}
+		
+	}
+
+	@Override
+	public void removeCreature(Weapon weapon, Creature creature) {
+		if (creature != null && weapon != null) {
+			weapon.removeCreature(creature);
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	
+	
 }

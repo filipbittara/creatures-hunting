@@ -11,8 +11,8 @@ import java.util.List;
 public interface WeaponFacade {
 	public Long addWeapon(WeaponDTO weapon);
 	public void updateWeapon(WeaponDTO weapon);
-	public void assignToCreature(WeaponDTO weapon, CreatureDTO creature);
-	public void removeFromCreature(WeaponDTO weapon, CreatureDTO creature);
+	public void assignCreature(WeaponDTO weapon, CreatureDTO creature);
+	public void removeCreature(WeaponDTO weapon, CreatureDTO creature);
 	public void removeWeapon(WeaponDTO weapon);
 	public WeaponDTO getWeaponById(Long id);
 	public WeaponDTO getWeaponByName(String name);

@@ -11,6 +11,7 @@ import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.service.spi.ServiceException;
+import org.junit.Assert;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -21,15 +22,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 /**
  * @author Ondrej Klein
  */
 @ContextConfiguration(classes=ServiceConfiguration.class)
-public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContextTests {
-	@Mock
-    private WeaponManager weaponManager;
-    
+public class CreatureServiceTest extends AbstractTestNGSpringContextTests {    
     @Mock
     private CreatureManager creatureManager;
 	
@@ -49,8 +48,10 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
     private Creature creature1;
 	private Creature creature2;
 	private Creature creature3;
-    private List<Creature> creatures;
+    private List<Area> areas;
+	private List<Creature> creatures;
     private Area area;
+	private Area area2;
     
     @BeforeMethod
     public void prepareWeapons(){
@@ -78,13 +79,21 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
         creature3.setWeakness("Slow");
 		
 		creatures = new ArrayList<Creature>();
-        creatures.add(creature1);
-        creatures.add(creature2);
+		creatures.add(creature1);
+		creatures.add(creature2);
 		creatures.add(creature3);
 		
 		area = new Area();
 		area.setLatitude(5.0);
 		area.setLongitude(5.0);
+		
+		area2 = new Area();
+		area2.setLatitude(10.0);
+		area2.setLongitude(10.0);
+		
+		areas = new ArrayList<>();
+		areas.add(area);
+		areas.add(area2);
 		
     }
 	
@@ -105,7 +114,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	}
 		
 	@Test
-	public void deleteCretureTest() {
+	public void deleteCreatureTest() {
 		creatureService.createCreature(creature1);
 		creatureService.deleteCreature(creature1.getId());
 		verify(creatureManager, times(1)).deleteCreature(creature1);
@@ -118,11 +127,34 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 		creatureService.createCreature(creature3);
 		creatureService.getAllCreatures();
 		verify(creatureManager, times(1)).findAllCreatures();
+		when(creatureManager.findAllCreatures()).thenReturn(creatures);
+		Assert.assertEquals(creatureService.getAllCreatures(), creatures);
 	}
 	
 	@Test
 	public void getCreaturesInCircleTest() {
 		double radius = 2.0;
+		creature1.addArea(area);
+		creature2.addArea(area);
+		creature3.addArea(area2);
+		
+		
+		creatureService.createCreature(creature1);
+		creatureService.createCreature(creature2);
+		creatureService.createCreature(creature3);
+		
+		List<Creature> testCreatures = new ArrayList<>();
+		testCreatures.add(creature1);
+		testCreatures.add(creature2);
+		
+		verify(creatureManager, times(1)).addCreature(creature1);
+		verify(creatureManager, times(1)).addCreature(creature2);
+		verify(creatureManager, times(1)).addCreature(creature3);
+		
+		when(areaManager.findAllAreas()).thenReturn(areas);
+		
+		Assert.assertEquals(creatureService.getCreaturesInCircle(radius, 4.0, 4.1), testCreatures);
+		
 		
 	}
 	
@@ -130,10 +162,19 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	public void getCreaturesByAreaTest() {
 		creature1.addArea(area);
 		creature2.addArea(area);
+		
 		creatureService.createCreature(creature1);
 		creatureService.createCreature(creature2);
+		
+		List<Creature> testCreatures = new ArrayList<>();
+		testCreatures.add(creature1);
+		testCreatures.add(creature2);
+		
 		creatureService.getCreaturesByArea(area.getName());
 		verify(areaManager, times(1)).findAreaByName(area.getName()).getCreatures();
+		
+		when(areaManager.findAreaByName(area.getName())).thenReturn(area);
+		Assert.assertEquals(creatureService.getCreaturesByArea(area.getName()), testCreatures);
 		
 	}
 	

@@ -47,7 +47,7 @@ public class CreatureServiceImpl implements CreatureService {
     public List<Creature> getCreaturesInCircle(double latitude, double longitude, double radius) {
         List<Creature> result = new ArrayList<Creature>();
         for(Area area : areaManager.findAllAreas()) {
-            double distance = Math.sqrt(Math.pow(latitude - area.getLatitude(), 2) + Math.pow(longitude - area.getLatitude(),2));
+            double distance = Math.sqrt(Math.pow(latitude - area.getLatitude(), 2) + Math.pow(longitude - area.getLongitude(),2));
             if(distance <= radius ) {
                 for(Creature creature : area.getCreatures()) {
                     result.add(creature);

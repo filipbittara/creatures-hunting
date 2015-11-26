@@ -135,7 +135,7 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
     public void findWeaponsForCreatureTest() {
         weaponService.assignCreature(weapon1, creature);
         weaponService.assignCreature(weapon2, creature);
-        Assert.assertTrue(weaponService.getWeaponsForCreature().contains(weapon1));
-        Assert.assertTrue(weaponService.getWeaponsForCreature().contains(weapon2));
+        Assert.assertTrue(weaponService.findWeaponsByCreature(creature).contains(weapon1));
+        Assert.assertTrue(weaponService.findWeaponsByCreature(creature).contains(weapon2));
     }   
 }

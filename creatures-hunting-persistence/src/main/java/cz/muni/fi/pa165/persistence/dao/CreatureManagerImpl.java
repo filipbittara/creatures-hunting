@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.persistence.dao;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
@@ -43,5 +44,16 @@ public class CreatureManagerImpl implements CreatureManager {
     public List<Creature> findAllCreatures() {
         return em.createQuery("select c from Creature c", Creature.class)
 				.getResultList();
-    }   
+    }
+
+    @Override
+    public Creature findCreatureByName(String name) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Cannot search for null name");
+        try {
+            return em.createQuery("c from Creature c where name=:name", Creature.class).setParameter("name", name).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }   
+    }
 }

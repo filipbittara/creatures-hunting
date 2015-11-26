@@ -87,6 +87,15 @@ public class Area {
 	creatures.add(c);
         c.addArea(this);
     }
+    
+    public void removeCreature(Creature c) {
+	if(creatures.contains(c)) {
+            creatures.remove(c);
+            c.removeArea(this);
+        } else {
+            throw new IllegalArgumentException("Creature " + c.getName() + " not in the area" + this.getName());
+        }
+    }
 
 	@Override
 	public int hashCode() {

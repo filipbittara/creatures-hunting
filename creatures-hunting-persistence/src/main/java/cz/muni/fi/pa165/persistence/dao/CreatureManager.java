@@ -38,4 +38,5 @@ public interface CreatureManager {
      * @return list of all creatures
      */
     public List<Creature> findAllCreatures();
+    public Creature findCreatureByName(String name);
 }

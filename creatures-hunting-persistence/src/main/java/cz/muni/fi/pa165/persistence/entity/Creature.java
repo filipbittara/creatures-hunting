@@ -57,6 +57,14 @@ public class Creature {
     public void addArea(Area area) {
         areas.add(area);
     }
+    
+    public void removeArea(Area area) {
+        if(areas.contains(area)) {
+            areas.remove(area);
+        } else {
+            throw new IllegalArgumentException("Creature " + this.getName() + "is not in the area " + area.getName());
+        }
+    }
 
     public Long getId() {
         return id;

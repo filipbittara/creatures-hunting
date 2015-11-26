@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -44,4 +45,15 @@ public class WeaponManagerImpl implements WeaponManager {
     public List<Weapon> findAllWeapons() {
         return em.createQuery("select w from Weapon w", Weapon.class).getResultList();
     }
+
+	@Override
+	public Weapon findWeaponByName(String name) {
+		if (name == null || name.isEmpty())
+			throw new IllegalArgumentException("Cannot search for empty or null name");
+		try {
+            return em.createQuery("select w from Weapon w where name=:name", Weapon.class).setParameter("name", name).getSingleResult();
+		} catch (NoResultException exception) {
+			return null;
+		}
+	}
 }

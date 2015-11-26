@@ -52,8 +52,14 @@ public class WeaponDTO {
 		return creatures;
 	}
 
-	public void setCreatures(Set<CreatureDTO> creatures) {
-		this.creatures = creatures;
+	public void addCreature(CreatureDTO creature) {
+		this.creatures.add(creature);
+	}
+	
+	public void removeCreature(CreatureDTO creature) {
+		if (creature != null && this.creatures.contains(creature)) {
+			this.creatures.remove(creature);
+		}
 	}
 
 	@Override

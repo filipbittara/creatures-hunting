@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.persistence;
 
+import cz.muni.fi.pa165.persistence.dao.UserManager;
 import javax.sql.DataSource;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -29,7 +30,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackages = "cz.muni.fi.pa165.persistence.dao")
+@ComponentScan(basePackageClasses = {UserManager.class})
 public class PersistenceApplicationContext {
 	
 	@Bean 
@@ -50,10 +51,10 @@ public class PersistenceApplicationContext {
 		return jpaFactoryBean;
 	}
 	
-	@Bean 
+	/*@Bean 
 	public LocalValidatorFactoryBean localValidatorFactoryBean(){
 		return new LocalValidatorFactoryBean();
-	}
+	}*/
 	@Bean
 	public LoadTimeWeaver instrumentationLoadTimeWeaver() {
 		return new InstrumentationLoadTimeWeaver();

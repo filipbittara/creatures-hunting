@@ -85,6 +85,7 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
     
     @Test
     public void deleteWeaponTest() {
+		weaponService.addWeapon(weapon1);
         weaponService.deleteWeapon(weapon1);
         verify(weaponManager, times(1)).deleteWeapon(weapon1);
     }

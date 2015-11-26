@@ -22,13 +22,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 /**
  * @author Ondrej Klein
  */
 @ContextConfiguration(classes=ServiceConfiguration.class)
-public class CreatureServiceTest extends AbstractTestNGSpringContextTests {    
+public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContextTests {    
     @Mock
     private CreatureManager creatureManager;
 	

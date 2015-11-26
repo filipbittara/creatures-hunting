@@ -46,4 +46,5 @@ public interface WeaponManager {
      * @return a list of all weapons found
      */
     public List<Weapon> findAllWeapons();
+    public Weapon findWeaponByName(String name);
 }

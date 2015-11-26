@@ -5,8 +5,10 @@
 package cz.muni.fi.pa165.persistence.dao;
 
 import cz.muni.fi.pa165.persistence.entity.Area;
+import cz.muni.fi.pa165.persistence.entity.Weapon;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
@@ -45,5 +47,18 @@ public class AreaManagerImp implements AreaManager {
 		return em.createQuery("select a from Area a", Area.class)
 				.getResultList();
 	}
+
+    @Override
+    public Area findAreaByName(String name) {
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Cannot search for null name");
+        try {
+            return em.createQuery("select a from Area a where name=:name", Area.class).setParameter("name", name).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }   
+    }
+        
+        
 	
 }

@@ -45,4 +45,5 @@ public interface AreaManager {
      * @return a set of all areas found
      */
 	public List<Area> findAllAreas();
+        public Area findAreaByName(String name);
 }

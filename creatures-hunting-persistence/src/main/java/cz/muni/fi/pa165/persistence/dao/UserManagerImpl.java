@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.persistence.dao;
 import cz.muni.fi.pa165.persistence.entity.User;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +45,17 @@ public class UserManagerImpl implements UserManager {
 	public List<User> findAllUsers() {
 		return em.createQuery("select u from User u", User.class)
 				.getResultList();
+	}
+        
+        @Override
+	public User findUserByEmail(String email) {
+		if (email == null || email.isEmpty())
+			throw new IllegalArgumentException("Cannot search for null e-mail");
+		try {
+                    return em.createQuery("select u from User u where email=:email", User.class).setParameter("email", email).getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
 	}
 	
 	

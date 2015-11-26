@@ -20,55 +20,65 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="SYSTEM_USERS")
 public class User {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	private int role;
-	
-	@NotNull
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
+    private int role;
+
+    @NotNull
     @Column(nullable=false, unique=true)
-	private String username;
+    private String username;
+
+    private String password;
+
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 	
-	private String password;
-	
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+            return id;
+    }
 
-	public int getRole() {
-		return role;
-	}
+    public int getRole() {
+            return role;
+    }
 
-	public void setRole(int role) {
-		this.role = role;
-	}
+    public void setRole(int role) {
+            this.role = role;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+            return username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setUsername(String username) {
+            this.username = username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+            return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+            this.password = password;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 71 * hash + ((username == null) ? 0 : username.hashCode());
-		return hash;
-	}
-	
-	
-	@Override
+    @Override
+    public int hashCode() {
+            int hash = 7;
+            hash = 71 * hash + ((username == null) ? 0 : username.hashCode());
+            return hash;
+    }
+
+
+    @Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;

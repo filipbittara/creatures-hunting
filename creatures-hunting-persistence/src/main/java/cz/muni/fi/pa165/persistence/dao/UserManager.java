@@ -17,4 +17,5 @@ public interface UserManager {
 	public void deleteUser(User user);
 	public void updateUser(User user);	
 	public List<User> findAllUsers();
+        public User findUserByEmail(String email);
 }

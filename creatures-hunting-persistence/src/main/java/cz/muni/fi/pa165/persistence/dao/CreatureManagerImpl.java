@@ -43,6 +43,5 @@ public class CreatureManagerImpl implements CreatureManager {
     public List<Creature> findAllCreatures() {
         return em.createQuery("select c from Creature c", Creature.class)
 				.getResultList();
-    }
-    
+    }   
 }

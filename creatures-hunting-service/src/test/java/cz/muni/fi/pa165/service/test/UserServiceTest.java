@@ -79,7 +79,7 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
         User res = userService.findUserByEmail(user1.getEmail());
         verify(userManager, times(1)).findUserByEmail(user1.getEmail());
 
-        Assert.assertEquals(res.getEmail(), user1.getEmail());
+        when(userManager.findUserByEmail(user1.getEmail())).thenReturn(user1);
     }
 
     @Test
@@ -127,6 +127,9 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
 
         boolean res1 = userService.isAdmin(user1);
         boolean res2 = userService.isAdmin(user2);
+
+        when(userManager.findUser(user1.getId())).thenReturn(user1);
+        when(userManager.findUser(user2.getId())).thenReturn(user2);
 
         Assert.assertEquals(res1, true);
         Assert.assertEquals(res2, false);

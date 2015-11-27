@@ -25,6 +25,14 @@ public class UserFacadeImpl implements UserFacade{
     @Autowired
     private BeanMappingService beanMappingService;
 
+    public void setUserService(UserService creatureService) {
+        this.userService = creatureService;
+    }
+
+    public void setBeanMappingService(BeanMappingService beanMappingService) {
+        this.beanMappingService = beanMappingService;
+    }
+
     @Override
     public UserDTO findUserById(Long userId) {
         User user = userService.findUserById(userId);

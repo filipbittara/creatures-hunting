@@ -55,7 +55,7 @@ public class CreatureFacadeTest extends AbstractTransactionalTestNGSpringContext
 	private AreaDTO area2;
     
     @BeforeMethod
-    public void prepareWeapons(){
+    public void prepareCreatures(){
         weapon = new WeaponDTO();
         weapon.setName("Chainsaw");
         weapon.setAmmunition("chainz");

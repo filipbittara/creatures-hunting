@@ -164,6 +164,6 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
     @Test
     public void removeCreatureTest() {
         weaponFacade.removeCreature(weapon1, creature);
-	verify(weaponService, times(1)).removeCreature(beanMappingService.mapTo(weapon1, Weapon.class), beanMappingService.mapTo(creature, Creature.class));	
+	    verify(weaponService, times(1)).removeCreature(beanMappingService.mapTo(weapon1, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
     }
 }

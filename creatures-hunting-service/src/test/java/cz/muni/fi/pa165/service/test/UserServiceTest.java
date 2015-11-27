@@ -114,8 +114,9 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
     @Test
     public void authenticateTest() {
         userService.registerUser(user1, user1.getPassword());
+        userService.registerUser(user2, user2.getPassword());
         boolean res1 = userService.authenticate(user1, user1.getPassword());
-        boolean res2 = userService.authenticate(user1, "password42");
+        boolean res2 = userService.authenticate(user1, user2.getPassword());
 
         Assert.assertEquals(res1, true);
         Assert.assertEquals(res2, false);

@@ -116,7 +116,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	public void deleteCreatureTest() {
 		creatureService.createCreature(creature1);
 		creatureService.deleteCreature(creature1.getId());
-		verify(creatureManager, times(1)).deleteCreature(creature1);
+		verify(creatureManager, times(1)).deleteCreature(creatureManager.findCreature(creature1.getId()));
 	}
 	
 	@Test
@@ -159,11 +159,11 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	
 	@Test
 	public void getCreaturesByAreaTest() {
-		creature1.addArea(area);
-		creature2.addArea(area);
-		
 		creatureService.createCreature(creature1);
 		creatureService.createCreature(creature2);
+		
+		creature1.addArea(area);
+		creature2.addArea(area);
 		
 		List<Creature> testCreatures = new ArrayList<>();
 		testCreatures.add(creature1);

@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.persistence.dao.AreaManager;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -31,23 +32,39 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Area createArea(Area area) {
-        areaManager.addArea(area);
+        try {
+            areaManager.addArea(area);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while creating area", e);
+        }
         return area;
     }
 
     @Override
     public void updateArea(Area area) {
-        areaManager.updateArea(area);
+        try {
+            areaManager.updateArea(area);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while updating area", e);
+        }
     }
 
     @Override
     public void deleteArea(Area area) {
-        areaManager.deleteArea(area);
+        try {
+            areaManager.deleteArea(area);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while removing area", e);
+        }
     }
 
     @Override
     public List<Area> getAllAreas() {
-        return areaManager.findAllAreas();
+        try {
+            return areaManager.findAllAreas();
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while retrieving areas", e);
+        }
     }
 
     @Override
@@ -57,7 +74,11 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Area getArea(Long id) {
-        return areaManager.findArea(id);
+        try {
+            return areaManager.findArea(id);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while retrieving area", e);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
 import java.util.ArrayList;
 
 import java.util.HashSet;
@@ -29,30 +30,54 @@ public class WeaponServiceImpl implements WeaponService {
 
 	@Override
 	public Weapon findWeaponById(Long id) {
-		return weaponManager.findWeapon(id);
+            try {
+                return weaponManager.findWeapon(id);
+            } catch (Exception e) {
+                throw new ManagerDataAccessException("Error while retireving weapon", e);
+            }
 	}
 
 	@Override
 	public Weapon findWeaponByName(String name) {
-		return weaponManager.findWeaponByName(name);
+            try {
+                return weaponManager.findWeaponByName(name);
+            } catch (Exception e) {
+                throw new ManagerDataAccessException("Error while retireving weapon", e);
+            }
 	}
 
 	@Override
 	public Weapon addWeapon(Weapon weapon) {
-		weaponManager.addWeapon(weapon);
+		try {
+                    weaponManager.addWeapon(weapon);
+                } catch (Exception e) {
+                    throw new ManagerDataAccessException("Error while creating weapon", e);
+                }
 		return weapon;
 	}
 
 	public void deleteWeapon(Weapon weapon) {
+            try {
 		weaponManager.deleteWeapon(weapon);
+            } catch (Exception e) {
+                throw new ManagerDataAccessException("Error while removing weapon", e);
+            }
 	}
 
 	public void updateWeapon(Weapon weapon) {
-		weaponManager.updateWeapon(weapon);
+            try {
+                weaponManager.updateWeapon(weapon);
+            } catch (Exception e) {
+                throw new ManagerDataAccessException("Error while updating weapon", e);
+            }
 	}
 
 	public List<Weapon> findAllWeapons() {
-		return weaponManager.findAllWeapons();
+            try {
+                return weaponManager.findAllWeapons();
+            } catch (Exception e) {
+                throw new ManagerDataAccessException("Error while retrieving weapons", e);
+            }
 	}
 
 	@Override

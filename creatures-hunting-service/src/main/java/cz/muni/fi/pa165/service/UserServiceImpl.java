@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.persistence.dao.UserManager;
 import cz.muni.fi.pa165.persistence.entity.User;
+import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Collection;
@@ -32,12 +33,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(User user, String unencryptedPassword) {
         user.setPassword(createHash(unencryptedPassword));
-        user.setId(userManager.addUser(user));
+        try {
+            user.setId(userManager.addUser(user));
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while registering user", e);
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userManager.findAllUsers();
+        try {
+            return userManager.findAllUsers();
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while rtrieving users", e);
+        }
     }
 
     @Override
@@ -52,12 +61,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(Long userId) {
-        return userManager.findUser(userId);
+        try {    
+            return userManager.findUser(userId);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while rtrieving user", e);
+        }
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return userManager.findUserByEmail(email);
+        try {
+            return userManager.findUserByEmail(email);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while rtrieving user", e);
+        }
     }
 
     private static String createHash(String password) {
@@ -120,7 +137,11 @@ public class UserServiceImpl implements UserService {
     public void changePassword(User user, String password, String newUnencryptedPassword) {
         if(authenticate(user, password)) {
             user.setPassword(createHash(newUnencryptedPassword));
-            userManager.updateUser(user);
+            try {
+                userManager.updateUser(user);
+            } catch (Exception e) {
+                throw new ManagerDataAccessException("Error while rtrieving users", e);
+            }
         }
     }
 }

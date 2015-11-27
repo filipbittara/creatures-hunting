@@ -122,5 +122,5 @@ public class UserServiceImpl implements UserService {
             user.setPassword(createHash(newUnencryptedPassword));
             userManager.updateUser(user);
         }
-    }   
+    }
 }

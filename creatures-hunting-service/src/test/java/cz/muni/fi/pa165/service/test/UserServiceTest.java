@@ -5,7 +5,7 @@ import cz.muni.fi.pa165.persistence.entity.User;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
-import org.testng.annotations.BeforeClass;
+import org.junit.BeforeClass;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -117,6 +117,18 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
         userService.registerUser(user2, user2.getPassword());
         boolean res1 = userService.authenticate(user1, user1.getPassword());
         boolean res2 = userService.authenticate(user1, user2.getPassword());
+
+        Assert.assertEquals(res1, true);
+        Assert.assertEquals(res2, false);
+    }
+
+    @Test
+    public void isAdminTest() {
+        userService.registerUser(user1, user1.getPassword());
+        userService.registerUser(user2, user2.getPassword());
+
+        boolean res1 = userService.isAdmin(user1);
+        boolean res2 = userService.isAdmin(user2);
 
         Assert.assertEquals(res1, true);
         Assert.assertEquals(res2, false);

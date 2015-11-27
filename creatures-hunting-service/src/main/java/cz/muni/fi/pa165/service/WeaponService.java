@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public interface WeaponService {
 	Weapon findWeaponById(Long id);
 	Weapon findWeaponByName(String name);
-	Set<Weapon> findWeaponsByCreature(Creature creature);
+	List<Weapon> findWeaponsByCreature(Creature creature);
 	void assignCreature(Weapon weapon, Creature creature);
 	void removeCreature(Weapon weapon, Creature creature);
     Weapon addWeapon(Weapon weapon);

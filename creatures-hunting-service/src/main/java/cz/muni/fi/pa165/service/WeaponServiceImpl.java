@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import java.util.ArrayList;
 
 import java.util.HashSet;
 import java.util.List;
@@ -55,8 +56,8 @@ public class WeaponServiceImpl implements WeaponService {
 	}
 
 	@Override
-	public Set<Weapon> findWeaponsByCreature(Creature creature) {
-		return new HashSet<>(creature.getWeapons());
+	public List<Weapon> findWeaponsByCreature(Creature creature) {
+		return new ArrayList<Weapon>(creature.getWeapons());
 	}
 
 	@Override

@@ -11,16 +11,10 @@ import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 import cz.muni.fi.pa165.service.WeaponService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.hibernate.service.spi.ServiceException;
 import org.junit.Assert;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,6 +22,10 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 
 /**
@@ -115,7 +113,7 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
      * Checks if findWeapon() method of weapon service uses weapon manager correctly.
      */
     @Test
-    public void findAllWeaponsTest() {
+    public void findWeaponTest() {
         weaponService.findWeaponById(1L);
         verify(weaponManager, times(1)).findWeapon(1L);
     }

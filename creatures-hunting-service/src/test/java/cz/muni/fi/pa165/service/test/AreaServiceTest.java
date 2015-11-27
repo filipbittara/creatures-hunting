@@ -73,12 +73,18 @@ public class AreaServiceTest extends AbstractTransactionalTestNGSpringContextTes
         creature.setWeakness("It will probably injure its head when walking trough small door");
     }
 
+    /**
+     * Checks if createArea() method of area service uses area manager correctly.
+     */
     @Test
     public void addAreaTest() {
         areaService.createArea(area1);
         verify(areaManager, times(1)).addArea(area1);
     }
 
+    /**
+     * Checks if deleteArea() method of area service uses area manager correctly.
+     */
     @Test
     public void deleteAreaTest() {
         areaService.createArea(area1);
@@ -87,6 +93,9 @@ public class AreaServiceTest extends AbstractTransactionalTestNGSpringContextTes
         verify(areaManager, times(1)).deleteArea(area1);
     }
 
+    /**
+     * Checks if updateArea() method of area service uses area manager correctly.
+     */
     @Test
     public void updateAreaTest() {
         areaService.createArea(area1);
@@ -101,12 +110,18 @@ public class AreaServiceTest extends AbstractTransactionalTestNGSpringContextTes
         verify(areaManager, times(1)).updateArea(area1);
     }
 
+    /**
+     * Checks if findAllAreas() method of area service uses area manager correctly.
+     */
     @Test
     public void findAllAreasTest() {
         areaService.getAllAreas();
         verify(areaManager, times(1)).findAllAreas();
     }
 
+    /**
+     * Checks if findArea() method of area service uses area manager correctly.
+     */
     @Test
     public void findAreaTest() {
         areaService.createArea(area1);
@@ -121,6 +136,9 @@ public class AreaServiceTest extends AbstractTransactionalTestNGSpringContextTes
         verify(areaManager, atLeast(2)).findAllAreas();
     }
 
+    /**
+     * Checks if all areas are retrieved correctly for given creature.
+     */
     @Test
     public void getAreasForCreatureTest() {
         areaService.addCreatureToArea(creature, area1);

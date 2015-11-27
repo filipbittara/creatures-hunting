@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.CreatureService;
+import cz.muni.fi.pa165.service.WeaponService;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,14 @@ public class AreaFacadeImpl implements AreaFacade{
 
     @Autowired
     private BeanMappingService beanMappingService;
+
+	public void setAreaService(AreaService areaService) {
+		this.areaService = areaService;
+	}
+
+	public void setBeanMappingService(BeanMappingService beanMappingService) {
+		this.beanMappingService = beanMappingService;
+	}
     
     @Override
     public Long createArea(AreaDTO area) {
@@ -69,5 +78,9 @@ public class AreaFacadeImpl implements AreaFacade{
     public void removeCreatureFromArea(Long creatureId, Long areaId) {
         areaService.removeCreatureFromArea(creatureService.getCreature(creatureId), areaService.getArea(areaId));
     }
+
+	public void setCreatureService(AreaService areaService) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
     
 }

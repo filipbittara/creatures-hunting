@@ -98,6 +98,9 @@ public class CreatureFacadeTest extends AbstractTransactionalTestNGSpringContext
 		areas.add(area2);
     }
 	
+	/**
+     * Tests Creature creation through facade layer
+     */
 	@Test
 	public void createCreatureTest() {
 		Creature res = beanMappingService.mapTo(creature2, Creature.class);
@@ -107,6 +110,9 @@ public class CreatureFacadeTest extends AbstractTransactionalTestNGSpringContext
 		verify(creatureService, times(1)).createCreature(res);		
 	}
 	
+	/**
+     * Tests Creature update through facade layer
+     */
 	@Test
 	public void updateCreatureTest() {
 		creatureFacade.updateCreature(creature1);
@@ -114,36 +120,54 @@ public class CreatureFacadeTest extends AbstractTransactionalTestNGSpringContext
 		
 	}
 	
+	/**
+     * Tests Creature deletion through facade layer
+     */
 	@Test
 	public void deleteCreatureTest() {
 		creatureFacade.deleteCreature(123l);
 		verify(creatureService, times(1)).deleteCreature(123l);
 	}
 	
+	/**
+     * Tests getting all creatures through facade layer
+     */
 	@Test
 	public void getAllCreaturesTest() {
 		creatureFacade.getAllCreatures();
 		verify(creatureService, times(1)).getAllCreatures();
 	}
 	
+	/**
+     * Tests creatures spotted in certain area defined by location and area radius through facade layer
+     */
 	@Test
 	public void getCreaturesInCircleTest() {
 		creatureFacade.getCreaturesInCircle(1.0, 2.0, 3.0);
 		verify(creatureService, times(1)).getCreaturesInCircle(1.0, 2.0, 3.0);
 	}
 	
+	/**
+     * Tests getting creatures in certain area through facade layer
+     */
 	@Test
 	public void getCreaturesByAreaTest() {
 		creatureFacade.getCreaturesByArea("Moravia");
 		verify(creatureService, times(1)).getCreaturesByArea("Moravia");
 	}
 	
+	/**
+     * Tests getting creatures by weapon through facade layer
+     */
 	@Test
 	public void getCreaturesByWeaponTest() {
 		creatureFacade.getCreaturesByWeapon("chainsaw");
 		verify(creatureService, times(1)).getCreaturesByWeapon("chainsaw");
 	}
 	
+	/**
+     * Tests getting creature by id through facade layer
+     */
 	@Test
 	public void getCreatureTest() {  
 		when(creatureService.getCreature(123l)).thenReturn(beanMappingService.mapTo(creature1, Creature.class));

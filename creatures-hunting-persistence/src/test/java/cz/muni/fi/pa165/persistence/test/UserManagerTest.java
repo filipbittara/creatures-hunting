@@ -31,6 +31,18 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
     
     @PersistenceContext 
     private EntityManager em;
+
+    @Test()
+    public void findTest() {
+        User u1 = new User();
+        u1.setUsername("User 1");
+
+        userManager.addUser(u1);
+
+        User result = userManager.findUser(u1.getId());
+
+        Assert.assertEquals(result, u1);
+    }
     
     /**
      * Checks insert to DB as well as obtaining all elements from it.
@@ -112,6 +124,23 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
             u.setUsername("Other user");
             userManager.updateUser(u);
             Assert.assertEquals(userManager.findUser(u.getId()).getUsername(), "Other user");
+    }
+
+    @Test
+    public void findUserByEmailTest() {
+        User u = new User();
+        u.setUsername("User 1");
+        u.setEmail("user1@creatureshunting.com");
+
+        userManager.addUser(u);
+
+        User res = userManager.findUserByEmail("user1@creatureshunting.com");
+
+        Assert.assertEquals(res.getId(), u.getId());
+        Assert.assertEquals(res.getUsername(), u.getUsername());
+        Assert.assertEquals(res.getEmail(), u.getEmail());
+        Assert.assertEquals(res.getPassword(), u.getPassword());
+        Assert.assertEquals(res.getRole(), u.getRole());
     }
 }
 

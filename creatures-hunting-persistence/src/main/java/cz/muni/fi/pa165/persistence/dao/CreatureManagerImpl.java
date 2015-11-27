@@ -51,9 +51,9 @@ public class CreatureManagerImpl implements CreatureManager {
         if (name == null || name.isEmpty())
             throw new IllegalArgumentException("Cannot search for null name");
         try {
-            return em.createQuery("c from Creature c where name=:name", Creature.class).setParameter("name", name).getSingleResult();
+            return em.createQuery("select a from Creature a where name=:name", Creature.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException nre) {
             return null;
-        }   
+        }
     }
 }

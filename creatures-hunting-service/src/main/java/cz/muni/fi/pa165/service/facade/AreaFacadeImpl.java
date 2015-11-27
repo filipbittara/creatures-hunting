@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.service.facade;
 import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.persistence.entity.Area;
+import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.CreatureService;
@@ -40,8 +41,8 @@ public class AreaFacadeImpl implements AreaFacade{
     }
 
     @Override
-    public void deleteArea(Long areaId) {
-        areaService.deleteArea(areaId);
+    public void deleteArea(AreaDTO area) {
+        areaService.deleteArea(beanMappingService.mapTo(area, Area.class));
     }
 
     @Override
@@ -50,8 +51,8 @@ public class AreaFacadeImpl implements AreaFacade{
     }
 
     @Override
-    public List<AreaDTO> getAreasForCreature(String creatureName) {
-        return beanMappingService.mapTo(areaService.getAreasForCreature(creatureName), AreaDTO.class);
+    public List<AreaDTO> getAreasForCreature(Creature creature) {
+        return beanMappingService.mapTo(areaService.getAreasForCreature(creature), AreaDTO.class);
     }
 
     @Override

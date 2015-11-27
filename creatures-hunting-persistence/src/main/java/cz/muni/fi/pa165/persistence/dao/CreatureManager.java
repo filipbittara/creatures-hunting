@@ -38,5 +38,12 @@ public interface CreatureManager {
      * @return list of all creatures
      */
     public List<Creature> findAllCreatures();
+
+    /**
+     * Searches for creature with given name.
+     *
+     * @param name name of the creature to be searched for
+     * @return instance of the creature with the given name
+     */
     public Creature findCreatureByName(String name);
 }

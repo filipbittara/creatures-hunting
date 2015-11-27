@@ -229,5 +229,27 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
     public void deleteNullTest() {
         cm.deleteCreature(null);
     }
+
+    /**
+     * Checks that finding area by name is working.
+     */
+    @Test
+    public void findAreaByNameTest(){
+        Creature a = new Creature();
+        a.setName("Creature");
+        cm.addCreature(a);
+
+        Creature result = cm.findCreatureByName("Creature");
+
+        Assert.assertEquals(result.getId(), a.getId());
+        Assert.assertEquals(result.getName(), a.getName());
+        Assert.assertEquals(result.getFerocity(), a.getFerocity());
+        Assert.assertEquals(result.getHeight(), a.getHeight());
+        Assert.assertEquals(result.getWeapons(), a.getWeapons());
+        Assert.assertEquals(result.getAgility(), a.getAgility());
+        Assert.assertEquals(result.getWeakness(), a.getWeakness());
+        Assert.assertEquals(result.getAreas(), a.getAreas());
+        Assert.assertEquals(result.getWeight(), a.getWeight());
+    }
 }
 

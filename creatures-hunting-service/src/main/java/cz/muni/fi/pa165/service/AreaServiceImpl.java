@@ -11,8 +11,9 @@ import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 
 /**
@@ -40,8 +41,8 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public void deleteArea(Long areaId) {
-        areaManager.deleteArea(areaManager.findArea(areaId));
+    public void deleteArea(Area area) {
+        areaManager.deleteArea(area);
     }
 
     @Override
@@ -50,8 +51,8 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public List<Area> getAreasForCreature(String creatureName) {
-        return new ArrayList<Area>(creatureManager.findCreatureByName(creatureName).getAreas());
+    public Set<Area> getAreasForCreature(Creature creature) {
+        return new HashSet<>(creature.getAreas());
     }
 
     @Override
@@ -67,6 +68,16 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public void removeCreatureFromArea(Creature creature, Area area) {
         area.removeCreature(creature);
+    }
+
+    @Override
+    public void assignCreature(Area area, Creature creature) {
+        if (creature != null && area != null) {
+            area.addCreature(creature);
+            creature.addArea(area);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
     
 }

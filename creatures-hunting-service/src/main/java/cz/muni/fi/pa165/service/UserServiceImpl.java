@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(User user, String unencryptedPassword) {
         user.setPassword(createHash(unencryptedPassword));
-        userManager.addUser(user);
+        user.setId(userManager.addUser(user));
     }
 
     @Override

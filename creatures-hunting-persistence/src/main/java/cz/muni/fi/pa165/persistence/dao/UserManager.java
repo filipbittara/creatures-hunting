@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface UserManager {
 	public User findUser(Long id);
-	public void addUser(User user);
+	public Long addUser(User user);
 	public void deleteUser(User user);
 	public void updateUser(User user);	
 	public List<User> findAllUsers();

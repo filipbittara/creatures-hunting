@@ -27,8 +27,9 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	@Override
-	public void addUser(User user) {
+	public Long addUser(User user) {
 		em.persist(user);
+                return user.getId();
 	}
 
 	@Override

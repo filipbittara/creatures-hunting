@@ -45,6 +45,10 @@ public class User {
     public Long getId() {
             return id;
     }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public int getRole() {
             return role;
@@ -93,10 +97,11 @@ public class User {
         if (other.username == null) {
             if (this.username != null) {
                 return false;
-            } else if (this.username != other.username) {
-                return false;
-            }
-        }	
+            }   
+        } else if (this.username != other.username) {
+            return false;
+        }
+        	
         return true;
 
     }

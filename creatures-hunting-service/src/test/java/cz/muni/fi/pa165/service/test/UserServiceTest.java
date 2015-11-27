@@ -122,9 +122,13 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
 
     @Test
     public void isAdminTest() {
+        when(userManager.addUser(user1)).thenReturn(1L);
+        when(userManager.addUser(user2)).thenReturn(2L);
         userService.registerUser(user1, user1.getPassword());
         userService.registerUser(user2, user2.getPassword());
-
+        
+        when(userManager.findUser(user1.getId())).thenReturn(user1);
+        when(userManager.findUser(user2.getId())).thenReturn(user2);
         boolean res1 = userService.isAdmin(user1);
         boolean res2 = userService.isAdmin(user2);
 

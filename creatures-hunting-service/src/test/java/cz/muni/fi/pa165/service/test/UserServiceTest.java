@@ -5,7 +5,7 @@ import cz.muni.fi.pa165.persistence.entity.User;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
-import org.junit.BeforeClass;
+import org.testng.annotations.BeforeClass;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

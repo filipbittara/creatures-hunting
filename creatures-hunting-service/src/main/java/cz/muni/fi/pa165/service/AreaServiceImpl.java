@@ -62,22 +62,17 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public void addCreatureToArea(Creature creature, Area area) {
+        if (creature != null && area != null) {
+            area.addCreature(creature);
+        } else {
+            throw new IllegalArgumentException();
+        }
         area.addCreature(creature);
     }
 
     @Override
     public void removeCreatureFromArea(Creature creature, Area area) {
         area.removeCreature(creature);
-    }
-
-    @Override
-    public void assignCreature(Area area, Creature creature) {
-        if (creature != null && area != null) {
-            area.addCreature(creature);
-            creature.addArea(area);
-        } else {
-            throw new IllegalArgumentException();
-        }
     }
     
 }

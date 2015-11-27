@@ -79,19 +79,28 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
         creature.setWeakness("It will probably injure its head when walking trough small door");
     }
     
+    /**
+     * Checks if addWeapon() method of weapon service uses weapon manager correctly.
+     */
     @Test
     public void addWeaponTest() {
         weaponService.addWeapon(weapon1);
         verify(weaponManager, times(1)).addWeapon(weapon1);
     }
     
+    /**
+     * Checks if deleteWeapon() method of weapon service uses weapon manager correctly.
+     */
     @Test
     public void deleteWeaponTest() {
-		weaponService.addWeapon(weapon1);
+	weaponService.addWeapon(weapon1);
         weaponService.deleteWeapon(weapon1);
         verify(weaponManager, times(1)).deleteWeapon(weapon1);
     }
     
+    /**
+     * Checks if updateWeapon() method of weapon service uses weapon manager correctly.
+     */
     @Test
     public void updateWeaponTest() {
         weaponService.addWeapon(weapon1);
@@ -102,14 +111,20 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
         verify(weaponManager, times(1)).updateWeapon(weapon1);
     }
     
+    /**
+     * Checks if findWeapon() method of weapon service uses weapon manager correctly.
+     */
     @Test
     public void findAllWeaponsTest() {
-        weaponService.findAllWeapons();
-        verify(weaponManager, times(1)).findAllWeapons();
+        weaponService.findWeaponById(1L);
+        verify(weaponManager, times(1)).findWeapon(1L);
     }
     
+    /**
+     * Checks if findAllWeapons() method of weapon service uses weapon manager correctly.
+     */
     @Test
-    public void findWeaponTest() {
+    public void findAllWeaponTest() {
         weaponService.addWeapon(weapon1);
         verify(weaponManager, atLeastOnce()).addWeapon(weapon1);
 
@@ -119,21 +134,29 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
         when(weaponManager.findAllWeapons()).thenReturn(weapons);
         
         Assert.assertEquals(weaponManager.findAllWeapons(), weapons);
-        verify(weaponManager, atLeast(2)).findAllWeapons();
     }
     
+    /**
+     * Checks if assignCreature() method of weapon service uses weapon manager correctly.
+     */
     @Test
     public void assignWeaponCreatureTest() {
         weaponService.assignCreature(weapon1, creature);
         Assert.assertTrue(weapon1.getCreatures().contains(creature));
     }
     
+    /**
+     * Checks if removeCreature() method of weapon service uses weapon manager correctly.
+     */
     @Test
     public void removeWeaponCreatureTest() {
         weaponService.removeCreature(weapon1, creature);
         Assert.assertFalse(weapon1.getCreatures().contains(creature));
     }
     
+    /**
+     * Checks if all weapons are retrieved correctly for given creature.
+     */
     @Test
     public void findWeaponsForCreatureTest() {
         weaponService.assignCreature(weapon1, creature);

@@ -46,5 +46,12 @@ public interface WeaponManager {
      * @return a list of all weapons found
      */
     public List<Weapon> findAllWeapons();
+    
+    /**
+     * Find a weapon by its name in Weapons table.
+     *
+     * @param name name of the weapon that is being searched for
+     * @return weapon with she sufficient ID
+     */
     public Weapon findWeaponByName(String name);
 }

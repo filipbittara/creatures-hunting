@@ -81,7 +81,9 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
         creature.setWeight(150.0);
         creature.setWeakness("Often slips on stairs");
     }
-    
+    /**
+     * Checks if addWeapon() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void addWeaponTest() {
         Weapon result = beanMappingService.mapTo(weapon1, Weapon.class);
@@ -90,19 +92,27 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
         weaponFacade.addWeapon(weapon1);
         verify(weaponService, times(1)).addWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
     }
-    
+    /**
+     * Checks if removeWeapon() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void deleteWeaponTest() {
         weaponFacade.removeWeapon(weapon1);
         verify(weaponService, times(1)).deleteWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
     }
     
+    /**
+     * Checks if updateWeapon() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void updateWeaponTest() {
         weaponFacade.updateWeapon(weapon1);
         verify(weaponService, times(1)).updateWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
     }
     
+    /**
+     * Checks if getAllWeapons() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void findAllWeaponsTest() {
         when(weaponService.findAllWeapons()).thenReturn(beanMappingService.mapTo(weapons, Weapon.class));
@@ -110,6 +120,9 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
         verify(weaponService, times(1)).findAllWeapons();
     }
     
+    /**
+     * Checks if getWeaponById() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void findWeaponTest() {
         when(weaponService.findWeaponById(1l)).thenReturn(beanMappingService.mapTo(weapon1, Weapon.class));
@@ -117,6 +130,9 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
         verify(weaponService, times(1)).findWeaponById(1l);      
     }
     
+    /**
+     * Checks if getWeaponByName() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void findWeaponByNameTest() {
         when(weaponService.findWeaponByName("Gun")).thenReturn(beanMappingService.mapTo(weapon2, Weapon.class));
@@ -124,18 +140,27 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
         verify(weaponService, times(1)).findWeaponByName("Gun");
     }
     
+    /**
+     * Checks if getWeaponsByCreature() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void getWeaponsByCreatureTest() {
         when(weaponService.findWeaponsByCreature(beanMappingService.mapTo(creature, Creature.class))).thenReturn(beanMappingService.mapTo(weapons, Weapon.class));
         weaponFacade.getWeaponsByCreature(creature);
         verify(weaponService, times(1)).findWeaponsByCreature(beanMappingService.mapTo(creature, Creature.class));
     }
+    /**
+     * Checks if assignCreature() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void assignCreatureTest() {
         weaponFacade.assignCreature(weapon1, creature);
         verify(weaponService, times(1)).assignCreature(beanMappingService.mapTo(weapon1, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
     }
     
+    /**
+     * Checks if removeCreature() method of weapon facade implementation uses weapon relevant service method
+     */
     @Test
     public void removeCreatureTest() {
         weaponFacade.removeCreature(weapon1, creature);

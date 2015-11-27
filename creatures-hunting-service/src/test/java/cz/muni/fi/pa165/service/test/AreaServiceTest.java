@@ -123,8 +123,8 @@ public class AreaServiceTest extends AbstractTransactionalTestNGSpringContextTes
 
     @Test
     public void getAreasForCreatureTest() {
-        areaService.assignCreature(area1, creature);
-        areaService.assignCreature(area2, creature);
+        areaService.addCreatureToArea(creature, area1);
+        areaService.addCreatureToArea(creature, area2);
         Set<Area> areas = areaService.getAreasForCreature(creature);
         Assert.assertTrue(areas.contains(area1));
         Assert.assertTrue(areas.contains(area2));

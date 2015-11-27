@@ -30,6 +30,14 @@ public class CreatureFacadeImpl implements CreatureFacade {
 
     @Autowired
     private BeanMappingService beanMappingService;
+
+	public void setCreatureService(CreatureService creatureService) {
+		this.creatureService = creatureService;
+	}
+
+	public void setBeanMappingService(BeanMappingService beanMappingService) {
+		this.beanMappingService = beanMappingService;
+	}
     
     @Override
     public Long createCreature(CreatureDTO newCreature) {

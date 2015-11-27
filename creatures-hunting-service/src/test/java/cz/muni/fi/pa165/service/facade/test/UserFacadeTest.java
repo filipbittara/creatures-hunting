@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service.facade.test;
 
+import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.persistence.entity.User;
 import cz.muni.fi.pa165.service.BeanMappingService;
@@ -21,12 +22,13 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.atLeastOnce;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 
 /**
  * @author David Kizivat
  */
 @ContextConfiguration(classes=ServiceConfiguration.class)
-public class UserFacadeTest {
+public class UserFacadeTest extends AbstractTransactionalTestNGSpringContextTests{
 
     @Mock
     private UserService userService;
@@ -47,7 +49,7 @@ public class UserFacadeTest {
 
     private UserDTO user1;
     private UserDTO user2;
-    private UserDTO user3;
+
     private List<UserDTO> users;
 
     @BeforeMethod
@@ -67,6 +69,7 @@ public class UserFacadeTest {
         users = new ArrayList<UserDTO>();
         users.add(user1);
         users.add(user2);
+       
     }
 
     /**
@@ -74,46 +77,33 @@ public class UserFacadeTest {
      */
     @Test
     public void findUserByIdTest() {
-        when(userService.findUserById(1l)).thenReturn(beanMappingService.mapTo(user1, User.class));
-        userService.findUserById(1L);
-        verify(userFacade, times(1)).findUserById(1L);
+
+        userFacade.findUserById(1L);
+        verify(userService, times(1)).findUserById(1L);
     }
 
     @Test
     public void findUserByEmailTest() {
-        when(userService.findUserByEmail("user1@creatureshunting.com")).thenReturn(beanMappingService.mapTo(user2, User.class));
         userFacade.findUserByEmail("user1@creatureshunting.com");
         verify(userService, times(1)).findUserByEmail("user1@creatureshunting.com");
     }
 
     @Test
     public void registerUserTest() {
-        User result = beanMappingService.mapTo(user1, User.class);
-        result.setId(1l);
-        userFacade.registerUser(user1, user1.getPassword());
+        userFacade.registerUser(user1, "password1");
         verify(userService, times(1)).registerUser(beanMappingService.mapTo(user1, User.class), "password1");
     }
 
     @Test
-    public void changePasswordTest() {
-        throw new NotImplementedException();
-    }
-
-    @Test
     public void getAllUsersTest() {
-        when(userService.getAllUsers()).thenReturn(beanMappingService.mapTo(users, User.class));
         userFacade.getAllUsers();
         verify(userService, times(1)).getAllUsers();
     }
 
     @Test
-    public void authenticateTest() {
-        throw new NotImplementedException();
-    }
-
-    @Test
     public void isAdminTest() {
-        throw new NotImplementedException();
+        userFacade.isAdmin(user1);
+        verify(userService, times(1)).isAdmin(beanMappingService.mapTo(user1, User.class));
     }
 
 }

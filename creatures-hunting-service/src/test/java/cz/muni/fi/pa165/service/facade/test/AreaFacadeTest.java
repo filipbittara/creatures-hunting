@@ -46,6 +46,7 @@ public class AreaFacadeTest extends AbstractTransactionalTestNGSpringContextTest
         MockitoAnnotations.initMocks(this);
         areaFacade = new AreaFacadeImpl();
         areaFacade.setAreaService(areaService);
+		areaFacade.setCreatureService(creatureService);
         areaFacade.setBeanMappingService(beanMappingService);
     }
 	
@@ -135,6 +136,31 @@ public class AreaFacadeTest extends AbstractTransactionalTestNGSpringContextTest
 		verify(areaService, times(1)).getArea(123l);
 	}
 	
+	/**
+     * Tests adding creature to area through facade layer
+     */
+	@Test
+	public void addCreatureToAreaTest() {
+		creature.setId(1l);
+		area1.setId(2l);
+		when(creatureService.getCreature(1l)).thenReturn(beanMappingService.mapTo(creature, Creature.class));
+		when(areaService.getArea(2l)).thenReturn(beanMappingService.mapTo(area1, Area.class));
+		areaFacade.addCreatureToArea(creature.getId(), area1.getId());
+		verify(areaService, times(1)).addCreatureToArea(beanMappingService.mapTo(creature, Creature.class), beanMappingService.mapTo(area1, Area.class));
+	}
+	
+	/**
+     * Tests removing creature from area through facade layer
+     */
+	@Test
+	public void removeCreatureFromAreaTest() {
+		creature.setId(1l);
+		area1.setId(2l);
+		when(creatureService.getCreature(1l)).thenReturn(beanMappingService.mapTo(creature, Creature.class));
+		when(areaService.getArea(2l)).thenReturn(beanMappingService.mapTo(area1, Area.class));
+		areaFacade.removeCreatureFromArea(creature.getId(), area1.getId());
+		verify(areaService, times(1)).removeCreatureFromArea(beanMappingService.mapTo(creature, Creature.class), beanMappingService.mapTo(area1, Area.class));
+	}
 
 	
 	

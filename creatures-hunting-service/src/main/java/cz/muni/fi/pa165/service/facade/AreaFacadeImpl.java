@@ -34,6 +34,10 @@ public class AreaFacadeImpl implements AreaFacade{
 	public void setAreaService(AreaService areaService) {
 		this.areaService = areaService;
 	}
+	
+	public void setCreatureService(CreatureService creatureService) {
+		this.creatureService = creatureService;
+	}
 
 	public void setBeanMappingService(BeanMappingService beanMappingService) {
 		this.beanMappingService = beanMappingService;
@@ -78,9 +82,5 @@ public class AreaFacadeImpl implements AreaFacade{
     public void removeCreatureFromArea(Long creatureId, Long areaId) {
         areaService.removeCreatureFromArea(creatureService.getCreature(creatureId), areaService.getArea(areaId));
     }
-
-	public void setCreatureService(AreaService areaService) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
     
 }

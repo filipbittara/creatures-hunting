@@ -14,6 +14,8 @@ import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.hibernate.service.spi.ServiceException;
 import org.junit.Assert;
 import org.mockito.InjectMocks;
@@ -93,7 +95,7 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
     @Test
     public void updateWeaponTest() {
         weaponService.addWeapon(weapon1);
-        verify(weaponManager, times(1)).addWeapon(weapon1);
+        verify(weaponManager, atLeastOnce()).addWeapon(weapon1);
         weapon1.setName("Rifle");
         weapon1.setGunReach(15.0);
         weaponService.updateWeapon(weapon1);
@@ -109,15 +111,15 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
     @Test
     public void findWeaponTest() {
         weaponService.addWeapon(weapon1);
+        verify(weaponManager, atLeastOnce()).addWeapon(weapon1);
+
         weaponService.addWeapon(weapon2);
-        
-        verify(weaponManager, times(1)).addWeapon(weapon1);
         verify(weaponManager, times(1)).addWeapon(weapon2);
         
         when(weaponManager.findAllWeapons()).thenReturn(weapons);
         
         Assert.assertEquals(weaponManager.findAllWeapons(), weapons);
-        verify(weaponManager, times(1)).findAllWeapons();
+        verify(weaponManager, atLeast(2)).findAllWeapons();
     }
     
     @Test
@@ -136,7 +138,8 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
     public void findWeaponsForCreatureTest() {
         weaponService.assignCreature(weapon1, creature);
         weaponService.assignCreature(weapon2, creature);
-        Assert.assertTrue(weaponService.findWeaponsByCreature(creature).contains(weapon1));
-        Assert.assertTrue(weaponService.findWeaponsByCreature(creature).contains(weapon2));
+        Set<Weapon> weapons = weaponService.findWeaponsByCreature(creature);
+        Assert.assertTrue(weapons.contains(weapon1));
+        Assert.assertTrue(weapons.contains(weapon2));
     }   
 }

@@ -4,9 +4,10 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
-import java.util.ArrayList;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class WeaponServiceImpl implements WeaponService {
 	@Inject
 	private CreatureManager creatureManager;
 
+	@Override
 	public Weapon findWeaponById(Long id) {
 		return weaponManager.findWeapon(id);
 	}
@@ -34,6 +36,7 @@ public class WeaponServiceImpl implements WeaponService {
 		return weaponManager.findWeaponByName(name);
 	}
 
+	@Override
 	public Weapon addWeapon(Weapon weapon) {
 		weaponManager.addWeapon(weapon);
 		return weapon;
@@ -52,14 +55,15 @@ public class WeaponServiceImpl implements WeaponService {
 	}
 
 	@Override
-	public List<Weapon> findWeaponsByCreature(Creature creature) {
-		return new ArrayList(creature.getWeapons());
+	public Set<Weapon> findWeaponsByCreature(Creature creature) {
+		return new HashSet<>(creature.getWeapons());
 	}
 
 	@Override
 	public void assignCreature(Weapon weapon, Creature creature) {
 		if (creature != null && weapon != null) {
 			weapon.addCreature(creature);
+			creature.addWeapon(weapon);
 		} else {
 			throw new IllegalArgumentException();
 		}

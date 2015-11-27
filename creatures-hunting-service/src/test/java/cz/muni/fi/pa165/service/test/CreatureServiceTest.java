@@ -9,7 +9,10 @@ import cz.muni.fi.pa165.persistence.entity.Weapon;
 import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.hibernate.service.spi.ServiceException;
 import org.junit.Assert;
 import org.mockito.InjectMocks;
@@ -22,6 +25,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
 
 /**
  * @author Ondrej Klein
@@ -83,6 +87,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 		creatures.add(creature3);
 		
 		area = new Area();
+        area.setName("Area1");
 		area.setLatitude(5.0);
 		area.setLongitude(5.0);
 		
@@ -105,7 +110,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	@Test
 	public void updateCreatureTest() {
 		creatureService.createCreature(creature2);
-		verify(creatureManager, times(1)).addCreature(creature2);
+		verify(creatureManager, atLeastOnce()).addCreature(creature2);
 		creature2.setName("newName");
 		creature2.setHeight(0.5);
 		creatureService.updateCreature(creature2);
@@ -136,19 +141,22 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 		creature1.addArea(area);
 		creature2.addArea(area);
 		creature3.addArea(area2);
-		
-		
+
+		area.addCreature(creature1);
+		area.addCreature(creature2);
+		area2.addCreature(creature3);
+
 		creatureService.createCreature(creature1);
 		creatureService.createCreature(creature2);
 		creatureService.createCreature(creature3);
 		
-		List<Creature> testCreatures = new ArrayList<>();
+		Set<Creature> testCreatures = new HashSet<>();
 		testCreatures.add(creature1);
 		testCreatures.add(creature2);
 		
-		verify(creatureManager, times(1)).addCreature(creature1);
-		verify(creatureManager, times(1)).addCreature(creature2);
-		verify(creatureManager, times(1)).addCreature(creature3);
+		verify(creatureManager, atLeastOnce()).addCreature(creature1);
+		verify(creatureManager, atLeastOnce()).addCreature(creature2);
+		verify(creatureManager, atLeastOnce()).addCreature(creature3);
 		
 		when(areaManager.findAllAreas()).thenReturn(areas);
 		
@@ -164,13 +172,13 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 		
 		creature1.addArea(area);
 		creature2.addArea(area);
-		
-		List<Creature> testCreatures = new ArrayList<>();
+
+		Set<Creature> testCreatures = new HashSet<>();
 		testCreatures.add(creature1);
 		testCreatures.add(creature2);
-		
-		creatureService.getCreaturesByArea(area.getName());
-		verify(areaManager, times(1)).findAreaByName(area.getName()).getCreatures();
+
+        creatureService.getCreaturesByArea(area.getName());
+		verify(areaManager).findAreaByName(area.getName());
 		
 		when(areaManager.findAreaByName(area.getName())).thenReturn(area);
 		Assert.assertEquals(creatureService.getCreaturesByArea(area.getName()), testCreatures);
@@ -181,6 +189,6 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	public void getCreatureTest() {
 		creatureService.createCreature(creature3);
 		creatureService.getCreature(creature3.getId());
-		verify(creatureManager, times(1)).findCreature(creature3.getId());
+		verify(creatureManager, atLeastOnce()).findCreature(creature3.getId());
 	}
 }

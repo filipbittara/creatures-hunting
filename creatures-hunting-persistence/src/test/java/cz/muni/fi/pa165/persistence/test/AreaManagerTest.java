@@ -124,15 +124,34 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
      */
     @Test
     public void creaturesInArea(){
-            Area a = new Area();
-            a.setName("Area 1");
-            areaManager.addArea(a);
-            Creature c = new Creature();
-            c.setName("Creature 1");
-            creatureManager.addCreature(c);
-            a.addCreature(c);		
-            Creature found = creatureManager.findCreature(c.getId());
-            Assert.assertEquals(found.getAreas().size(), 1);
-            Assert.assertEquals(found.getAreas().iterator().next().getName(), "Area 1");
+        Area a = new Area();
+        a.setName("Area 1");
+        areaManager.addArea(a);
+        Creature c = new Creature();
+        c.setName("Creature 1");
+        creatureManager.addCreature(c);
+        a.addCreature(c);
+        Creature found = creatureManager.findCreature(c.getId());
+        Assert.assertEquals(found.getAreas().size(), 1);
+        Assert.assertEquals(found.getAreas().iterator().next().getName(), "Area 1");
+    }
+
+    /**
+     * Checks that finding area by name is working.
+     */
+    @Test
+    public void findAreaByNameTest(){
+        Area a = new Area();
+        a.setName("Area");
+        areaManager.addArea(a);
+
+        Area result = areaManager.findAreaByName("Area");
+
+        Assert.assertEquals(result.getId(), a.getId());
+        Assert.assertEquals(result.getName(), a.getName());
+        Assert.assertEquals(result.getDescription(), a.getDescription());
+        Assert.assertEquals(result.getCreatures(), a.getCreatures());
+        Assert.assertEquals(result.getLatitude(), a.getLatitude());
+        Assert.assertEquals(result.getLongitude(), a.getLongitude());
     }
 }

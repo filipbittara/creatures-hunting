@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -13,14 +14,13 @@ import org.springframework.stereotype.Service;
  */
 
 public interface WeaponService {
-	public Weapon findWeaponById(Long id);
-	public Weapon findWeaponByName(String name);
-	public List<Weapon> findWeaponsByCreature(Creature creature);
-	public void assignCreature(Weapon weapon, Creature creature);
-	public void removeCreature(Weapon weapon, Creature creature);
-    public Weapon addWeapon(Weapon weapon);
-    public void deleteWeapon(Weapon weapon);
-    public void updateWeapon(Weapon weapon);
-    public List<Weapon> findAllWeapons();
-	
+	Weapon findWeaponById(Long id);
+	Weapon findWeaponByName(String name);
+	Set<Weapon> findWeaponsByCreature(Creature creature);
+	void assignCreature(Weapon weapon, Creature creature);
+	void removeCreature(Weapon weapon, Creature creature);
+    Weapon addWeapon(Weapon weapon);
+    void deleteWeapon(Weapon weapon);
+    void updateWeapon(Weapon weapon);
+    List<Weapon> findAllWeapons();
 }

@@ -84,8 +84,9 @@ public class Area {
     }
 	
     public void addCreature(Creature c) {
-	creatures.add(c);
-        c.addArea(this);
+	    creatures.add(c);
+        if (!c.getAreas().contains(this))
+            c.addArea(this);
     }
     
     public void removeCreature(Creature c) {

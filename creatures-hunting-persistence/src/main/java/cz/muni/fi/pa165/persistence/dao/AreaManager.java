@@ -45,5 +45,13 @@ public interface AreaManager {
      * @return a set of all areas found
      */
 	public List<Area> findAllAreas();
-        public Area findAreaByName(String name);
+
+	/**
+	 * Searches for area with given name.
+	 *
+	 * @param name name of the area to be searched for
+	 * @return instance of the area with the given name
+	 */
+	public Area findAreaByName(String name);
+
 }

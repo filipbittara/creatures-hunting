@@ -7,8 +7,9 @@ import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.inject.Inject;
 
 /**
@@ -48,8 +49,8 @@ public class CreatureServiceImpl implements CreatureService {
     }
 
     @Override
-    public List<Creature> getCreaturesInCircle(double latitude, double longitude, double radius) {
-        List<Creature> result = new ArrayList<Creature>();
+    public Set<Creature> getCreaturesInCircle(double latitude, double longitude, double radius) {
+        Set<Creature> result = new HashSet<>();
         for(Area area : areaManager.findAllAreas()) {
             double distance = Math.sqrt(Math.pow(latitude - area.getLatitude(), 2) + Math.pow(longitude - area.getLongitude(),2));
             if(distance <= radius ) {
@@ -62,13 +63,16 @@ public class CreatureServiceImpl implements CreatureService {
     }
 
     @Override
-    public List<Creature> getCreaturesByArea(String areaName) {
-        return new ArrayList<Creature>(areaManager.findAreaByName(areaName).getCreatures());
+    public Set<Creature> getCreaturesByArea(String areaName) {
+        Area area = areaManager.findAreaByName(areaName);
+        if (area != null)
+            return new HashSet<>(area.getCreatures());
+        return null;
     }
 
     @Override
-    public List<Creature> getCreaturesByWeapon(String weaponName) {
-        return new ArrayList<Creature>(weaponManager.findWeaponByName(weaponName).getCreatures());
+    public Set<Creature> getCreaturesByWeapon(String weaponName) {
+        return new HashSet<>(weaponManager.findWeaponByName(weaponName).getCreatures());
     }
 
     @Override

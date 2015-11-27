@@ -14,12 +14,12 @@ import java.util.List;
  * @author Filip Bittara
  */
 public interface AreaService {
-    public Area createArea(Area area);
-    public void updateArea(Area area);
-    public void deleteArea(Long areaId);
-    public List<Area> getAllAreas();
-    public List<Area> getAreasForCreature(String creatureName);
-    public Area getArea(Long id);
-    public void addCreatureToArea(Creature creature, Area area);
-    public void removeCreatureFromArea(Creature creature, Area area);
+    Area createArea(Area area);
+    void updateArea(Area area);
+    void deleteArea(Long areaId);
+    List<Area> getAllAreas();
+    List<Area> getAreasForCreature(String creatureName);
+    Area getArea(Long id);
+    void addCreatureToArea(Creature creature, Area area);
+    void removeCreatureFromArea(Creature creature, Area area);
 }

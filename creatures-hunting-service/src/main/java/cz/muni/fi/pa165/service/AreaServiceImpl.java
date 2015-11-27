@@ -9,6 +9,8 @@ import cz.muni.fi.pa165.persistence.dao.AreaManager;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -17,6 +19,8 @@ import javax.inject.Inject;
  *
  * @author Filip Bittara
  */
+
+@Service
 public class AreaServiceImpl implements AreaService {
     @Inject
     private CreatureManager creatureManager;

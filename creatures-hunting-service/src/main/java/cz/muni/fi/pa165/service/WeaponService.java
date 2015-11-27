@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Ondrej Klein
  */
-@Service
+
 public interface WeaponService {
 	public Weapon findWeaponById(Long id);
 	public Weapon findWeaponByName(String name);

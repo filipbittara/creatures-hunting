@@ -5,6 +5,8 @@ import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -12,6 +14,8 @@ import javax.inject.Inject;
 /**
  * @author Filip Bittara
  */
+
+@Service
 public class CreatureServiceImpl implements CreatureService {
     @Inject
     private CreatureManager creatureManager;

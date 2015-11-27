@@ -10,11 +10,16 @@ import cz.muni.fi.pa165.service.WeaponService;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Ondrej Klein
  */
+
+@Service
+@Transactional
 public class WeaponFacadeImpl implements WeaponFacade {
 	
 	@Inject

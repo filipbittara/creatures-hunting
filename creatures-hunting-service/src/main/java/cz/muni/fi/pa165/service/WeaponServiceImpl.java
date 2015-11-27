@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Ondrej Klein
  */
+
 @Service
 public class WeaponServiceImpl implements WeaponService {
 	

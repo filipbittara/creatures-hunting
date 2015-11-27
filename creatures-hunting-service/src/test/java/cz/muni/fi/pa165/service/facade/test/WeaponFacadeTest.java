@@ -12,7 +12,9 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.WeaponService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
+import cz.muni.fi.pa165.service.facade.WeaponFacadeImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.service.spi.ServiceException;
@@ -35,14 +37,9 @@ import org.testng.annotations.BeforeMethod;
 public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTests {
     
     @Mock
-    private WeaponManager weaponManager;
+    private WeaponService weaponService;
     
-    @Mock
-    private CreatureManager creatureManager;
-    
-    @Autowired
-    @InjectMocks
-    private WeaponFacade weaponFacade;
+    private WeaponFacadeImpl weaponFacade;
     
     @Autowired
     private BeanMappingService beanMappingService;
@@ -50,6 +47,10 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
     @org.testng.annotations.BeforeClass
     public void setup() throws ServiceException {
         MockitoAnnotations.initMocks(this);
+        weaponFacade = new WeaponFacadeImpl();
+        weaponFacade.setWeaponService(weaponService);
+        weaponFacade.setBeanMappingService(beanMappingService);
+        
     }
     
     private WeaponDTO weapon1;
@@ -75,43 +76,36 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
     
     @org.testng.annotations.Test
     public void addWeaponTest() {
+        Weapon result = beanMappingService.mapTo(weapon1, Weapon.class);
+        result.setId(1l);
+        when(weaponService.addWeapon(beanMappingService.mapTo(weapon1, Weapon.class))).thenReturn(result);
         weaponFacade.addWeapon(weapon1);
-        verify(weaponManager, times(1)).addWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
+        verify(weaponService, times(1)).addWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
     }
     
     @org.testng.annotations.Test
     public void deleteWeaponTest() {
         weaponFacade.removeWeapon(weapon1);
-        verify(weaponManager, times(1)).deleteWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
+        verify(weaponService, times(1)).deleteWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
     }
     
     @org.testng.annotations.Test
     public void updateWeaponTest() {
-        weaponFacade.addWeapon(weapon1);
-        verify(weaponManager, times(1)).addWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
-        weapon1.setName("Rifle");
-        weapon1.setGunReach(15.0);
         weaponFacade.updateWeapon(weapon1);
-        verify(weaponManager, times(1)).updateWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
+        verify(weaponService, times(1)).updateWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
     }
     
     @org.testng.annotations.Test
     public void findAllWeaponsTest() {
+        when(weaponService.findAllWeapons()).thenReturn(beanMappingService.mapTo(weapons, Weapon.class));
         weaponFacade.getAllWeapons();
-        verify(weaponManager, times(1)).findAllWeapons();
+        verify(weaponService, times(1)).findAllWeapons();
     }
     
     @org.testng.annotations.Test
     public void findWeaponTest() {
-        weaponFacade.addWeapon(weapon1);
-        weaponFacade.addWeapon(weapon2);
-        
-        verify(weaponManager, times(1)).addWeapon(beanMappingService.mapTo(weapon1, Weapon.class));
-        verify(weaponManager, times(1)).addWeapon(beanMappingService.mapTo(weapon2, Weapon.class));
-        
-        when(weaponManager.findAllWeapons()).thenReturn(beanMappingService.mapTo(weapons, Weapon.class));
-        
-        Assert.assertEquals(weaponManager.findAllWeapons(), beanMappingService.mapTo(weapons, Weapon.class));
-        verify(weaponManager, times(1)).findAllWeapons();
+        when(weaponService.findWeaponById(1l)).thenReturn(beanMappingService.mapTo(weapon1, Weapon.class));
+        weaponFacade.getWeaponById(1l);
+        verify(weaponService, times(1)).findWeaponById(1l);      
     }
 }

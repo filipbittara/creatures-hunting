@@ -26,8 +26,17 @@ public class WeaponFacadeImpl implements WeaponFacade {
 	public WeaponService weaponService;
 	
 	@Autowired
-    private BeanMappingService beanMappingService;
+        private BeanMappingService beanMappingService;
 
+        public void setWeaponService(WeaponService weaponService) {
+            this.weaponService = weaponService;
+        }
+
+        public void setBeanMappingService(BeanMappingService beanMappingService) {
+            this.beanMappingService = beanMappingService;
+        }
+        
+        
 	@Override
 	public Long addWeapon(WeaponDTO weapon) {
 		Weapon newWeapon = weaponService.addWeapon(beanMappingService.mapTo(weapon, Weapon.class));

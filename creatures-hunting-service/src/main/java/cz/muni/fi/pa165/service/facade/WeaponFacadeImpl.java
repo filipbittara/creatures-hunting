@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.facade.WeaponFacade;
@@ -83,5 +84,11 @@ public class WeaponFacadeImpl implements WeaponFacade {
 	public List<WeaponDTO> getAllWeapons() {
 		return beanMappingService.mapTo(weaponService.findAllWeapons(), WeaponDTO.class);
 	}
-	
+
+        @Override
+        public void changeImage(ChangeImageDTO imageChange) {
+            Weapon w = weaponService.findWeaponById(imageChange.getId());
+            w.setImage(imageChange.getImage());
+            w.setImageMimeType(imageChange.getImageMimeType());
+        }
 }

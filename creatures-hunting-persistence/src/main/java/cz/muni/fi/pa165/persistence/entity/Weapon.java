@@ -27,6 +27,11 @@ public class Weapon {
 
     @ManyToMany
     private Set<Creature> creatures = new HashSet<>();
+    
+    @Lob
+    private byte[] image;
+    
+    private String imageMimeType;
 
     /**
      * Assigns a creature that the weapon is effective against.
@@ -101,5 +106,21 @@ public class Weapon {
 
         return getName().equals(weapon.getName());
 
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 }

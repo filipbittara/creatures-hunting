@@ -15,6 +15,8 @@ public class WeaponDTO {
 	private Double gunReach;
 	private String ammunition;
 	private Set<CreatureDTO> creatures = new HashSet<>();
+        private byte[] image;
+        private String imageMimeType;
 
 	public Long getId() {
 		return id;
@@ -83,6 +85,20 @@ public class WeaponDTO {
 		}
 		return true;
 	}
-	
-	
+
+        public byte[] getImage() {
+            return image;
+        }
+
+        public void setImage(byte[] image) {
+            this.image = image;
+        }
+
+        public String getImageMimeType() {
+            return imageMimeType;
+        }
+
+        public void setImageMimeType(String imageMimeType) {
+            this.imageMimeType = imageMimeType;
+        }
 }

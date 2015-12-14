@@ -11,11 +11,15 @@ import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.service.WeaponService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Filip Bittara
  */
+@Component
+@Transactional
 public class DataLoadingFacadeImpl implements DataLoadingFacade {
 
     

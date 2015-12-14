@@ -35,5 +35,5 @@
         </tbody>
     </table>
         
-</jsp:attribute>>
+</jsp:attribute>
 </my:template>

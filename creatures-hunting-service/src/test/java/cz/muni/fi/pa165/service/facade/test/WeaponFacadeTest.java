@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service.facade.test;
 
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
+import cz.muni.fi.pa165.enums.AmmunitionType;
 import cz.muni.fi.pa165.facade.WeaponFacade;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.dao.WeaponManager;
@@ -64,12 +65,12 @@ public class WeaponFacadeTest extends AbstractTransactionalTestNGSpringContextTe
     public void prepareWeapons(){
         weapon1 = new WeaponDTO();
         weapon1.setName("Knife");
-        weapon1.setAmmunition("none");
+        weapon1.setAmmunition(AmmunitionType.NONE);
         weapon1.setGunReach(1.0);
         
         weapon2 = new WeaponDTO();
         weapon2.setName("Gun");
-        weapon2.setAmmunition("bullets");
+        weapon2.setAmmunition(AmmunitionType.BULLET);
         weapon2.setGunReach(10.0);
         
         weapons = new ArrayList<WeaponDTO>();

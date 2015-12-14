@@ -34,7 +34,9 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
     
     @Override
     public void loadData() {
-        //TODO insert data
+        weapon("Knife", 1.0, AmmunitionType.NONE);
+        weapon("Gun", 50.0, AmmunitionType.BULLET);
+        user("filip", "filip", UserRole.USER, "fuck");
     }
     
     private Creature creature(String name, Double height, Double weight, Integer agility, Integer ferocity, String weakness) {

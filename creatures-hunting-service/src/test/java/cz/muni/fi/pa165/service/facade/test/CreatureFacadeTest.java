@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.service.facade.test;
 import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
+import cz.muni.fi.pa165.enums.AmmunitionType;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
@@ -58,7 +59,7 @@ public class CreatureFacadeTest extends AbstractTransactionalTestNGSpringContext
     public void prepareCreatures(){
         weapon = new WeaponDTO();
         weapon.setName("Chainsaw");
-        weapon.setAmmunition("chainz");
+        weapon.setAmmunition(AmmunitionType.NONE);
         weapon.setGunReach(1.0);
         
         creature1 = new CreatureDTO();

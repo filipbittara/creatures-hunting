@@ -47,7 +47,7 @@ public class WeaponDTO {
 		return ammunition;
 	}
 
-	public void setAmmunition(String AmmunitionType) {
+	public void setAmmunition(AmmunitionType ammunition) {
 		this.ammunition = ammunition;
 	}
 

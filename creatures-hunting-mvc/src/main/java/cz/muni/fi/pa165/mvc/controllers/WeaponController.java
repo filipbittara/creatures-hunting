@@ -1,7 +1,12 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.facade.WeaponFacade;
+import java.io.IOException;
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +43,20 @@ public class WeaponController {
         // TODO - fill the delete method
         //return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
         return "";
+    }
+    
+    @RequestMapping("/weaponImage/{id}")
+    public void productImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WeaponDTO weaponDTO = weaponFacade.getWeaponById(id);
+        byte[] image = weaponDTO.getImage();
+        if (image == null) {
+            response.sendRedirect(request.getContextPath() + "/no-image.png");
+        } else {
+            response.setContentType(weaponDTO.getImageMimeType());
+            ServletOutputStream out = response.getOutputStream();
+            out.write(image);
+            out.flush();
+        }
     }
 }
 

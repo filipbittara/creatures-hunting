@@ -30,6 +30,7 @@
                     <td>${weapon.name}</td>
                     <td>${weapon.gunReach}</td>
                     <td>${weapon.ammunition}</td>
+                    <td><my:a href="/weapon/detail/${weapon.id}" role="button" class="btn btn-success">Detail</a></td>
                 </tr>
             </c:forEach>
         </tbody>

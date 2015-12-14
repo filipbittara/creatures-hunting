@@ -1,12 +1,14 @@
 package cz.muni.fi.pa165.dto;
 
+import cz.muni.fi.pa165.enums.UserRole;
+
 /**
  *
  * @author Filip Bittara
  */
 public class UserDTO {
     private Long id;
-    private int role;
+    private UserRole role;
     private String username;
     private String password;
     private String email;
@@ -19,11 +21,11 @@ public class UserDTO {
         this.id = id;
     }
 
-    public int getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.persistence.entity;
 
+import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private int role;
+    private UserRole role;
 
     @NotNull
     @Column(nullable=false, unique=true)
@@ -50,11 +51,11 @@ public class User {
         this.id = id;
     }
 
-    public int getRole() {
+    public UserRole getRole() {
             return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRole role) {
             this.role = role;
     }
 

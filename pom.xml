@@ -15,6 +15,7 @@
         <module>creatures-hunting-service</module>
         <module>creatures-hunting-api</module>
         <module>creatures-hunting-mvc</module>
+        <module>creatures-hunting-data</module>
     </modules>
     
     <dependencies>

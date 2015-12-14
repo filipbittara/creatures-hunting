@@ -6,7 +6,7 @@ package cz.muni.fi.pa165.mvc.forms;
 
 /**
  *
- * @author klein
+ * @author Ondrej Klein
  */
 public class WeaponCreateDTOValidator {
     

@@ -4,3 +4,13 @@
 /eshop-spring-mvc/target/
 /creatures-hunting-mvc/target/
 /creatures-hunting-data/target/
+/.idea/
+/creatures-hunting-api/creatures-hunting-api.iml
+/creatures-hunting-data/creatures-hunting-data.iml
+/creatures-hunting-mvc/creatures-hunting-mvc.iml
+/creatures-hunting-persistence/.classpath
+/creatures-hunting-persistence/.project
+/creatures-hunting-persistence/creatures-hunting-persistence.eml
+/creatures-hunting-persistence/creatures-hunting-persistence.iml
+/creatures-hunting-persistence/src/main/main.iml
+/creatures-hunting-service/creatures-hunting-service.iml

@@ -3,8 +3,9 @@ package cz.muni.fi.pa165.mvc.security;
 import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.facade.UserFacade;
-import cz.muni.fi.pa165.persistence.entity.User;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,12 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  *
- * @author klein
+ * @author David Kizivat
  */
 
 @WebFilter

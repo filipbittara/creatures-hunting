@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service.facade.test;
 
 import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
+import cz.muni.fi.pa165.enums.UserRole;
 import cz.muni.fi.pa165.persistence.entity.User;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.UserService;
@@ -58,13 +59,13 @@ public class UserFacadeTest extends AbstractTransactionalTestNGSpringContextTest
         user1.setUsername("User1");
         user1.setEmail("user1@creatureshunting.com");
         user1.setPassword("password1");
-        user1.setRole(1);
+        user1.setRole(UserRole.ADMIN);
 
         user1 = new UserDTO();
         user1.setUsername("User2");
         user1.setEmail("user2@creatureshunting.com");
         user1.setPassword("password2");
-        user1.setRole(2);
+        user1.setRole(UserRole.USER);
 
         users = new ArrayList<UserDTO>();
         users.add(user1);

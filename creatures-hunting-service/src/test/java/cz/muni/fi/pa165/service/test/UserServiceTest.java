@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service.test;
 
 import cz.muni.fi.pa165.persistence.dao.UserManager;
 import cz.muni.fi.pa165.persistence.entity.User;
+import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
@@ -50,13 +51,13 @@ public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTes
         user1.setUsername("User1");
         user1.setEmail("user1@creatureshunting.com");
         user1.setPassword("password1");
-        user1.setRole(1);
+        user1.setRole(UserRole.ADMIN);
 
         user2 = new User();
         user2.setUsername("User2");
         user2.setEmail("user2@creatureshunting.com");
         user2.setPassword("password2");
-        user2.setRole(2);
+        user2.setRole(UserRole.USER);
 
         users = new ArrayList<>();
         users.add(user1);

@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.persistence.dao.UserManager;
 import cz.muni.fi.pa165.persistence.entity.User;
+import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isAdmin(User u) {
-        return findUserById(u.getId()).getRole() == 1;
+        return findUserById(u.getId()).getRole() == UserRole.ADMIN;
     }
 
     @Override

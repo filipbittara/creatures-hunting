@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.User;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.UserService;
@@ -62,7 +63,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         return weapon;
     }
     
-    private User user(String username, String email, int role, String password) {
+    private User user(String username, String email, UserRole role, String password) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);

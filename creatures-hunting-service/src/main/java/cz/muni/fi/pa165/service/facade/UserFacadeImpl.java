@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.UserService;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@Configurable
 public class UserFacadeImpl implements UserFacade{
     
     @Autowired

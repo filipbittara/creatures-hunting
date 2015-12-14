@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.persistence.entity;
 
+import cz.muni.fi.pa165.persistence.entity.enums.AmmunitionType;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class Weapon {
 
     private Double gunReach;
 
-    private String ammunition;
+    private AmmunitionType ammunition;
 
     @ManyToMany
     private Set<Creature> creatures = new HashSet<>();
@@ -74,11 +75,11 @@ public class Weapon {
         this.gunReach = gunReach;
     }
 
-    public String getAmmunition() {
+    public AmmunitionType getAmmunition() {
         return ammunition;
     }
 
-    public void setAmmunition(String ammunition) {
+    public void setAmmunition(AmmunitionType ammunition) {
         this.ammunition = ammunition;
     }
 

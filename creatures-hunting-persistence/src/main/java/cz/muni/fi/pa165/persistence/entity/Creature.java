@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.persistence.entity;
 
 
+import cz.muni.fi.pa165.persistence.entity.enums.CreatureType;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -28,6 +29,7 @@ public class Creature {
     @Column(nullable=false,unique=true)
     private String name;
     
+    private CreatureType type;
     private Double height;
     private Double weight;
     private Integer agility;
@@ -138,6 +140,14 @@ public class Creature {
 
     public void setAreas(Set<Area> areas) {
         this.areas = areas;
+    }
+    
+    public CreatureType getType() {
+        return type;
+    }
+
+    public void setType(CreatureType type) {
+        this.type = type;
     }
 
     @Override

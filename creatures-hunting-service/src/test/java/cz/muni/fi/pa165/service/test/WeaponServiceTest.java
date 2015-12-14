@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.persistence.entity.enums.AmmunitionType;
 import cz.muni.fi.pa165.service.WeaponService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
@@ -58,12 +59,12 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
     public void prepareWeapons(){
         weapon1 = new Weapon();
         weapon1.setName("Knife");
-        weapon1.setAmmunition("none");
+        weapon1.setAmmunition(AmmunitionType.NONE);
         weapon1.setGunReach(1.0);
         
         weapon2 = new Weapon();
         weapon2.setName("Gun");
-        weapon2.setAmmunition("bullets");
+        weapon2.setAmmunition(AmmunitionType.BULLET);
         weapon2.setGunReach(10.0);
         
         weapons = new ArrayList<Weapon>();

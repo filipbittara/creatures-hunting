@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.dto.CreatureDTO;
+import cz.muni.fi.pa165.enums.AmmunitionType;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +14,7 @@ public class WeaponDTO {
 	private Long id;
 	private String name;
 	private Double gunReach;
-	private String ammunition;
+	private AmmunitionType ammunition;
 	private Set<CreatureDTO> creatures = new HashSet<>();
         private byte[] image;
         private String imageMimeType;
@@ -42,11 +43,11 @@ public class WeaponDTO {
 		this.gunReach = gunReach;
 	}
 
-	public String getAmmunition() {
+	public AmmunitionType getAmmunition() {
 		return ammunition;
 	}
 
-	public void setAmmunition(String ammunition) {
+	public void setAmmunition(String AmmunitionType) {
 		this.ammunition = ammunition;
 	}
 

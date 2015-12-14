@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.persistence.PersistenceApplicationContext;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.persistence.entity.enums.AmmunitionType;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -72,8 +73,8 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 		w1.setGunReach(Double.valueOf(25.3));
 		w2.setGunReach(Double.valueOf(0.9));
 		
-		w1.setAmmunition("shells");
-		w2.setAmmunition("musclepower");
+		w1.setAmmunition(AmmunitionType.SHELL);
+		w2.setAmmunition(AmmunitionType.NONE);
 
 		wm.addWeapon(w1);
 		wm.addWeapon(w2);
@@ -98,7 +99,7 @@ public class WeaponManagerTest extends AbstractTestNGSpringContextTests {
 	public void addWeapon() {
 		Weapon w3 = new Weapon();
 		w3.setName("test");
-		w3.setAmmunition("test");
+		w3.setAmmunition(AmmunitionType.OTHER);
 		w3.setGunReach(Double.MAX_VALUE);
 		wm.addWeapon(w3);
 		Weapon testWeapon = wm.findWeapon(w3.getId());

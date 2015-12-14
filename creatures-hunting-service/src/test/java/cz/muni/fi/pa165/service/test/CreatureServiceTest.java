@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.persistence.entity.enums.AmmunitionType;
 import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
     public void prepareWeapons(){
         weapon = new Weapon();
         weapon.setName("Chainsaw");
-        weapon.setAmmunition("chainz");
+        weapon.setAmmunition(AmmunitionType.NONE);
         weapon.setGunReach(1.0);
         
         creature1 = new Creature();

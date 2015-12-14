@@ -1,11 +1,14 @@
 package cz.muni.fi.pa165.dto;
 
+import cz.muni.fi.pa165.enums.CreatureType;
+
 /**
  * @author Filip Bittara
  */
 public class CreatureDTO {
     private Long id;
     private String name;  
+    private CreatureType type;
     private Double height;
     private Double weight;
     private Integer agility;

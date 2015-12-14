@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.User;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.persistence.entity.enums.AmmunitionType;
 import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.CreatureService;
@@ -54,7 +55,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         return area;
     }
     
-    private Weapon weapon(String name, Double gunReach, String ammunition) {
+    private Weapon weapon(String name, Double gunReach, AmmunitionType ammunition) {
         Weapon weapon = new Weapon();
         weapon.setName(name);
         weapon.setGunReach(gunReach);

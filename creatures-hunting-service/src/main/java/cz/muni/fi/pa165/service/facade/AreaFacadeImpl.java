@@ -22,10 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AreaFacadeImpl implements AreaFacade{
 
-    @Inject
+    @Autowired
     private AreaService areaService;
     
-    @Inject
+    @Autowired
     private CreatureService creatureService;
 
     @Autowired

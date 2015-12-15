@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class WeaponFacadeImpl implements WeaponFacade {
 	
-	@Inject
+	@Autowired
 	public WeaponService weaponService;
 	
 	@Autowired

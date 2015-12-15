@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CreatureFacadeImpl implements CreatureFacade {
 
-    @Inject
+    @Autowired
     private CreatureService creatureService;
 
     @Autowired

@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Inject
+    @Autowired
     private UserManager userManager;
 
     @Override

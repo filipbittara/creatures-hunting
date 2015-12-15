@@ -13,7 +13,7 @@ import javax.inject.Inject;
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 	
-	@Inject
+	@Autowired
     private Mapper dozer;
 
     @Override

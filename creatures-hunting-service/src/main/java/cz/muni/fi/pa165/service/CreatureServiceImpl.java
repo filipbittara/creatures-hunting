@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,13 +20,13 @@ import javax.inject.Inject;
 
 @Service
 public class CreatureServiceImpl implements CreatureService {
-    @Inject
+    @Autowired
     private CreatureManager creatureManager;
     
-    @Inject
+    @Autowired
     private AreaManager areaManager;
     
-    @Inject
+    @Autowired
     private WeaponManager weaponManager;
     
     @Override
@@ -61,7 +62,7 @@ public class CreatureServiceImpl implements CreatureService {
         try { 
             return creatureManager.findAllCreatures();
         } catch (Exception e) {
-            throw new ManagerDataAccessException("Error while retireving creatures", e);
+            throw new ManagerDataAccessException("Error while retrieving creatures", e);
         }
     }
 
@@ -78,7 +79,7 @@ public class CreatureServiceImpl implements CreatureService {
                 }
             }
         } catch (Exception e) {
-            throw new ManagerDataAccessException("Error while retireving creatures", e);
+            throw new ManagerDataAccessException("Error while retrieving creatures", e);
         }
         return result;
     }
@@ -89,7 +90,7 @@ public class CreatureServiceImpl implements CreatureService {
         try {
             area = areaManager.findAreaByName(areaName);
         } catch (Exception e) {
-            throw new ManagerDataAccessException("Error while retireving creatures", e);
+            throw new ManagerDataAccessException("Error while retrieving creatures", e);
         }
         if (area != null)
             return new HashSet<>(area.getCreatures());
@@ -101,7 +102,7 @@ public class CreatureServiceImpl implements CreatureService {
         try {
             return new HashSet<>(weaponManager.findWeaponByName(weaponName).getCreatures());
         } catch (Exception e) {
-            throw new ManagerDataAccessException("Error while retireving creatures", e);
+            throw new ManagerDataAccessException("Error while retrieving creatures", e);
         }
     }
 
@@ -110,7 +111,7 @@ public class CreatureServiceImpl implements CreatureService {
         try {
             return creatureManager.findCreature(id);
         } catch (Exception e) {
-            throw new ManagerDataAccessException("Error while retireving creature", e);
+            throw new ManagerDataAccessException("Error while retrieving creature", e);
         }
     }
     

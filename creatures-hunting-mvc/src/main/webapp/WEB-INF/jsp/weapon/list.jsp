@@ -17,11 +17,11 @@
         <caption>Weapons</caption>
         <thead>
             <tr>
-                <th>Id</th>>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Gun Reach</th>
                 <th>Ammunition</th>
-            </tr>>
+            </tr>
         </thead>
         <tbody>
             <c:forEach items="${weapons}" var="weapon">
@@ -30,7 +30,7 @@
                     <td>${weapon.name}</td>
                     <td>${weapon.gunReach}</td>
                     <td>${weapon.ammunition}</td>
-                    <td><my:a href="/weapon/detail/${weapon.id}" role="button" class="btn btn-success">Detail</a></td>
+                    <td><my:a href="/weapon/detail/${weapon.id}" role="button" class="btn btn-success">Detail</my:a></td>
                 </tr>
             </c:forEach>
         </tbody>

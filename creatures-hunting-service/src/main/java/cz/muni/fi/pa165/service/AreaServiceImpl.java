@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.persistence.dao.CreatureManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -24,10 +25,10 @@ import javax.inject.Inject;
 
 @Service
 public class AreaServiceImpl implements AreaService {
-    @Inject
+    @Autowired
     private CreatureManager creatureManager;
     
-    @Inject
+    @Autowired
     private AreaManager areaManager;
 
     @Override

@@ -16,8 +16,8 @@ public class WeaponDTO {
 	private Double gunReach;
 	private AmmunitionType ammunition;
 	private Set<CreatureDTO> creatures = new HashSet<>();
-        private byte[] image;
-        private String imageMimeType;
+	private byte[] image;
+	private String imageMimeType;
 
 	public Long getId() {
 		return id;
@@ -51,6 +51,22 @@ public class WeaponDTO {
 		this.ammunition = ammunition;
 	}
 
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public String getImageMimeType() {
+		return imageMimeType;
+	}
+
+	public void setImageMimeType(String imageMimeType) {
+		this.imageMimeType = imageMimeType;
+	}
+
 	public Set<CreatureDTO> getCreatures() {
 		return creatures;
 	}
@@ -58,7 +74,7 @@ public class WeaponDTO {
 	public void addCreature(CreatureDTO creature) {
 		this.creatures.add(creature);
 	}
-	
+
 	public void removeCreature(CreatureDTO creature) {
 		if (creature != null && this.creatures.contains(creature)) {
 			this.creatures.remove(creature);
@@ -86,20 +102,4 @@ public class WeaponDTO {
 		}
 		return true;
 	}
-
-        public byte[] getImage() {
-            return image;
-        }
-
-        public void setImage(byte[] image) {
-            this.image = image;
-        }
-
-        public String getImageMimeType() {
-            return imageMimeType;
-        }
-
-        public void setImageMimeType(String imageMimeType) {
-            this.imageMimeType = imageMimeType;
-        }
 }

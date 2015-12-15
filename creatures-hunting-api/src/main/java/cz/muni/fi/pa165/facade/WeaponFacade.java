@@ -78,10 +78,10 @@ public interface WeaponFacade {
 	 */
 	public List<WeaponDTO> getAllWeapons();
         
-        /**
+	/**
 	 * Changes the weapon image
 	 *
-	 * @param new weapon image
+	 * @param imageChange new weapon image
 	 */
         public void changeImage(ChangeImageDTO imageChange);
 }

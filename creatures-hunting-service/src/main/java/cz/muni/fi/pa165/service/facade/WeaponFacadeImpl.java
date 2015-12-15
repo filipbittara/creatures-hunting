@@ -22,10 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class WeaponFacadeImpl implements WeaponFacade {
-	
+
 	@Autowired
 	public WeaponService weaponService;
-	
+
 	@Autowired
         private BeanMappingService beanMappingService;
 
@@ -36,8 +36,8 @@ public class WeaponFacadeImpl implements WeaponFacade {
         public void setBeanMappingService(BeanMappingService beanMappingService) {
             this.beanMappingService = beanMappingService;
         }
-        
-        
+
+
 	@Override
 	public Long addWeapon(WeaponDTO weapon) {
 		Weapon newWeapon = weaponService.addWeapon(beanMappingService.mapTo(weapon, Weapon.class));
@@ -57,7 +57,7 @@ public class WeaponFacadeImpl implements WeaponFacade {
 	@Override
 	public void removeCreature(WeaponDTO weapon, CreatureDTO creature) {
 		weaponService.removeCreature(beanMappingService.mapTo(weapon, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
-		
+
 	}
 
 	@Override
@@ -85,10 +85,10 @@ public class WeaponFacadeImpl implements WeaponFacade {
 		return beanMappingService.mapTo(weaponService.findAllWeapons(), WeaponDTO.class);
 	}
 
-        @Override
-        public void changeImage(ChangeImageDTO imageChange) {
-            Weapon w = weaponService.findWeaponById(imageChange.getId());
-            w.setImage(imageChange.getImage());
-            w.setImageMimeType(imageChange.getImageMimeType());
-        }
+	@Override
+	public void changeImage(ChangeImageDTO imageChange) {
+		Weapon w = weaponService.findWeaponById(imageChange.getId());
+		w.setImage(imageChange.getImage());
+		w.setImageMimeType(imageChange.getImageMimeType());
+	}
 }

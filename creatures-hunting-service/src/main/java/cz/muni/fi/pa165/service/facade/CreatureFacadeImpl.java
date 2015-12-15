@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.persistence.entity.Creature;
@@ -77,6 +78,13 @@ public class CreatureFacadeImpl implements CreatureFacade {
     @Override
     public CreatureDTO getCreature(Long id) {
         return beanMappingService.mapTo(creatureService.getCreature(id), CreatureDTO.class);
+    }
+
+    @Override
+    public void changeImage(ChangeImageDTO imageChange) {
+        Creature w = creatureService.getCreature(imageChange.getId());
+        w.setImage(imageChange.getImage());
+        w.setImageMimeType(imageChange.getImageMimeType());
     }
     
 }

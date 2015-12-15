@@ -1,4 +1,5 @@
 package cz.muni.fi.pa165.facade;
+import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import java.util.List;
 
@@ -60,4 +61,11 @@ public interface CreatureFacade {
      * @return creature with given id, null if no creature with given id exists
      */
     public CreatureDTO getCreature(Long id);
+
+    /**
+     * Changes the creature's image.
+     *
+     * @param imageChange new creature's image
+     */
+    public void changeImage(ChangeImageDTO imageChange);
 }

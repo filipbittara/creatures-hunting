@@ -17,11 +17,11 @@
         <caption>Creatures</caption>
         <thead>
         <tr>
-            <th>Id</th>>
+            <th>Id</th>
             <th>Name</th>
             <th>Type</th>
             <th>Weakness</th>
-        </tr>>
+        </tr>
         </thead>
         <tbody>
         <c:forEach items="${creatures}" var="creatures">

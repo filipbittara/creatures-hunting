@@ -6,12 +6,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -41,6 +36,10 @@ public class Creature {
     
     @ManyToMany(mappedBy="creatures")
     private Set<Area> areas = new HashSet<Area>();
+
+    @Lob
+    private byte[] image;
+    private String imageMimeType;
     
     /**
      * Method assigns weapon to creature.
@@ -148,6 +147,22 @@ public class Creature {
 
     public void setType(CreatureType type) {
         this.type = type;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 
     @Override

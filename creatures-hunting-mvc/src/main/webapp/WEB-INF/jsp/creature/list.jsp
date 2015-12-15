@@ -24,12 +24,13 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${creatures}" var="creatures">
+        <c:forEach items="${creatures}" var="creature">
             <tr>
-                <td>${area.id}</td>
-                <td>${area.name}</td>
-                <td>${area.type}</td>
-                <td>${area.weakness}</td>
+                <td>${creature.id}</td>
+                <td>${creature.name}</td>
+                <td>${creature.type}</td>
+                <td>${creature.weakness}</td>
+                <td><my:a href="/creature/detail/${weapon.id}" role="button" class="btn btn-success">Detail</my:a></td>
             </tr>
         </c:forEach>
         </tbody>

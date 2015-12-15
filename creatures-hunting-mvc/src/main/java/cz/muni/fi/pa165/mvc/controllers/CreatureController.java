@@ -31,7 +31,7 @@ public class CreatureController {
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("creature", creatureFacade.getAllCreatures());
+        model.addAttribute("creatures", creatureFacade.getAllCreatures());
         return "/creature/list";
     }
 
@@ -50,7 +50,7 @@ public class CreatureController {
     }
 
     @RequestMapping("/creatureImage/{id}")
-    public void productImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void creatureImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         CreatureDTO creatureDTO = creatureFacade.getCreature(id);
         byte[] image = creatureDTO.getImage();
         if (image == null) {

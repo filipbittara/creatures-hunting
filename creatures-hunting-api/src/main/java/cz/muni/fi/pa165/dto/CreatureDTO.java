@@ -36,6 +36,10 @@ public class CreatureDTO {
         this.name = name;
     }
 
+    public CreatureType getType() { return type; }
+
+    public void setType(CreatureType type) { this.type = type; }
+
     public Double getHeight() {
         return height;
     }

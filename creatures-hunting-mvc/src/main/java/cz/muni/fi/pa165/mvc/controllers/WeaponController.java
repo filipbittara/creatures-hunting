@@ -46,7 +46,7 @@ public class WeaponController {
     }
     
     @RequestMapping("/weaponImage/{id}")
-    public void productImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void weaponImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         WeaponDTO weaponDTO = weaponFacade.getWeaponById(id);
         byte[] image = weaponDTO.getImage();
         if (image == null) {

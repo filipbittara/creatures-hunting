@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.data;
 
+import cz.muni.fi.pa165.persistence.entity.enums.CreatureType;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.User;
@@ -34,13 +35,16 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
     
     @Override
     public void loadData() {
+        creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice");
+        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 12, 10, "Fire attacks");
         weapon("Knife", 1.0, AmmunitionType.NONE);
         weapon("Gun", 50.0, AmmunitionType.BULLET);
         user("filip", "filip", UserRole.USER, "fuck");
     }
     
-    private Creature creature(String name, Double height, Double weight, Integer agility, Integer ferocity, String weakness) {
+    private Creature creature(String name, CreatureType type, Double height, Double weight, Integer agility, Integer ferocity, String weakness) {
         Creature creature = new Creature();
+        creature.setType(type);
         creature.setName(name);
         creature.setHeight(height);
         creature.setWeight(weight);

@@ -34,23 +34,23 @@
                         <td>${creature.type}</td>
                     </tr>
                     <tr>
-                        <th>Ammunition</th>
+                        <th>Height</th>
                         <td>${creature.height}</td>
                     </tr>
                     <tr>
-                        <th>Ammunition</th>
+                        <th>Weight</th>
                         <td>${creature.weight}</td>
                     </tr>
                     <tr>
-                        <th>Ammunition</th>
+                        <th>Agility</th>
                         <td>${creature.agility}</td>
                     </tr>
                     <tr>
-                        <th>Ammunition</th>
+                        <th>Ferocity</th>
                         <td>${creature.ferocity}</td>
                     </tr>
                     <tr>
-                        <th>Ammunition</th>
+                        <th>Weakness</th>
                         <td>${creature.weakness}</td>
                     </tr>
                 </table>

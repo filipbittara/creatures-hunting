@@ -82,9 +82,9 @@ public class CreatureFacadeImpl implements CreatureFacade {
 
     @Override
     public void changeImage(ChangeImageDTO imageChange) {
-        Creature w = creatureService.getCreature(imageChange.getId());
-        w.setImage(imageChange.getImage());
-        w.setImageMimeType(imageChange.getImageMimeType());
+        Creature c = creatureService.getCreature(imageChange.getId());
+        c.setImage(imageChange.getImage());
+        c.setImageMimeType(imageChange.getImageMimeType());
     }
     
 }

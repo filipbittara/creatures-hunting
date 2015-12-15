@@ -30,6 +30,7 @@
                 <td><c:out value="${user.username}"/></td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.role}"/></td>
+                <td><my:a href="/user/detail/${user.id}" role="button" class="btn btn-success">Details</my:a></td>
             </tr>
         </c:forEach>
         </tbody>

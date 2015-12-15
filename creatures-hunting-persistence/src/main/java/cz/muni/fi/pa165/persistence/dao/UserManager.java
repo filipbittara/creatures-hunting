@@ -12,10 +12,10 @@ import java.util.List;
  * @author Ondrej Klein
  */
 public interface UserManager {
-	public User findUser(Long id);
-	public Long addUser(User user);
-	public void deleteUser(User user);
-	public void updateUser(User user);	
-	public List<User> findAllUsers();
-        public User findUserByEmail(String email);
+	User findUser(Long id);
+	Long addUser(User user);
+	void deleteUser(User user);
+	void updateUser(User user);
+	List<User> findAllUsers();
+	User findUserByEmail(String email);
 }

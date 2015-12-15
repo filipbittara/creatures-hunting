@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.facade.UserFacade;
@@ -75,4 +76,10 @@ public class UserFacadeImpl implements UserFacade{
         userService.changePassword(userService.findUserById(auth.getUserId()), auth.getPassword(), newUnencryptedPassword);
     }
 
+    @Override
+    public void changeImage(ChangeImageDTO imageChange) {
+        User u = userService.findUserById(imageChange.getId());
+        u.setImage(imageChange.getImage());
+        u.setImageMimeType(imageChange.getImageMimeType());
+    }
 }

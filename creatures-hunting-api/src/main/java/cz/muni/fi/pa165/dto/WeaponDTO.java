@@ -97,7 +97,7 @@ public class WeaponDTO {
 			return false;
 		}
 		final WeaponDTO other = (WeaponDTO) obj;
-		if (!Objects.equals(this.name, other.name)) {
+		if (!Objects.equals(this.name, other.getName())) {
 			return false;
 		}
 		return true;

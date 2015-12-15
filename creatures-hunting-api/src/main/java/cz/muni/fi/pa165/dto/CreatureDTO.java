@@ -108,11 +108,11 @@ public class CreatureDTO {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Creature)) {
+        if (!(obj instanceof CreatureDTO)) {
             return false;
         }
         final CreatureDTO other = (CreatureDTO) obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.name, other.getName())) {
             return false;
         }
         return true;

@@ -6,12 +6,7 @@ package cz.muni.fi.pa165.persistence.entity;
 
 import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -34,6 +29,10 @@ public class User {
     private String password;
 
     private String email;
+
+    @Lob
+    private byte[] image;
+    private String imageMimeType;
 
     public String getEmail() {
         return email;
@@ -73,6 +72,22 @@ public class User {
 
     public void setPassword(String password) {
             this.password = password;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 
     @Override

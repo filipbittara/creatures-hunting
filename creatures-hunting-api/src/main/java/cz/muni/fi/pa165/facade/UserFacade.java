@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.facade;
 
+import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import java.util.Collection;
@@ -55,4 +56,11 @@ public interface UserFacade {
      * @return true if user is admin, false else
      */
     public boolean isAdmin(UserDTO user);
+
+    /**
+     * Changes the user's image.
+     *
+     * @param imageChange new user's image
+     */
+    public void changeImage(ChangeImageDTO imageChange);
 }

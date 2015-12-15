@@ -50,7 +50,7 @@ public class WeaponController {
         WeaponDTO weaponDTO = weaponFacade.getWeaponById(id);
         byte[] image = weaponDTO.getImage();
         if (image == null) {
-            response.sendRedirect(request.getContextPath() + "/no-image.png");
+            response.sendRedirect(request.getContextPath() + "/no-image.svg");
         } else {
             response.setContentType(weaponDTO.getImageMimeType());
             ServletOutputStream out = response.getOutputStream();

@@ -54,7 +54,7 @@ public class CreatureController {
         CreatureDTO creatureDTO = creatureFacade.getCreature(id);
         byte[] image = creatureDTO.getImage();
         if (image == null) {
-            response.sendRedirect(request.getContextPath() + "/no-image.png");
+            response.sendRedirect(request.getContextPath() + "/no-image.svg");
         } else {
             response.setContentType(creatureDTO.getImageMimeType());
             ServletOutputStream out = response.getOutputStream();

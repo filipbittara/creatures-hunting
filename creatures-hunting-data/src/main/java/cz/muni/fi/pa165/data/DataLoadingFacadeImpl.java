@@ -16,14 +16,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
  * @author Filip Bittara
  */
 @Component
 @Transactional
 public class DataLoadingFacadeImpl implements DataLoadingFacade {
 
-    
+
     @Autowired
     private CreatureService creatureService;
     @Autowired
@@ -32,7 +31,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
     private WeaponService weaponService;
     @Autowired
     private UserService userService;
-    
+
     @Override
     public void loadData() {
         creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice");
@@ -41,7 +40,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         weapon("Gun", 50.0, AmmunitionType.BULLET);
         user("filip", "filip", UserRole.USER, "fuck");
     }
-    
+
     private Creature creature(String name, CreatureType type, Double height, Double weight, Integer agility, Integer ferocity, String weakness) {
         Creature creature = new Creature();
         creature.setType(type);
@@ -54,7 +53,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         creatureService.createCreature(creature);
         return creature;
     }
-    
+
     private Area area(String name, String description, double latitude, double longitude) {
         Area area = new Area();
         area.setName(name);
@@ -64,7 +63,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         areaService.createArea(area);
         return area;
     }
-    
+
     private Weapon weapon(String name, Double gunReach, AmmunitionType ammunition) {
         Weapon weapon = new Weapon();
         weapon.setName(name);
@@ -73,7 +72,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         weaponService.addWeapon(weapon);
         return weapon;
     }
-    
+
     private User user(String username, String email, UserRole role, String password) {
         User user = new User();
         user.setUsername(username);

@@ -11,7 +11,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Weapon Detail">
+<my:template title="Weapon Detail">
 <jsp:attribute name="body">
     <div class=""container>
         <div class="row">
@@ -42,4 +42,4 @@
         </div>
     </div>
 </jsp:attribute>
-</my:pagetemplate>
+</my:template>

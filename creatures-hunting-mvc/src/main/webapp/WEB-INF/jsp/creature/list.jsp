@@ -30,7 +30,7 @@
                 <td>${creature.name}</td>
                 <td>${creature.type}</td>
                 <td>${creature.weakness}</td>
-                <td><my:a href="/creature/detail/${weapon.id}" role="button" class="btn btn-success">Detail</my:a></td>
+                <td><my:a href="/creature/detail/${creature.id}" role="button" class="btn btn-success">Detail</my:a></td>
             </tr>
         </c:forEach>
         </tbody>

@@ -17,21 +17,20 @@
         <caption>Areas</caption>
         <thead>
         <tr>
-            <th>Id</th>>
+            <th>Id</th>
             <th>Name</th>
-            <th>Description</th>
             <th>Latitude</th>
             <th>Longitude</th>
-        </tr>>
+        </tr>
         </thead>
         <tbody>
         <c:forEach items="${areas}" var="area">
             <tr>
                 <td>${area.id}</td>
                 <td>${area.name}</td>
-                <td>${area.description}</td>
                 <td>${area.latitude}</td>
                 <td>${area.longitude}</td>
+                <td><my:a href="/area/detail/${area.id}" role="button" class="btn btn-success">Details</my:a></td>
             </tr>
         </c:forEach>
         </tbody>

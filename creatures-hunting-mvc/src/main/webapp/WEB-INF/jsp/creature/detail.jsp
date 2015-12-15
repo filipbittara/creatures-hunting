@@ -11,9 +11,9 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:template title="${creature.name} - Weapon">
+<my:template title="${creature.name} - Creature">
 <jsp:attribute name="body">
-    <div class=""container>
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <img class="image-responsive" src="${pageContext.request.contextPath}/creature/creatureImage/${creature.id}"/>
@@ -30,7 +30,7 @@
                         <td>${creature.name}</td>
                     </tr>
                     <tr>
-                        <th>Gun Reach</th>
+                        <th>Type</th>
                         <td>${creature.type}</td>
                     </tr>
                     <tr>

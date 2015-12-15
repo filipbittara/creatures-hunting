@@ -11,9 +11,9 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:template title="Weapon Detail">
+<my:template title="${weapon.name} - Weapon">
 <jsp:attribute name="body">
-    <div class=""container>
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
                 <img class="image-responsive" src="${pageContext.request.contextPath}/weapon/weaponImage/${weapon.id}"/>

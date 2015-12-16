@@ -16,7 +16,8 @@
     <!-- bootstrap loaded from content delivery network -->
     <!--link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon"-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="resources/css/signin.css">
     <jsp:invoke fragment="head"/>
 </head>
 <body>
@@ -32,22 +33,6 @@
             </button>
             <a class="navbar-brand" href="${pageContext.request.contextPath}">Creatures hunting</a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><my:a href="/creature/list">Creatures</my:a></li>
-                <li><my:a href="/weapon/list">Weapons</my:a></li>
-                <li><my:a href="/area/list">Areas</my:a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><my:a href="/creature/list">Creatures Administration</my:a></li>
-                        <li><my:a href="/area/list">Areas Administration</my:a></li>
-                        <li><my:a href="/weapon/list">Weapons Administration</my:a></li>
-                        <li><my:a href="/user/list">Users</my:a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
     </div>
 </nav>
 
@@ -67,20 +52,7 @@
         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <c:out value="${authenticatedUser}"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    </c:if>
-    
-        <c:if test="${not empty authenticatedAdmin}">
-    <div class="row">
-        <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <c:out value="${authenticatedAdmin}"/>
+                    <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
                 </div>
             </div>
         </div>

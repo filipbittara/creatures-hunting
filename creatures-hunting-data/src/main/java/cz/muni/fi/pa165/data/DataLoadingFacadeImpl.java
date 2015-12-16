@@ -49,6 +49,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         weapon("Knife", 1.0, AmmunitionType.NONE);
         weapon("Gun", 50.0, AmmunitionType.BULLET);
         user("filip", "filip", UserRole.USER, "fuck");
+        user("ondra", "a@b.c", UserRole.USER, "123");
     }
 
     private Creature creature(String name, CreatureType type, Double height, Double weight, Integer agility, Integer ferocity, String weakness) {

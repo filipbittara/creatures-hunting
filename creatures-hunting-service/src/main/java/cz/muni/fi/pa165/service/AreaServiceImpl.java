@@ -69,8 +69,8 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public Set<Area> getAreasForCreature(Creature creature) {
-        return new HashSet<>(creature.getAreas());
+    public Area getAreaForCreature(Creature creature) {
+        return creature.getArea();
     }
 
     @Override
@@ -84,17 +84,12 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public void addCreatureToArea(Creature creature, Area area) {
-        if (creature != null && area != null) {
-            area.addCreature(creature);
-        } else {
-            throw new IllegalArgumentException();
-        }
-        area.addCreature(creature);
+        creature.setArea(area);
     }
 
     @Override
     public void removeCreatureFromArea(Creature creature, Area area) {
-        area.removeCreature(creature);
+        creature.setArea(area);
     }
     
 }

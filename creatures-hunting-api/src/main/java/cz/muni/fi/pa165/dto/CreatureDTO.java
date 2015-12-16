@@ -4,6 +4,8 @@ import cz.muni.fi.pa165.enums.CreatureType;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 
 import java.util.Objects;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * @author Filip Bittara
@@ -12,9 +14,15 @@ public class CreatureDTO {
     private Long id;
     private String name;  
     private CreatureType type;
+    @Min(0)
     private Double height;
+    @Min(0)
     private Double weight;
+    @Min(0)
+    @Max(10)
     private Integer agility;
+    @Min(0)
+    @Max(10)
     private Integer ferocity;
     private String weakness;
     private byte[] image;

@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,11 +71,14 @@ public class CreatureServiceImpl implements CreatureService {
     public Set<Creature> getCreaturesInCircle(double latitude, double longitude, double radius) {
         Set<Creature> result = new HashSet<>();
         try {
+            List<Creature> creatures = creatureManager.findAllCreatures();
             for(Area area : areaManager.findAllAreas()) {
                 double distance = Math.sqrt(Math.pow(latitude - area.getLatitude(), 2) + Math.pow(longitude - area.getLongitude(),2));
                 if(distance <= radius ) {
-                    for(Creature creature : area.getCreatures()) {
-                        result.add(creature);
+                    for(Creature creature : creatures) {
+                        if(area.equals(creature.getArea())) {
+                            result.add(creature);
+                        }           
                     }
                 }
             }
@@ -87,14 +91,21 @@ public class CreatureServiceImpl implements CreatureService {
     @Override
     public Set<Creature> getCreaturesByArea(String areaName) {
         Area area = null;
+        Set<Creature> result = new HashSet<>();
         try {
             area = areaManager.findAreaByName(areaName);
         } catch (Exception e) {
             throw new ManagerDataAccessException("Error while retrieving creatures", e);
         }
-        if (area != null)
-            return new HashSet<>(area.getCreatures());
-        return null;
+        if (area != null) {
+            List<Creature> creatures = creatureManager.findAllCreatures();
+            for(Creature creature : creatures) {
+                if(area.equals(creature.getArea())) {
+                    result.add(creature);
+                }           
+            }    
+        }
+        return result;
     }
 
     @Override

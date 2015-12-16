@@ -122,8 +122,8 @@ public class AreaFacadeTest extends AbstractTransactionalTestNGSpringContextTest
      */
 	@Test
 	public void getAreasForCreatureTest() {
-		areaFacade.getAreasForCreature(beanMappingService.mapTo(creature, Creature.class));
-		verify(areaService, times(1)).getAreasForCreature(beanMappingService.mapTo(creature, Creature.class));
+		areaFacade.getAreaForCreature(beanMappingService.mapTo(creature, Creature.class));
+		verify(areaService, times(1)).getAreaForCreature(beanMappingService.mapTo(creature, Creature.class));
 	}
 	
 	/**

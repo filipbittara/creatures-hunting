@@ -139,13 +139,10 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	@Test
 	public void getCreaturesInCircleTest() {
 		double radius = 2.0;
-		creature1.addArea(area);
-		creature2.addArea(area);
-		creature3.addArea(area2);
+		creature1.setArea(area);
+		creature2.setArea(area);
+		creature3.setArea(area2);
 
-		area.addCreature(creature1);
-		area.addCreature(creature2);
-		area2.addCreature(creature3);
 
 		creatureService.createCreature(creature1);
 		creatureService.createCreature(creature2);
@@ -171,8 +168,8 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 		creatureService.createCreature(creature1);
 		creatureService.createCreature(creature2);
 		
-		creature1.addArea(area);
-		creature2.addArea(area);
+		creature1.setArea(area);
+		creature2.setArea(area);
 
 		Set<Creature> testCreatures = new HashSet<>();
 		testCreatures.add(creature1);

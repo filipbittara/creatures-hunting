@@ -37,11 +37,11 @@ public interface AreaService {
      */
     List<Area> getAllAreas();
     /**
-     * Returns areas where creature was spotted.
+     * Returns area where creature was spotted.
      * @param creature creature for whom areas should be returned
-     * @return areas where creature is
+     * @return area where creature is
      */
-    Set<Area> getAreasForCreature(Creature creature);
+    Area getAreaForCreature(Creature creature);
     /**
      * Retrieves single area based on id given. If area doesn't exist, returns null.
      * @param id id of area

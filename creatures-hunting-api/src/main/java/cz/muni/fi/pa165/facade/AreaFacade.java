@@ -39,7 +39,7 @@ public interface AreaFacade {
      * @param creature creature for whom areas should be returned
      * @return areas where creature is
      */
-    public List<AreaDTO> getAreasForCreature(Creature creature);
+    public AreaDTO getAreaForCreature(Creature creature);
     
     /**
      * Retrieves single area based on id given. If area doesn't exist, returns null.

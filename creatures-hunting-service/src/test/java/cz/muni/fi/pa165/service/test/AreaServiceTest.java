@@ -140,12 +140,11 @@ public class AreaServiceTest extends AbstractTransactionalTestNGSpringContextTes
      * Checks if all areas are retrieved correctly for given creature.
      */
     @Test
-    public void getAreasForCreatureTest() {
+    public void getAreaForCreatureTest() {
         areaService.addCreatureToArea(creature, area1);
-        areaService.addCreatureToArea(creature, area2);
-        Set<Area> areas = areaService.getAreasForCreature(creature);
-        Assert.assertTrue(areas.contains(area1));
-        Assert.assertTrue(areas.contains(area2));
+        Area area = areaService.getAreaForCreature(creature);
+        Assert.assertEquals(area, area1);
+
     }
 
 

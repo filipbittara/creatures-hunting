@@ -34,8 +34,8 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
 
     @Override
     public void loadData() {
-        creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice");
-        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 12, 10, "Fire attacks");
+        creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 3, "Ice");
+        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 5, 6, "Fire attacks");
         area("The Central Stockade",
                 "The Central Stockade is a soul prison located in the middle of Newborn City. " +
                         "It contains a number of especially dangerous demons and undeads, amongst " +

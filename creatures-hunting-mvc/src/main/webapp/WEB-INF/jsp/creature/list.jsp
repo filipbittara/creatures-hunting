@@ -32,9 +32,9 @@
                 <td>${creature.weakness}</td>
                 <!--<td><button class="btn btn-success">Details</span></button></td>-->
             </tr>
-            <tr class="accordian-body collapse" id="${creature.id}detail">
-                <td colspan="4" class="hiddenRow">
-                    <div class="container" id="${creature.id}detail">
+            <tr class="zeroPadding">
+                <td colspan="4" class="hiddenRow" style="padding: 0; border-top-width: 0">
+                    <div class="accordian-body collapse" id="${creature.id}detail">
                         <div class="row">
                             <div class="col-md-6">
                                 <img class="image-responsive" src="${pageContext.request.contextPath}/creature/creatureImage/${creature.id}"/>

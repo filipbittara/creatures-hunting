@@ -17,7 +17,7 @@
         <caption>Creatures</caption>
         <thead>
         <tr>
-            <th>Id</th>
+            <!--<th>Id</th>-->
             <th>Name</th>
             <th>Type</th>
             <th>Weakness</th>
@@ -25,12 +25,61 @@
         </thead>
         <tbody>
         <c:forEach items="${creatures}" var="creature">
-            <tr>
-                <td>${creature.id}</td>
+            <tr data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
+                <!--<td>${creature.id}</td>-->
                 <td>${creature.name}</td>
                 <td>${creature.type}</td>
                 <td>${creature.weakness}</td>
-                <td><my:a href="/creature/detail/${creature.id}" role="button" class="btn btn-success">Details</my:a></td>
+                <!--<td><button class="btn btn-success">Details</span></button></td>-->
+            </tr>
+            <tr class="accordian-body collapse" id="${creature.id}detail">
+                <td colspan="4" class="hiddenRow">
+                    <div class="container" id="${creature.id}detail">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img class="image-responsive" src="${pageContext.request.contextPath}/creature/creatureImage/${creature.id}"/>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table">
+                                    <caption>Creature properties</caption>
+                                    <!--<tr>
+                                        <th>Id</th>
+                                        <td>${creature.id}</td>
+                                    </tr>-->
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>${creature.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Type</th>
+                                        <td>${creature.type}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Height</th>
+                                        <td>${creature.height} cm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Weight</th>
+                                        <td>${creature.weight} kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Agility</th>
+                                        <td>${creature.agility}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ferocity</th>
+                                        <td>${creature.ferocity}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Weakness</th>
+                                        <td>${creature.weakness}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
             </tr>
         </c:forEach>
         </tbody>

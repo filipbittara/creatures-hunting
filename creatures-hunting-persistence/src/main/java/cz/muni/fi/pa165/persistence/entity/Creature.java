@@ -7,8 +7,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -27,23 +25,17 @@ public class Creature {
     private String name;
     
     private CreatureType type;
-    @Min(0)
     private Double height;
-    @Min(0)
     private Double weight;
-    @Min(0)
-    @Max(10)
     private Integer agility;
-    @Min(0)
-    @Max(10)
     private Integer ferocity;
     private String weakness;
     
     @ManyToMany(mappedBy="creatures")
     private Set<Weapon> weapons = new HashSet<Weapon>();
     
-    @ManyToOne()
-    private Area area = new Area();
+    @ManyToMany(mappedBy="creatures")
+    private Set<Area> areas = new HashSet<Area>();
 
     @Lob
     private byte[] image;
@@ -58,6 +50,24 @@ public class Creature {
         weapons.add(weapon);
     }
     
+    /**
+     * Method assigns area to creature.
+     * Should NOT be used, use addCreature() method of Area class instead.
+     * @param area area to be added 
+     */
+    public void addArea(Area area) {
+        areas.add(area);
+        if (!area.getCreatures().contains(this))
+            area.addCreature(this);
+    }
+    
+    public void removeArea(Area area) {
+        if(areas.contains(area)) {
+            areas.remove(area);
+        } else {
+            throw new IllegalArgumentException("Creature " + this.getName() + "is not in the area " + area.getName());
+        }
+    }
 
     public Long getId() {
         return id;
@@ -123,15 +133,12 @@ public class Creature {
         this.weapons = weapons;
     }
 
-    public Area getArea() {
-        return area;
+    public Set<Area> getAreas() {
+        return areas;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
-        if (area != null) {
-            area.addCreature(this);
-        }
+    public void setAreas(Set<Area> areas) {
+        this.areas = areas;
     }
     
     public CreatureType getType() {

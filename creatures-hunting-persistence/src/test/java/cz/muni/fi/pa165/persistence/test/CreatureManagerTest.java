@@ -80,7 +80,8 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
         c1.setHeight(1.1);
         c1.setWeight(1.1);
         c1.setWeakness("Weakness1");
-        c1.setArea(a1);
+        c1.addArea(a1);
+        a1.addCreature(c1);
         c1.addWeapon(w1);
         w1.addCreature(c1);
 
@@ -106,7 +107,6 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
     public void findAllTest() {
         cm.addCreature(c1);
         cm.addCreature(c2);
-
 
         List<Creature> creatures = cm.findAllCreatures();
 
@@ -170,7 +170,8 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
         c1.setHeight(3.3);
         c1.setWeight(3.3);
         c1.setWeakness("Weakness3");
-        c1.setArea(a1);
+        c1.addArea(a2);
+        a2.addCreature(c1);
         c1.addWeapon(w2);
         w2.addCreature(c1);
 
@@ -185,7 +186,9 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.getWeight(), 3.3);
         Assert.assertEquals(result.getWeakness(), "Weakness3");
 
-        Assert.assertTrue(result.getArea().equals(a1));
+        Assert.assertEquals(result.getAreas().size(), 2);
+        Assert.assertTrue(result.getAreas().contains(a1));
+        Assert.assertTrue(result.getAreas().contains(a2));
 
         Assert.assertEquals(result.getWeapons().size(), 2);
         Assert.assertTrue(result.getWeapons().contains(w1));
@@ -231,7 +234,7 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
      * Checks that finding area by name is working.
      */
     @Test
-    public void findCreatureByNameTest(){
+    public void findAreaByNameTest(){
         Creature a = new Creature();
         a.setName("Creature");
         cm.addCreature(a);
@@ -245,6 +248,7 @@ public class CreatureManagerTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.getWeapons(), a.getWeapons());
         Assert.assertEquals(result.getAgility(), a.getAgility());
         Assert.assertEquals(result.getWeakness(), a.getWeakness());
+        Assert.assertEquals(result.getAreas(), a.getAreas());
         Assert.assertEquals(result.getWeight(), a.getWeight());
     }
 }

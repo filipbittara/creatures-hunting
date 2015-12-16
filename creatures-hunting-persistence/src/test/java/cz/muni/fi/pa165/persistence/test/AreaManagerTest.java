@@ -130,9 +130,10 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         Creature c = new Creature();
         c.setName("Creature 1");
         creatureManager.addCreature(c);
-        c.setArea(a);
+        a.addCreature(c);
         Creature found = creatureManager.findCreature(c.getId());
-        Assert.assertEquals(found.getArea().getName(), "Area 1");
+        Assert.assertEquals(found.getAreas().size(), 1);
+        Assert.assertEquals(found.getAreas().iterator().next().getName(), "Area 1");
     }
 
     /**
@@ -149,6 +150,7 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.getId(), a.getId());
         Assert.assertEquals(result.getName(), a.getName());
         Assert.assertEquals(result.getDescription(), a.getDescription());
+        Assert.assertEquals(result.getCreatures(), a.getCreatures());
         Assert.assertEquals(result.getLatitude(), a.getLatitude());
         Assert.assertEquals(result.getLongitude(), a.getLongitude());
     }

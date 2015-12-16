@@ -64,11 +64,11 @@
                                     </tr>
                                     <tr>
                                         <th>Agility</th>
-                                        <td>${creature.agility}<b>/10</b></td>
+                                        <td>${creature.agility}</td>
                                     </tr>
                                     <tr>
                                         <th>Ferocity</th>
-                                        <td>${creature.ferocity}<b>/10</b></td>
+                                        <td>${creature.ferocity}</td>
                                     </tr>
                                     <tr>
                                         <th>Weakness</th>

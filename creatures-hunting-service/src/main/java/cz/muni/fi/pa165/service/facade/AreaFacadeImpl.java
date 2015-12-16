@@ -64,8 +64,8 @@ public class AreaFacadeImpl implements AreaFacade{
     }
 
     @Override
-    public AreaDTO getAreaForCreature(Creature creature) {
-        return beanMappingService.mapTo(areaService.getAreaForCreature(creature), AreaDTO.class);
+    public List<AreaDTO> getAreasForCreature(Creature creature) {
+        return beanMappingService.mapTo(areaService.getAreasForCreature(creature), AreaDTO.class);
     }
 
     @Override

@@ -4,9 +4,7 @@
  */
 package cz.muni.fi.pa165.persistence.entity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -39,18 +36,8 @@ public class Area {
     private double latitude;
     private double longitude;
     
-    @OneToMany(mappedBy="area")
-    private List<Creature> creatures = new ArrayList<>();
-    
-    public void addCreature(Creature creature) {
-        this.creatures.add(creature);
-    }
-
-    public List<Creature> getCreatures() {
-        return creatures;
-    }
-    
-    
+    @ManyToMany
+    private Set<Creature> creatures = new HashSet<Creature>();
     
     public Long getId() {
         return id;
@@ -90,6 +77,29 @@ public class Area {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public Set<Creature> getCreatures() {
+        return creatures;
+    }
+
+    public void setCreatures(Set<Creature> creatures) {
+        this.creatures = creatures;
+    }
+	
+    public void addCreature(Creature c) {
+	    creatures.add(c);
+        if (!c.getAreas().contains(this))
+            c.addArea(this);
+    }
+    
+    public void removeCreature(Creature c) {
+	if(creatures.contains(c)) {
+            creatures.remove(c);
+            c.removeArea(this);
+        } else {
+            throw new IllegalArgumentException("Creature " + c.getName() + " not in the area" + this.getName());
+        }
     }
 
 	@Override

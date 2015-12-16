@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -39,10 +40,11 @@ public class WeaponController {
     }
     
     @RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
-    public String delete(@PathVariable long id, Model model) {
-        // TODO - fill the delete method
-        //return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
-        return "";
+    public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        WeaponDTO weapon = weaponFacade.getWeaponById(id);
+        weaponFacade.removeWeapon(weapon);
+        redirectAttributes.addFlashAttribute("alert_success", "Weapon \"" + weapon.getName() + "\" was deleted.");
+        return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
     
     @RequestMapping("/weaponImage/{id}")

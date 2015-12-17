@@ -100,6 +100,16 @@
                                 
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <a data-toggle="collapse" data-target="#${creature.id}addArea" class="accordion-toggle clickable">Have you seen this monster elsewhere?</a>
+                                <div class="accordian-body collapse" id="${creature.id}addArea">
+                                
+                                <c:forEach items="${areas}" var="area">
+                                    <my:a href="/creature/addArea/${area.id}/to/${creature.id}" class="text-success">I've seen it in ${area.name}.</my:a><br/>
+                                </c:forEach>
+                                
+                                </div>
+                            </div>
                         </div>
                     </div>
 

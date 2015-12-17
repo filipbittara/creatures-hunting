@@ -1,8 +1,10 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.enums.CreatureType;
+import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.WeaponFacade;
 import cz.muni.fi.pa165.mvc.forms.CreatureDTOValidator;
@@ -43,6 +45,9 @@ public class CreatureController {
     
     @Autowired
     private WeaponFacade weaponFacade;
+    
+    @Autowired
+    private AreaFacade areaFacade;
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
@@ -79,6 +84,11 @@ public class CreatureController {
     @ModelAttribute("weapons")
     public List<WeaponDTO> weapons() {
         return weaponFacade.getAllWeapons();
+    }
+    
+    @ModelAttribute("areas")
+    public List<AreaDTO> areas() {
+        return areaFacade.getAllAreas();
     }
     
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -142,6 +152,15 @@ public class CreatureController {
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
+    @RequestMapping(value = "/addArea/{aid}/to/{id}", method = RequestMethod.GET) 
+    public String addArea(@PathVariable long id, @PathVariable long aid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        CreatureDTO creature = creatureFacade.getCreature(id);
+        AreaDTO area = areaFacade.getArea(aid);
+        areaFacade.addCreatureToArea(creature.getId(), area.getId());
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \""+ area.getName() + "\".");
+        return "redirect:" + uriBuilder.path("/creature/list").toUriString();
+    }
+    
     @RequestMapping("/creatureImage/{id}")
     public void creatureImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         CreatureDTO creatureDTO = creatureFacade.getCreature(id);

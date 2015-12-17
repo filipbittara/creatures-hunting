@@ -50,6 +50,14 @@ public class CreatureController {
         return "creature/new";
     }
     
+    @RequestMapping(value = {"/update/{id}"}, method = RequestMethod.GET)
+    public String update(@PathVariable long id, Model model ) {
+        
+        CreatureDTO creature = creatureFacade.getCreature(id);
+        model.addAttribute("creatureUpdate", creature);
+        return "creature/edit";
+    }
+    
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof CreatureDTO) {
@@ -79,6 +87,30 @@ public class CreatureController {
         Long id = creatureFacade.createCreature(formBean);
         //report success
         redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName() + " was created");
+        return "redirect:" + uriBuilder.path("/creature/list").toUriString();
+    }
+    
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public String update(
+            @Valid @ModelAttribute("creatureUpdate") CreatureDTO formBean,
+            BindingResult bindingResult,
+            @PathVariable long id,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            UriComponentsBuilder uriBuilder) {
+
+        if (bindingResult.hasErrors()) {
+             for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                //log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "creature/edit";
+        }
+        
+        creatureFacade.updateCreature(formBean);
+        redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName()+ " updated");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 

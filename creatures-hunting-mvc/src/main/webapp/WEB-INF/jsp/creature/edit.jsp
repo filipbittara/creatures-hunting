@@ -5,11 +5,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:template title="New creature">
+<my:template title="Edit creature">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/creature/create"
-               modelAttribute="creatureCreate" cssClass="form-horizontal">
+    <form:form method="post" action="${pageContext.request.contextPath}/creature/update/${creatureUpdate.id}"
+               modelAttribute="creatureUpdate" cssClass="form-horizontal">
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
             <div class="col-sm-10">
@@ -31,14 +31,14 @@
                     <div class="form-group ${name_error?'has-error':''}">
             <form:label path="height" cssClass="col-sm-2 control-label">Height</form:label>
             <div class="col-sm-10">
-                <form:input path="height" cssClass="form-control"/>
+                <form:input path="height" cssClass="form-control" />
                 <form:errors path="height" cssClass="help-block"/>
             </div>
         </div>
                     <div class="form-group ${name_error?'has-error':''}">
             <form:label path="weight" cssClass="col-sm-2 control-label">Weight</form:label>
             <div class="col-sm-10">
-                <form:input path="weight" cssClass="form-control"/>
+                <form:input path="weight" cssClass="form-control" />
                 <form:errors path="weight" cssClass="help-block"/>
             </div>
         </div>
@@ -64,7 +64,7 @@
             </div>
         </div>
       
-        <button class="btn btn-primary" type="submit">Create creature</button>
+        <button class="btn btn-primary" type="submit">Update creature</button>
     </form:form>
 
 </jsp:attribute>

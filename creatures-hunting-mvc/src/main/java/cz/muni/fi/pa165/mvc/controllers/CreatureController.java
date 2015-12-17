@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.dto.CreatureDTO;
+import cz.muni.fi.pa165.enums.CreatureType;
 import cz.muni.fi.pa165.facade.CreatureFacade;
+import cz.muni.fi.pa165.mvc.forms.CreatureDTOValidator;
 import java.io.IOException;
 import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
@@ -9,9 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,18 +43,50 @@ public class CreatureController {
         model.addAttribute("creatures", creatureFacade.getAllCreatures());
         return "/creature/list";
     }
-
-    @RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
-    public String detail(@PathVariable long id, Model model) {
-        model.addAttribute("creature", creatureFacade.getCreature(id));
-        return ("creature/detail");
+    
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newProduct(Model model) {
+        model.addAttribute("creatureCreate", new CreatureDTO());
+        return "creature/new";
+    }
+    
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() instanceof CreatureDTO) {
+            binder.addValidators(new CreatureDTOValidator());
+        }
+    }
+    
+    @ModelAttribute("types")
+    public CreatureType[] types() {
+        return CreatureType.values();
+    }
+    
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("creatureCreate") CreatureDTO formBean, BindingResult bindingResult,
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        //in case of validation error forward back to the the form
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                //log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "creature/new";
+        }
+        //create product
+        Long id = creatureFacade.createCreature(formBean);
+        //report success
+        redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName() + " was created");
+        return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(id);
         creatureFacade.deleteCreature(id);
-        redirectAttributes.addFlashAttribute("alert_success", "Product \"" + creature.getName() + "\" was deleted.");
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 

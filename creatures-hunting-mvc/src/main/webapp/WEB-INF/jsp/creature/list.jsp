@@ -13,8 +13,11 @@
 
 <my:template title="List of creatures">
 <jsp:attribute name="body">
+    <my:a href="/creature/new" class="btn btn-primary">
+        Add new creature
+    </my:a>
+        
     <table class="table">
-        <caption>Creatures</caption>
         <thead>
         <tr>
             <!--<th>Id</th>-->
@@ -25,11 +28,19 @@
         </thead>
         <tbody>
         <c:forEach items="${creatures}" var="creature">
-            <tr data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
+            <tr>
                 <!--<td>${creature.id}</td>-->
-                <td>${creature.name}</td>
-                <td>${creature.type}</td>
-                <td>${creature.weakness}</td>
+                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
+                ${creature.name}</td>
+                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
+                ${creature.type}</td>
+                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
+                ${creature.weakness}</td>
+                <td>    
+                    <form method="post" action="${pageContext.request.contextPath}/creature/delete/${creature.id}">                      
+                        <button type="submit" class="btn btn-primary">Delete</button>  
+                    </form>
+                </td>
                 <!--<td><button class="btn btn-success">Details</span></button></td>-->
             </tr>
             <tr class="zeroPadding">
@@ -64,11 +75,11 @@
                                     </tr>
                                     <tr>
                                         <th>Agility</th>
-                                        <td>${creature.agility}</td>
+                                        <td>${creature.agility}<b>/10</b></td>
                                     </tr>
                                     <tr>
                                         <th>Ferocity</th>
-                                        <td>${creature.ferocity}</td>
+                                        <td>${creature.ferocity}<b>/10</b></td>
                                     </tr>
                                     <tr>
                                         <th>Weakness</th>

@@ -30,11 +30,11 @@
         <c:forEach items="${creatures}" var="creature">
             <tr>
                 <!--<td>${creature.id}</td>-->
-                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
+                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
                 ${creature.name}</td>
-                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
+                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
                 ${creature.type}</td>
-                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
+                <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
                 ${creature.weakness}</td>
                 <td>    
                     <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/delete/${creature.id}">                      
@@ -89,6 +89,16 @@
                                         <td>${creature.weakness}</td>
                                     </tr>
                                 </table>
+                            </div>
+                            <div class="col-md-6">
+                                <a data-toggle="collapse" data-target="#${creature.id}addWeapon" class="accordion-toggle clickable">Have you used another weapon and survived?</a>
+                                <div class="accordian-body collapse" id="${creature.id}addWeapon">
+                                
+                                <c:forEach items="${weapons}" var="weapon">
+                                    <my:a href="/creature/addWeapon/${weapon.id}/to/${creature.id}" class="text-success">I've used ${weapon.name}.</my:a><br/>
+                                </c:forEach>
+                                
+                                </div>
                             </div>
                         </div>
                     </div>

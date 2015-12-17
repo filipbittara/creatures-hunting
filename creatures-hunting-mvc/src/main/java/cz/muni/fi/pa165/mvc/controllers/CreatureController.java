@@ -1,8 +1,10 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.dto.CreatureDTO;
+import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.enums.CreatureType;
 import cz.muni.fi.pa165.facade.CreatureFacade;
+import cz.muni.fi.pa165.facade.WeaponFacade;
 import cz.muni.fi.pa165.mvc.forms.CreatureDTOValidator;
 import java.io.IOException;
 import javax.inject.Inject;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +40,9 @@ public class CreatureController {
 
     @Autowired
     private CreatureFacade creatureFacade;
+    
+    @Autowired
+    private WeaponFacade weaponFacade;
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
@@ -68,6 +74,11 @@ public class CreatureController {
     @ModelAttribute("types")
     public CreatureType[] types() {
         return CreatureType.values();
+    }
+    
+    @ModelAttribute("weapons")
+    public List<WeaponDTO> weapons() {
+        return weaponFacade.getAllWeapons();
     }
     
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -119,6 +130,15 @@ public class CreatureController {
         CreatureDTO creature = creatureFacade.getCreature(id);
         creatureFacade.deleteCreature(id);
         redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" was deleted.");
+        return "redirect:" + uriBuilder.path("/creature/list").toUriString();
+    }
+    
+    @RequestMapping(value = "/addWeapon/{wid}/to/{id}", method = RequestMethod.GET) 
+    public String addWeapon(@PathVariable long id, @PathVariable long wid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        CreatureDTO creature = creatureFacade.getCreature(id);
+        WeaponDTO weapon = weaponFacade.getWeaponById(wid);
+        weaponFacade.assignCreature(weapon, creature);
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \""+ weapon.getName() + "\".");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 

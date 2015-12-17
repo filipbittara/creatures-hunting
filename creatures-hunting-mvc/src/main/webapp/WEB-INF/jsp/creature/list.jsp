@@ -37,8 +37,11 @@
                 <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable"</td>
                 ${creature.weakness}</td>
                 <td>    
-                    <form method="post" action="${pageContext.request.contextPath}/creature/delete/${creature.id}">                      
+                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/delete/${creature.id}">                      
                         <button type="submit" class="btn btn-primary">Delete</button>  
+                    </form>
+                    <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/creature/update/${creature.id}">                      
+                        <button type="submit" class="btn btn-primary">Update</button>  
                     </form>
                 </td>
                 <!--<td><button class="btn btn-success">Details</span></button></td>-->

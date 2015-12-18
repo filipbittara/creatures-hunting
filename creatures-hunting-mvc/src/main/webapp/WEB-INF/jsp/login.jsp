@@ -15,7 +15,7 @@
     <jsp:attribute name="body">
         <div class="container">
 
-            <form class="form-signin" action="<c:url value='login-check' />" method="POST">
+            <form class="form-signin" action="<c:url value='login/login-check' />" method="POST">
                 <h2 class="form-signin-heading">Please sign in</h2>
                 <label for="inputEmail" class="sr-only">Email address</label>
                 <input name="username" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>

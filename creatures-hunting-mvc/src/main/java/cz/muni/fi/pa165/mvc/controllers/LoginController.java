@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author Ondrej Klein
  */
 @Controller
-@RequestMapping("/login-check")
+@RequestMapping("/login")
 public class LoginController {
     @Autowired
     private UserFacade userFacade;
@@ -28,7 +28,7 @@ public class LoginController {
     @Autowired 
     private HttpSession session;
     
-    @RequestMapping(method=RequestMethod.POST)
+    @RequestMapping(value="/login-check", method=RequestMethod.POST)
     public String loginCheck(Model model, @RequestParam("username") String username, @RequestParam("password") String password) {
         UserDTO user = userFacade.findUserByEmail(username);
         if (user == null) {
@@ -57,10 +57,9 @@ public class LoginController {
     
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logout(RedirectAttributes red, HttpServletRequest request, HttpServletResponse response) {
-        session.removeAttribute("authenticatedAdmin");
-        session.removeAttribute("authenticatedUser");
+        session.removeAttribute("authenticated");
         red.addFlashAttribute("Info"," Successfully logged out");
-        return "redirect:/login-check";
+        return "redirect:/";
     }
 }
     

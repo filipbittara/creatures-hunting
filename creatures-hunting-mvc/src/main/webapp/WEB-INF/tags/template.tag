@@ -38,7 +38,7 @@
                 <li><my:a href="/weapon/list">Weapons</my:a></li>
                 <li><my:a href="/area/list">Areas</my:a></li>
                 <li><my:a href="/user/list">Users</my:a></li>
-                <li><my:a href="/login-check/logout">Logout</my:a></li>
+                <li><my:a href="/login/logout">Logout</my:a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

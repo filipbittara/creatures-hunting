@@ -117,26 +117,4 @@ public class CreaturesController {
         return editedCreature;
     }
 
-    /**
-     * Get a creatures in area
-     * curl -i -X GET
-     * http://localhost:8080/pa165/rest/area/Name/creature
-     *
-     * @param name area name
-     * @return list of CreatureDTO
-     * @throws ResourceNotFoundException
-     */
-    @RequestMapping(value = "/areas/{name}/creature", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final List<CreatureDTO> getCreaturesByArea(@PathVariable("name") String name) throws Exception {
-
-        log.debug("REST getting creatures from area named {}", name);
-
-        try {
-            List<CreatureDTO> creatures = creatureFacade.getCreaturesByArea(name);
-            return creatures;
-        } catch (Exception ex) {
-            throw new ResourceNotFoundException();
-        }
-    }
-
 }

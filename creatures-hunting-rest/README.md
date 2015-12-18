@@ -87,17 +87,3 @@ curl -i -X GET http://localhost:8080/pa165/rest/creatures/1
 ```
 curl -i -X PUT -H "Content-Type: application/json" --data '{"name":"new_name"}' http://localhost:8080/pa165/rest/creatures/1
 ```
-
-###Get creatures in area###
-
-**API URL** (GET method)
-
-```
-/pa165/rest/areas/{name}/creatures
-```
-
-**Example**
-
-```
-curl -i -X GET http://localhost:8080/pa165/rest/area/Riverdown+Valley/creatures
-```

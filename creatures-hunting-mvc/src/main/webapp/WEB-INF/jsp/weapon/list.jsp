@@ -34,7 +34,7 @@
                 ${weapon.ammunition}</td>
                 <td>    
                     <c:if test="${not empty authenticatedAdmin}">
-                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/weapon/delete/${weapon.id}">                      
+                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/weapon/admin/delete/${weapon.id}">                      
                         <button type="submit" class="btn btn-primary">Delete</button>  
                     </form>
                     </c:if>

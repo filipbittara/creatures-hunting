@@ -33,7 +33,7 @@
                 ${area.longitude}</td>
                 <td>    
                     <c:if test="${not empty authenticatedAdmin}">
-                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/area/delete/${area.id}">                      
+                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/area/admin/delete/${area.id}">                      
                         <button type="submit" class="btn btn-primary">Delete</button>  
                     </form>
                     </c:if>

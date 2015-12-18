@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author David Kizivat
  */
 
-@WebFilter
+@WebFilter(urlPatterns={})
 public class AdminFilter implements Filter {
 
     final static Logger log = LoggerFactory.getLogger(AdminFilter.class);

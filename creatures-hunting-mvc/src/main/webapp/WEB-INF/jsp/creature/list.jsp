@@ -16,7 +16,7 @@
 <my:template title="List of creatures">
 <jsp:attribute name="body">
     <c:if test="${not empty authenticatedAdmin}">
-    <my:a href="/creature/new" class="btn btn-primary">
+    <my:a href="/creature/admin/new" class="btn btn-primary">
         Add new creature
     </my:a>
     </c:if>
@@ -42,10 +42,10 @@
                 ${creature.weakness}</td>
                 <td> 
                     <c:if test="${not empty authenticatedAdmin}">
-                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/delete/${creature.id}">                      
+                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/admin/delete/${creature.id}">                      
                         <button type="submit" class="btn btn-primary">Delete</button>  
                     </form>
-                    <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/creature/update/${creature.id}">                      
+                    <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/creature/admin/update/${creature.id}">                      
                         <button type="submit" class="btn btn-primary">Update</button>  
                     </form>
                     </c:if>

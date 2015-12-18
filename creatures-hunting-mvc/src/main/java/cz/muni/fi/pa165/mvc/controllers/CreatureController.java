@@ -107,13 +107,13 @@ public class CreatureController {
         return "/creature/list";
     }
     
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
     public String newProduct(Model model) {
         model.addAttribute("creatureCreate", new CreatureDTO());
         return "creature/new";
     }
     
-    @RequestMapping(value = {"/update/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/admin/update/{id}"}, method = RequestMethod.GET)
     public String update(@PathVariable long id, Model model ) {
         
         CreatureDTO creature = creatureFacade.getCreature(id);
@@ -143,7 +143,7 @@ public class CreatureController {
         return areaFacade.getAllAreas();
     }
     
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("creatureCreate") CreatureDTO formBean, BindingResult bindingResult,
                          Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         //in case of validation error forward back to the the form
@@ -163,7 +163,7 @@ public class CreatureController {
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
     
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
     public String update(
             @Valid @ModelAttribute("creatureUpdate") CreatureDTO formBean,
             BindingResult bindingResult,
@@ -187,7 +187,7 @@ public class CreatureController {
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(id);
         creatureFacade.deleteCreature(id);

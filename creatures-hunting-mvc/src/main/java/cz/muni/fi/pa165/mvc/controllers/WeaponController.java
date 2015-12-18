@@ -96,7 +96,7 @@ public class WeaponController {
         return ("weapon/detail");
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         WeaponDTO weapon = weaponFacade.getWeaponById(id);
         weaponFacade.removeWeapon(weapon);

@@ -91,7 +91,7 @@ public class AreaController {
         return ("area/detail");
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         AreaDTO area = areaFacade.getArea(id);
         areaFacade.deleteArea(area);

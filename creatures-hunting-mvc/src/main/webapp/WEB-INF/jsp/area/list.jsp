@@ -14,10 +14,8 @@
 <my:template title="List of areas">
 <jsp:attribute name="body">
     <table class="table">
-        <caption>Areas</caption>
         <thead>
         <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Latitude</th>
             <th>Longitude</th>
@@ -26,11 +24,43 @@
         <tbody>
         <c:forEach items="${areas}" var="area">
             <tr>
-                <td>${area.id}</td>
-                <td>${area.name}</td>
-                <td>${area.latitude}</td>
-                <td>${area.longitude}</td>
-                <td><my:a href="/area/detail/${area.id}" role="button" class="btn btn-success">Details</my:a></td>
+                <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
+                ${area.name}</td>
+                <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
+                ${area.latitude}</td>
+                <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
+                ${area.longitude}</td>
+            </tr>
+            <tr class="zeroPadding">
+                <td colspan="4" class="hiddenRow" style="padding: 0; border-top-width: 0">
+                    <div class="accordian-body collapse" id="${area.id}detail">
+                    <div class="row">
+          
+                        <div class="col-md-6">
+                        
+                        <table class="table">
+                            <caption>Area properties</caption>
+                            <tr>
+                              <th>Name</th>
+                              <td>${area.name}</td>
+                            </tr>
+                            <tr>
+                              <th>Description</th>
+                              <td>${area.description}</td>
+                            </tr>
+                            <tr>
+                              <th>Latitude</th>
+                              <td>${area.latitude}</td>
+                            </tr>
+                            <tr>
+                              <th>Longitude</th>
+                              <td>${area.longitude}</td>
+                            </tr>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

@@ -17,7 +17,6 @@
         <caption>Weapons</caption>
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Gun Reach</th>
                 <th>Ammunition</th>
@@ -26,11 +25,40 @@
         <tbody>
             <c:forEach items="${weapons}" var="weapon">
                 <tr>
-                    <td>${weapon.id}</td>
-                    <td>${weapon.name}</td>
-                    <td>${weapon.gunReach}</td>
-                    <td>${weapon.ammunition}</td>
-                    <td><my:a href="/weapon/detail/${weapon.id}" role="button" class="btn btn-success">Details</my:a></td>
+                    <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
+                ${weapon.name}</td>
+                    <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
+                ${weapon.gunReach}</td>
+                    <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
+                ${weapon.ammunition}</td>
+                </tr>
+            <tr class="zeroPadding">
+                <td colspan="4" class="hiddenRow" style="padding: 0; border-top-width: 0">
+                    <div class="accordian-body collapse" id="${weapon.id}detail">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img class="image-responsive" src="${pageContext.request.contextPath}/weapon/weaponImage/${weapon.id}"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <caption>Weapon properties</caption>
+                                        <tr>
+                                            <th>Name</th>
+                                            <td>${weapon.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Gun Reach</th>
+                                            <td>${weapon.gunReach}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ammunition</th>
+                                            <td>${weapon.ammunition}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>

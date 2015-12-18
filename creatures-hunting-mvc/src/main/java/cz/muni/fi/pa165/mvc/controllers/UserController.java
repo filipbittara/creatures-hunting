@@ -33,13 +33,17 @@ public class UserController {
     
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("users", userFacade.getAllUsers());
+        
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {
             if (userFacade.isAdmin(user)) {
                 model.addAttribute("authenticatedAdmin", user.getEmail());
+                model.addAttribute("users", userFacade.getAllUsers());
+                return "user/list";
             } else {
                 model.addAttribute("authenticatedUser", user.getEmail());
+                model.addAttribute("user", user);
+                return "user/current";
             }
         }
         return "user/list";

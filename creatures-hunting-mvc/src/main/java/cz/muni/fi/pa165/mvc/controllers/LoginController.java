@@ -33,7 +33,7 @@ public class LoginController {
         UserDTO user = userFacade.findUserByEmail(username);
         if (user == null) {
             // username does not exist
-            return "login";
+            return "redirect:/";
         }
         
         UserAuthenticateDTO authDTO = new UserAuthenticateDTO();
@@ -52,7 +52,7 @@ public class LoginController {
             
             
         }
-        return "login";
+        return "redirect:/";
     }
     
     @RequestMapping(value="/logout", method=RequestMethod.GET)

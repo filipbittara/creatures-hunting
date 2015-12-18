@@ -16,7 +16,6 @@
 <my:template title="List of weapons">
 <jsp:attribute name="body">
     <table class="table">
-        <caption>Weapons</caption>
         <thead>
             <tr>
                 <th>Name</th>
@@ -33,7 +32,13 @@
                 ${weapon.gunReach}</td>
                     <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
                 ${weapon.ammunition}</td>
+                <td>    
+                    <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/weapon/delete/${weapon.id}">                      
+                        <button type="submit" class="btn btn-primary">Delete</button>  
+                    </form>
+                </td>
                 </tr>
+                
             <tr class="zeroPadding">
                 <td colspan="4" class="hiddenRow" style="padding: 0; border-top-width: 0">
                     <div class="accordian-body collapse" id="${weapon.id}detail">

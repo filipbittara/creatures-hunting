@@ -1,10 +1,16 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.dto.AreaDTO;
+import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.facade.AreaFacade;
+import cz.muni.fi.pa165.facade.CreatureFacade;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,11 +27,47 @@ public class AreaController {
 
     @Autowired
     private AreaFacade areaFacade;
+    
+    @Autowired
+    private CreatureFacade creatureFacade;
+    
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("areas", areaFacade.getAllAreas());
+        
+        List<AreaDTO> areas = areaFacade.getAllAreas();
+        model.addAttribute("areas", areas);
+        String creatures;
+        Map<Long, String> creatureAreas = new HashMap<Long, String>();
+        for(AreaDTO area : areas) {
+            creatures = "";
+            for(CreatureDTO creature :  creatureFacade.getCreaturesByArea(area.getName())){
+                creatures += creature.getName() + ", ";
+            }
+            if("".equals(creatures)) {
+                creatures = "no creature";
+            } else {
+                creatures = creatures.substring(0, creatures.length() - 2);
+            }
+            creatureAreas.put(area.getId(),creatures);
+        }
+        model.addAttribute("creatureAreas", creatureAreas);
         return "/area/list";
+    }
+    
+    @ModelAttribute("creatures")
+    public List<CreatureDTO> creatures() {
+        return creatureFacade.getAllCreatures();
+    }
+    
+    
+    @RequestMapping(value = "/addCreature/{cid}/to/{id}", method = RequestMethod.GET) 
+    public String addCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        CreatureDTO creature = creatureFacade.getCreature(cid);
+        AreaDTO area = areaFacade.getArea(id);
+        areaFacade.addCreatureToArea(creature.getId(), area.getId());
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \""+ area.getName() + "\".");
+        return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
 
     @RequestMapping(value="/detail/{id}", method=RequestMethod.GET)

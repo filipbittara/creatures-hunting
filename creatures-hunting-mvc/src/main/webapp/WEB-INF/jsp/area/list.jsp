@@ -10,6 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <my:template title="List of areas">
 <jsp:attribute name="body">
@@ -58,6 +59,23 @@
                             </tr>
                         </table>
                         </div>
+                                <div class="col-md-6">
+                                Creatures seen in this area: ${creatureAreas[area.id]}. <br/>
+                                
+                                <a data-toggle="collapse" data-target="#${area.id}addArea" class="accordion-toggle clickable">Have you seen any other monster here?</a>
+                                <div class="accordian-body collapse" id="${area.id}addArea">
+                                <c:set var="showed" value="0"/>
+                                <c:forEach items="${creatures}" var="creature">
+                                    <c:if test="${not fn:contains(creatureAreas[area.id], creature.name)}">
+                                        <my:a href="/area/addCreature/${creature.id}/to/${area.id}" class="text-success">I've seen ${creature.name}.</my:a><br/>
+                                        <c:set var="showed" value="${showed + 1}"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${showed == 0}">
+                                        Sorry no other creature available.
+                                </c:if>
+                                </div>
+                            </div>
                     </div>
                     </div>
                 </td>

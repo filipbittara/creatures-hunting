@@ -19,9 +19,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/creatures")
-public class CreatureController {
+public class CreaturesController {
 
-    final static Logger log = LoggerFactory.getLogger(CreatureController.class);
+    final static Logger log = LoggerFactory.getLogger(CreaturesController.class);
 
     @Autowired
     private CreatureFacade creatureFacade;
@@ -29,7 +29,7 @@ public class CreatureController {
     /**
      * Get list of all Creatures
      * curl -i -X GET
-     * http://localhost:8080/pa165/rest/creatures/1
+     * http://localhost:8080/pa165/rest/creatures
      *
      * @return List<CreatureDTO>
      */
@@ -126,7 +126,7 @@ public class CreatureController {
      * @return list of CreatureDTO
      * @throws ResourceNotFoundException
      */
-    @RequestMapping(value = "/area/{name}/creature", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/areas/{name}/creature", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<CreatureDTO> getCreaturesByArea(@PathVariable("name") String name) throws Exception {
 
         log.debug("REST getting creatures from area named {}", name);

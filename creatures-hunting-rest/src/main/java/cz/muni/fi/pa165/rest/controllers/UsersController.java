@@ -23,15 +23,17 @@ import java.util.Collection;
  */
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_USERS)
-public class UserController {
+public class UsersController {
 
-    final static Logger logger = LoggerFactory.getLogger(UserController.class);
+    final static Logger logger = LoggerFactory.getLogger(UsersController.class);
 
     @Autowired
     private UserFacade userFacade;
 
     /**
      * Get list of all users
+     * curl -i -X GET
+     * http://localhost:8080/pa165/rest/users
      *
      * @return list of UserDTOs
      * @throws JsonProcessingException
@@ -39,12 +41,14 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Collection<UserDTO> getUsers() throws JsonProcessingException {
 
-        logger.debug("REST get all users");
+        logger.debug("REST getting all users");
         return userFacade.getAllUsers();
     }
 
     /**
      * Get user according to id
+     * curl -i -X GET
+     * http://localhost:8080/pa165/rest/users/1
      *
      * @param id user identifier
      * @return UserDTO
@@ -53,7 +57,7 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final UserDTO getUser(@PathVariable("id") long id) throws Exception {
 
-        logger.debug("REST get user by id {})", id);
+        logger.debug("REST geting user by id {})", id);
         UserDTO userDTO = userFacade.findUserById(id);
         if (userDTO == null) {
             throw new ResourceNotFoundException();

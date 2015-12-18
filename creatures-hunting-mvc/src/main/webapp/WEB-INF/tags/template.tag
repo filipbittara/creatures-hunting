@@ -37,15 +37,8 @@
                 <li><my:a href="/creature/list">Creatures</my:a></li>
                 <li><my:a href="/weapon/list">Weapons</my:a></li>
                 <li><my:a href="/area/list">Areas</my:a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><my:a href="/creature/list">Creatures Administration</my:a></li>
-                        <li><my:a href="/area/list">Areas Administration</my:a></li>
-                        <li><my:a href="/weapon/list">Weapons Administration</my:a></li>
-                        <li><my:a href="/user/list">Users</my:a></li>
-                    </ul>
-                </li>
+                <li><my:a href="/user/list">Users</my:a></li>
+                <li><my:a href="/login-check/logout">Logout</my:a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

@@ -15,6 +15,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,9 +28,20 @@ public class UserController {
     @Autowired
     private UserFacade userFacade;
     
+    @Autowired 
+    private HttpSession session;
+    
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("users", userFacade.getAllUsers());
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getEmail());
+            } else {
+                model.addAttribute("authenticatedUser", user.getEmail());
+            }
+        }
         return "user/list";
     }
 

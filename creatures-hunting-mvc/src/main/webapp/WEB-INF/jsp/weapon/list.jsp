@@ -33,9 +33,11 @@
                     <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
                 ${weapon.ammunition}</td>
                 <td>    
+                    <c:if test="${not empty authenticatedAdmin}">
                     <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/weapon/delete/${weapon.id}">                      
                         <button type="submit" class="btn btn-primary">Delete</button>  
                     </form>
+                    </c:if>
                 </td>
                 </tr>
                 

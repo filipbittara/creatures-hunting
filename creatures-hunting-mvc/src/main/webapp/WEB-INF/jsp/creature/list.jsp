@@ -15,9 +15,11 @@
 
 <my:template title="List of creatures">
 <jsp:attribute name="body">
+    <c:if test="${not empty authenticatedAdmin}">
     <my:a href="/creature/new" class="btn btn-primary">
         Add new creature
     </my:a>
+    </c:if>
         
     <table class="table">
         <thead>
@@ -38,13 +40,15 @@
                 ${creature.type}</td>
                 <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
                 ${creature.weakness}</td>
-                <td>    
+                <td> 
+                    <c:if test="${not empty authenticatedAdmin}">
                     <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/delete/${creature.id}">                      
                         <button type="submit" class="btn btn-primary">Delete</button>  
                     </form>
                     <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/creature/update/${creature.id}">                      
                         <button type="submit" class="btn btn-primary">Update</button>  
                     </form>
+                    </c:if>
                 </td>
                 <!--<td><button class="btn btn-success">Details</span></button></td>-->
             </tr>

@@ -1,11 +1,13 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.dto.AreaDTO;
+import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.enums.CreatureType;
 import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.facade.CreatureFacade;
+import cz.muni.fi.pa165.facade.UserFacade;
 import cz.muni.fi.pa165.facade.WeaponFacade;
 import cz.muni.fi.pa165.mvc.forms.CreatureDTOValidator;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import cz.muni.fi.pa165.persistence.entity.Creature;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,6 +53,12 @@ public class CreatureController {
     
     @Autowired
     private AreaFacade areaFacade;
+    
+    @Autowired
+    private UserFacade userFacade;
+    
+    @Autowired 
+    private HttpSession session;
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
@@ -87,6 +96,14 @@ public class CreatureController {
 
             model.addAttribute("creatureAreas", creatureAreas);
             model.addAttribute("creatureWeapons", creatureWeapons);
+            UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+            if (user != null) {
+                if (userFacade.isAdmin(user)) {
+                    model.addAttribute("authenticatedAdmin", user.getEmail());
+                } else {
+                    model.addAttribute("authenticatedUser", user.getEmail());
+                }   
+            }
         return "/creature/list";
     }
     

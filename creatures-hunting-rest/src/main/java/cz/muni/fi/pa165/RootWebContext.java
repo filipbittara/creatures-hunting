@@ -11,11 +11,7 @@ import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.rest.mixin.CreatureDTOMixin;
 import cz.muni.fi.pa165.rest.mixin.UserDTOMixin;
 import cz.muni.fi.pa165.service.configuration.ServiceConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -30,7 +26,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @Import({ServiceConfiguration.class, DataLoadingConfiguration.class})
-@ComponentScan(basePackages = {"cz.fi.muni.pa165.rest.controllers"})
+@ComponentScan(basePackages = {"cz.muni.fi.pa165.rest.controllers"})
 public class RootWebContext extends WebMvcConfigurerAdapter {
 
     @Override

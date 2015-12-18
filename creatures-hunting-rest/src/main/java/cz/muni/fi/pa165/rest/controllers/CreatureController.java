@@ -7,10 +7,10 @@ import cz.muni.fi.pa165.rest.exceptions.ResourceNotFoundException;
 import cz.muni.fi.pa165.rest.exceptions.ResourceNotModifiedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class CreatureController {
 
     final static Logger log = LoggerFactory.getLogger(CreatureController.class);
 
-    @Inject
+    @Autowired
     private CreatureFacade creatureFacade;
 
     /**

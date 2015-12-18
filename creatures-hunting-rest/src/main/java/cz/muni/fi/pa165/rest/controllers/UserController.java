@@ -5,15 +5,15 @@ import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.facade.UserFacade;
 import cz.muni.fi.pa165.rest.ApiUris;
 import cz.muni.fi.pa165.rest.exceptions.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.util.Collection;
 
 /**
@@ -27,7 +27,7 @@ public class UserController {
 
     final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Inject
+    @Autowired
     private UserFacade userFacade;
 
     /**

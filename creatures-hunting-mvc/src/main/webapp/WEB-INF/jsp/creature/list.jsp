@@ -10,6 +10,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 
 <my:template title="List of creatures">
 <jsp:attribute name="body">
@@ -91,23 +93,38 @@
                                 </table>
                             </div>
                             <div class="col-md-6">
+                                Creature can be harmed by: ${creatureWeapons[creature.id]}. <br/>
                                 <a data-toggle="collapse" data-target="#${creature.id}addWeapon" class="accordion-toggle clickable">Have you used another weapon and survived?</a>
                                 <div class="accordian-body collapse" id="${creature.id}addWeapon">
-                                
+                                <c:set var="showed" value="0"/>
                                 <c:forEach items="${weapons}" var="weapon">
-                                    <my:a href="/creature/addWeapon/${weapon.id}/to/${creature.id}" class="text-success">I've used ${weapon.name}.</my:a><br/>
+                                    <c:if test="${not fn:contains(creatureWeapons[creature.id], weapon.name)}">
+                                        <my:a href="/creature/addWeapon/${weapon.id}/to/${creature.id}" class="text-success">I've used ${weapon.name}.</my:a><br/>
+                                        <c:set var="showed" value="${showed + 1}"/>
+                                    </c:if>
+                                    
                                 </c:forEach>
-                                
+                                <c:if test="${showed == 0}">
+                                        Sorry no other weapon available.
+                                </c:if>
+                                <c:set var="showed" value="0"/>        
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                Creature was seen in: ${creatureAreas[creature.id]}. <br/>
+                                
                                 <a data-toggle="collapse" data-target="#${creature.id}addArea" class="accordion-toggle clickable">Have you seen this monster elsewhere?</a>
                                 <div class="accordian-body collapse" id="${creature.id}addArea">
-                                
+                                <c:set var="showed" value="0"/>
                                 <c:forEach items="${areas}" var="area">
-                                    <my:a href="/creature/addArea/${area.id}/to/${creature.id}" class="text-success">I've seen it in ${area.name}.</my:a><br/>
+                                    <c:if test="${not fn:contains(creatureAreas[creature.id], area.name)}">
+                                        <my:a href="/creature/addArea/${area.id}/to/${creature.id}" class="text-success">I've seen it in ${area.name}.</my:a><br/>
+                                        <c:set var="showed" value="${showed + 1}"/>
+                                    </c:if>
                                 </c:forEach>
-                                
+                                <c:if test="${showed == 0}">
+                                        Sorry no other area available.
+                                </c:if>
                                 </div>
                             </div>
                         </div>

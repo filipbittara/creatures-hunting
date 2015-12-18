@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.facade.WeaponFacade;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.WeaponService;
 import java.util.List;
 import javax.inject.Inject;
@@ -26,6 +27,9 @@ public class WeaponFacadeImpl implements WeaponFacade {
 	@Autowired
 	public WeaponService weaponService;
 
+        @Autowired
+        private CreatureService creatureService;
+        
 	@Autowired
         private BeanMappingService beanMappingService;
 
@@ -51,7 +55,7 @@ public class WeaponFacadeImpl implements WeaponFacade {
 
 	@Override
 	public void assignCreature(WeaponDTO weapon, CreatureDTO creature) {
-		weaponService.assignCreature(beanMappingService.mapTo(weapon, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
+		weaponService.assignCreature(weaponService.findWeaponById(weapon.getId()), creatureService.getCreature(creature.getId()));
 	}
 
 	@Override
@@ -77,7 +81,7 @@ public class WeaponFacadeImpl implements WeaponFacade {
 
 	@Override
 	public List<WeaponDTO> getWeaponsByCreature(CreatureDTO creature) {
-		return beanMappingService.mapTo(weaponService.findWeaponsByCreature(beanMappingService.mapTo(creature, Creature.class)), WeaponDTO.class);
+		return beanMappingService.mapTo(weaponService.findWeaponsByCreature(creatureService.getCreature(creature.getId())), WeaponDTO.class);
 	}
 
 	@Override

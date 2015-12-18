@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.AreaDTO;
+import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public interface AreaFacade {
      * @param creature creature for whom areas should be returned
      * @return areas where creature is
      */
-    public List<AreaDTO> getAreasForCreature(Creature creature);
+    public List<AreaDTO> getAreasForCreature(CreatureDTO creature);
     
     /**
      * Retrieves single area based on id given. If area doesn't exist, returns null.

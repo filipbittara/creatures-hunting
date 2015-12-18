@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.dto.AreaDTO;
+import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
@@ -64,8 +65,8 @@ public class AreaFacadeImpl implements AreaFacade{
     }
 
     @Override
-    public List<AreaDTO> getAreasForCreature(Creature creature) {
-        return beanMappingService.mapTo(areaService.getAreasForCreature(creature), AreaDTO.class);
+    public List<AreaDTO> getAreasForCreature(CreatureDTO creature) {
+        return beanMappingService.mapTo(areaService.getAreasForCreature(creatureService.getCreature(creature.getId())), AreaDTO.class);
     }
 
     @Override

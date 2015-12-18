@@ -34,9 +34,9 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
 
     @Override
     public void loadData() {
-        creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice");
+        Creature bongun = creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice");
         creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 12, 10, "Fire attacks");
-        area("The Central Stockade",
+        Area stockade = area("The Central Stockade",
                 "The Central Stockade is a soul prison located in the middle of Newborn City. " +
                         "It contains a number of especially dangerous demons and undeads, amongst " +
                         "them the infamous Anubis himself.",
@@ -46,7 +46,9 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
                         "Stonewrought Dam bursting during the Shattering and the resulting loss of water " +
                         "and environmental changes.",
                 0.3, 1.31);
-        weapon("Knife", 1.0, AmmunitionType.NONE);
+        Weapon knife = weapon("Knife", 1.0, AmmunitionType.NONE);
+        weaponService.assignCreature(knife, bongun);
+        areaService.addCreatureToArea(bongun, stockade);
         weapon("Gun", 50.0, AmmunitionType.BULLET);
         user("filip", "filip", UserRole.USER, "fuck");
         user("ondra", "a@b.c", UserRole.USER, "123");

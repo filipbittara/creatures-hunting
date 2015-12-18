@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +53,40 @@ public class CreatureController {
 
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("creatures", creatureFacade.getAllCreatures());
+        List<CreatureDTO> creatures = creatureFacade.getAllCreatures();
+        Map<Long, String> creatureAreas = new HashMap<Long, String>();
+        Map<Long, String> creatureWeapons = new HashMap<Long, String>();
+        
+        model.addAttribute("creatures", creatures);
+        String areas;
+        for(CreatureDTO creature : creatures) {           
+            areas = "";
+            for(AreaDTO area : areaFacade.getAreasForCreature(creature)) {
+                areas += area.getName() + ", ";
+            }
+            if("".equals(areas)) {
+                areas = "nowhere";
+            } else {
+                areas = areas.substring(0, areas.length() - 2);
+            }
+            creatureAreas.put(creature.getId(),areas);
+        }
+        String weapons;
+        for(CreatureDTO creature : creatures) {           
+            weapons = "";
+            for(WeaponDTO weapon : weaponFacade.getWeaponsByCreature(creature)) {
+                weapons += weapon.getName() + ", ";
+            }
+            if("".equals(weapons)) {
+                 weapons = "nothing";
+            } else {
+                weapons = weapons.substring(0, weapons.length() - 2);
+            }
+            creatureWeapons.put(creature.getId(),weapons);
+        }
+
+            model.addAttribute("creatureAreas", creatureAreas);
+            model.addAttribute("creatureWeapons", creatureWeapons);
         return "/creature/list";
     }
     

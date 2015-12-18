@@ -10,6 +10,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 
 <my:template title="List of weapons">
 <jsp:attribute name="body">
@@ -56,6 +58,23 @@
                                         </tr>
                                     </table>
                                 </div>
+                                        <div class="col-md-6">
+                                Creatures that can be injured with this weapon: ${creatureWeapon[weapon.id]}. <br/>
+                                
+                                <a data-toggle="collapse" data-target="#${weapon.id}addWeapon" class="accordion-toggle clickable">Have you injured any other creature with this weapon?</a>
+                                <div class="accordian-body collapse" id="${weapon.id}addWeapon">
+                                <c:set var="showed" value="0"/>
+                                <c:forEach items="${creatures}" var="creature">
+                                    <c:if test="${not fn:contains(creatureWeapon[weapon.id], creature.name)}">
+                                        <my:a href="/weapon/addCreature/${creature.id}/to/${weapon.id}" class="text-success">I've hurt ${creature.name}.</my:a><br/>
+                                        <c:set var="showed" value="${showed + 1}"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${showed == 0}">
+                                        Sorry no other creature available.
+                                </c:if>
+                                </div>
+                            </div>
                             </div>
                         </div>
                     </td>

@@ -1,8 +1,14 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.dto.AreaDTO;
+import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
+import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.WeaponFacade;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,10 +34,43 @@ public class WeaponController {
     @Autowired
     private WeaponFacade weaponFacade;
     
+    @Autowired
+    private CreatureFacade creatureFacade;
+    
+    @ModelAttribute("creatures")
+    public List<CreatureDTO> creatures() {
+        return creatureFacade.getAllCreatures();
+    }
+    
     @RequestMapping(value="/list", method=RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("weapons", weaponFacade.getAllWeapons());
+        List<WeaponDTO> weapons = weaponFacade.getAllWeapons();
+        model.addAttribute("weapons", weapons);
+        String creatures;
+        Map<Long, String> creatureWeapon = new HashMap<Long, String>();
+        for(WeaponDTO weapon : weapons) {
+            creatures = "";
+            for(CreatureDTO creature :  creatureFacade.getCreaturesByWeapon(weapon.getName())){
+                creatures += creature.getName() + ", ";
+            }
+            if("".equals(creatures)) {
+                creatures = "no creature";
+            } else {
+                creatures = creatures.substring(0, creatures.length() - 2);
+            }
+            creatureWeapon.put(weapon.getId(),creatures);
+        }
+        model.addAttribute("creatureWeapon", creatureWeapon);
         return "/weapon/list";
+    }
+    
+    @RequestMapping(value = "/addCreature/{cid}/to/{id}", method = RequestMethod.GET) 
+    public String addCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        CreatureDTO creature = creatureFacade.getCreature(cid);
+        WeaponDTO weapon = weaponFacade.getWeaponById(id);
+        weaponFacade.assignCreature(weapon, creature);
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \""+ weapon.getName() + "\".");
+        return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
     
     @RequestMapping(value="/detail/{id}", method=RequestMethod.GET)

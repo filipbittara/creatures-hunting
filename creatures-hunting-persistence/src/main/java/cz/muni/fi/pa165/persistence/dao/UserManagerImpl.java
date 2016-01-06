@@ -58,6 +58,19 @@ public class UserManagerImpl implements UserManager {
 			return null;
 		}
 	}
+
+    @Override
+    public User findUserByUsername(String username) {
+        if (username == null || username.isEmpty())
+			throw new IllegalArgumentException("Cannot search for null username");
+		try {
+                    return em.createQuery("select u from User u where username=:username", User.class).setParameter("username", username).getSingleResult();
+		} catch (NoResultException nre) {
+			return null;
+		}
+    }
+        
+        
 	
 	
 }

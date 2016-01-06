@@ -47,6 +47,7 @@ public class AdminFilter implements Filter {
 
         UserFacade userFacade = WebApplicationContextUtils.getWebApplicationContext(servletRequest.getServletContext()).getBean(UserFacade.class);
         UserDTO matchingUser = userFacade.findUserByEmail(loginName);
+        
 
         if (matchingUser == null) {
             log.warn("no user with email {}", loginName);

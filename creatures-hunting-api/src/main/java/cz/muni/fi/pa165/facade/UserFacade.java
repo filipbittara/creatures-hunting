@@ -24,6 +24,13 @@ public interface UserFacade {
     public UserDTO findUserByEmail(String email);
     
     /**
+     * Retrieves user with given username.
+     * @param username username of user wanted
+     * @return user with given username
+     */
+    public UserDTO findUserByUsername(String username);
+    
+    /**
      * Creates new user. In process encrypts given password.
      * @param user user to be registered
      * @param unencryptedPassword password in unencrypted form

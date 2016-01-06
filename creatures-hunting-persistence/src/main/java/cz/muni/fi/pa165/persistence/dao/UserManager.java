@@ -18,4 +18,5 @@ public interface UserManager {
 	void updateUser(User user);
 	List<User> findAllUsers();
 	User findUserByEmail(String email);
+        User findUserByUsername(String username);
 }

@@ -51,19 +51,15 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
                         "and environmental changes.",
                 0.3, 1.31);
         area("Dun Morogh", "Dun Morogh is a snowy region located between the magma-strewn wasteland of the" + 
-                " Searing Gorge to the south, the gentle ridges of Loch Modan to the east, and the swampy "+ 
-                "Wetlands to the north. Dun Morogh is home to both the gnomes of Gnomeregan and the Ironforge"+
-                " dwarves and is the location of the major city of Ironforge. The Khaz Mountains surround"+
-                "Dun Morogh on all sides, making it accessible only by certain passes that are currently watched over by dwarven troops.", 
+                " Searing Gorge to the south, the gentle ridges of Loch Modan to the east", 
                 2.2, 2.3);
         area("Rostok", "A desert oasis of sorts - a place completely devoid of anomalies and mutants. Be "+
-                "sure to check out the 100 Rads bar in the vaults - it's a meeting point for stalkers from all over the Zone.", 
+                "sure to check out the 100 Rads bar in the vaults.", 
                 3.0, 5.5);
         area("Great Swamp", "The marshlands consist mostly of murky irradiated water and tall reeds, with thin passages of safe"+
-                " land stretching like labyrinthine bridges all over. A few abandoned buildings and settlements dot the landscape.",
+                " land stretching like labyrinthine bridges all over.",
                 5.2, 6.0);
-        area("Red Forest", "A dreadful place. Easy to vanish without a trace there, no matter how lucky you have been in life so far. "+
-                "Whoever gets close to the Brain Scorcher immediately goes insane, turns into a zombie and starts stalking the Zone restlessly.",
+        area("Red Forest", "A dreadful place. Easy to vanish without a trace there, no matter how lucky you have been in life so far. ",
                 6.0, 2.0);
         Weapon knife = weapon("Knife", 1.0, AmmunitionType.NONE);
         weaponService.assignCreature(knife, bongun);

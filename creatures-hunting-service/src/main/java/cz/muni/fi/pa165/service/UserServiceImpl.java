@@ -74,9 +74,20 @@ public class UserServiceImpl implements UserService {
         try {
             return userManager.findUserByEmail(email);
         } catch (Exception e) {
-            throw new ManagerDataAccessException("Error while rtrieving user", e);
+            throw new ManagerDataAccessException("Error while retrieving user", e);
         }
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        try {
+            return userManager.findUserByUsername(username);
+        } catch (Exception e) {
+            throw new ManagerDataAccessException("Error while retrieving user", e);
+        }
+    }
+    
+    
 
     private static String createHash(String password) {
         final int SALT_BYTE_SIZE = 24;

@@ -49,6 +49,12 @@ public class UserFacadeImpl implements UserFacade{
     }
 
     @Override
+    public UserDTO findUserByUsername(String username) {
+        User user = userService.findUserByUsername(username);
+        return (user == null) ? null : beanMappingService.mapTo(user, UserDTO.class);
+    }
+
+    @Override
     public void registerUser(UserDTO user, String unencryptedPassword) {
         User userEntity = beanMappingService.mapTo(user, User.class);
         userService.registerUser(userEntity, unencryptedPassword);

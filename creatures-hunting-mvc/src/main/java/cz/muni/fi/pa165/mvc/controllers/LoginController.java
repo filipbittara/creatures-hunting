@@ -30,7 +30,7 @@ public class LoginController {
     
     @RequestMapping(value="/login-check", method=RequestMethod.POST)
     public String loginCheck(Model model, @RequestParam("username") String username, @RequestParam("password") String password) {
-        UserDTO user = userFacade.findUserByEmail(username);
+        UserDTO user = userFacade.findUserByUsername(username);
         if (user == null) {
             // username does not exist
             return "redirect:/";
@@ -42,9 +42,9 @@ public class LoginController {
         if (userFacade.authenticate(authDTO)) {
             // authenticated
             if (userFacade.isAdmin(user)) {
-                model.addAttribute("authenticatedAdmin", user.getEmail());
+                model.addAttribute("authenticatedAdmin", user.getUsername());
             } else {
-                model.addAttribute("authenticatedUser", user.getEmail());           
+                model.addAttribute("authenticatedUser", user.getUsername());           
             }
             session.setAttribute("authenticated", user);
             return "home";

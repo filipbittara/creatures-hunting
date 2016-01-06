@@ -35,7 +35,14 @@
                 <td>    
                     <c:if test="${not empty authenticatedAdmin}">
                     <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/weapon/admin/delete/${weapon.id}">                      
-                        <button type="submit" class="btn btn-primary">Delete</button>  
+                        <c:choose>
+                            <c:when test="${creatureWeapon[weapon.id] == 'no creature'}">
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="submit" disabled class="btn btn-primary">Delete</button>
+                            </c:otherwise>
+                        </c:choose> 
                     </form>
                     </c:if>
                 </td>
@@ -68,7 +75,7 @@
                                         <div class="col-md-6">
                                 Creatures that can be injured with this weapon: ${creatureWeapon[weapon.id]}. <br/>
                                 
-                                <a data-toggle="collapse" data-target="#${weapon.id}addWeapon" class="accordion-toggle clickable">Have you injured any other creature with this weapon?</a>
+                                <a data-toggle="collapse" data-target="#${weapon.id}addWeapon" class="accordion-toggle clickable">Have you injured any other creature with this weapon?</a><br/>
                                 <div class="accordian-body collapse" id="${weapon.id}addWeapon">
                                 <c:set var="showed" value="0"/>
                                 <c:forEach items="${creatures}" var="creature">
@@ -78,7 +85,21 @@
                                     </c:if>
                                 </c:forEach>
                                 <c:if test="${showed == 0}">
-                                        Sorry no other creature available.
+                                        Sorry, no other creature available.
+                                </c:if>
+                                </div>
+                                
+                                <a data-toggle="collapse" data-target="#${weapon.id}removeWeapon" class="accordion-toggle clickable">Was this weapon ineffective against any listed creature?</a>
+                                <div class="accordian-body collapse" id="${weapon.id}removeWeapon">
+                                <c:set var="showed" value="0"/>
+                                <c:forEach items="${creatures}" var="creature">
+                                    <c:if test="${fn:contains(creatureWeapon[weapon.id], creature.name)}">
+                                        <my:a href="/weapon/removeCreature/${creature.id}/from/${weapon.id}" class="text-success">Yes, it is ineffective against ${creature.name}.</my:a><br/>
+                                        <c:set var="showed" value="${showed + 1}"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${showed == 0}">
+                                        Sorry, no creatures listed.
                                 </c:if>
                                 </div>
                             </div>

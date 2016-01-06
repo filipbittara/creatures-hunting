@@ -34,7 +34,14 @@
                 <td>    
                     <c:if test="${not empty authenticatedAdmin}">
                     <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/area/admin/delete/${area.id}">                      
-                        <button type="submit" class="btn btn-primary">Delete</button>  
+                        <c:choose>
+                            <c:when test="${creatureAreas[area.id] == 'no creature'}">
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="submit" disabled class="btn btn-primary">Delete</button>
+                            </c:otherwise>
+                        </c:choose>
                     </form>
                     </c:if>
                 </td>
@@ -69,7 +76,7 @@
                                 <div class="col-md-6">
                                 Creatures seen in this area: ${creatureAreas[area.id]}. <br/>
                                 
-                                <a data-toggle="collapse" data-target="#${area.id}addArea" class="accordion-toggle clickable">Have you seen any other monster here?</a>
+                                <a data-toggle="collapse" data-target="#${area.id}addArea" class="accordion-toggle clickable">Have you seen any other monster here?</a><br/>
                                 <div class="accordian-body collapse" id="${area.id}addArea">
                                 <c:set var="showed" value="0"/>
                                 <c:forEach items="${creatures}" var="creature">
@@ -79,7 +86,21 @@
                                     </c:if>
                                 </c:forEach>
                                 <c:if test="${showed == 0}">
-                                        Sorry no other creature available.
+                                        Sorry, no other creature available.
+                                </c:if>
+                                </div>
+                                
+                                <a data-toggle="collapse" data-target="#${area.id}removeArea" class="accordion-toggle clickable">Do you think one of the listed monsters is not here?</a>
+                                <div class="accordian-body collapse" id="${area.id}removeArea">
+                                <c:set var="showed" value="0"/>
+                                <c:forEach items="${creatures}" var="creature">
+                                    <c:if test="${fn:contains(creatureAreas[area.id], creature.name)}">
+                                        <my:a href="/area/removeCreature/${creature.id}/from/${area.id}" class="text-success">Yes, ${creature.name} is not here.</my:a><br/>
+                                        <c:set var="showed" value="${showed + 1}"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${showed == 0}">
+                                        Sorry, no creature listed.
                                 </c:if>
                                 </div>
                             </div>

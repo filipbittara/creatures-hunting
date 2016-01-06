@@ -34,7 +34,7 @@ public class AreaManagerImp implements AreaManager {
 
 	@Override
 	public void deleteArea(Area a) {
-		em.remove(a);
+		em.remove(em.contains(a) ? a : em.merge(a));
 	}
 
 	@Override

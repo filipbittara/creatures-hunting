@@ -60,7 +60,7 @@ public class WeaponFacadeImpl implements WeaponFacade {
 
 	@Override
 	public void removeCreature(WeaponDTO weapon, CreatureDTO creature) {
-		weaponService.removeCreature(beanMappingService.mapTo(weapon, Weapon.class), beanMappingService.mapTo(creature, Creature.class));
+		weaponService.removeCreature(weaponService.findWeaponById(weapon.getId()), creatureService.getCreature(creature.getId()));
 
 	}
 

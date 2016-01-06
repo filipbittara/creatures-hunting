@@ -31,7 +31,7 @@ public class WeaponManagerImpl implements WeaponManager {
 
     @Override
     public void deleteWeapon(Weapon weapon) {
-        em.remove(weapon);
+        em.remove(em.contains(weapon) ? weapon : em.merge(weapon));
     }
 
     @Override

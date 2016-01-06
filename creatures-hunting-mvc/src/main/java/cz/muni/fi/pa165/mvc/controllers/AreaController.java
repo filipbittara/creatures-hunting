@@ -84,6 +84,15 @@ public class AreaController {
         redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
+    
+    @RequestMapping(value = "/removeCreature/{cid}/from/{id}", method = RequestMethod.GET)
+    public String removeCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
+        CreatureDTO creature = creatureFacade.getCreature(cid);
+        AreaDTO area = areaFacade.getArea(id);
+        areaFacade.removeCreatureFromArea(creature.getId(), area.getId());
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \"" + area.getName() + "\".");
+        return "redirect:" + uriBuilder.path("/area/list").toUriString();
+    }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) {

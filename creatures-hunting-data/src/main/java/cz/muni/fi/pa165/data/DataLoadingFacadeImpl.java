@@ -11,6 +11,9 @@ import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.service.WeaponService;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +37,12 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
 
     @Override
     public void loadData() {
-        Creature bongun = creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice");
-        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 12, 10, "Fire attacks");
-        creature("Jockey", CreatureType.HUMANOID, 120.3, 30.0, 7, 8, "Small and stupid");
-        creature("Witch", CreatureType.SPIRIT, 155.0, 45.0, 9, 9, "Loses stamina quickly when startled");
-        creature("Wild dog", CreatureType.BEAST, 80.0, 35.0, 10, 10, "Wants to play fetch");
-        creature("Friendly bear", CreatureType.UNKNOWN, 170.0, 60.0, 1, 1, "Wants to snuggle");
+        Creature bongun = creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice", "bongun.jpg");
+        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 12, 10, "Fire attacks", "anubis.jpg");
+        creature("Jockey", CreatureType.HUMANOID, 120.3, 30.0, 7, 8, "Small and stupid", "jockey.jpg");
+        creature("Witch", CreatureType.SPIRIT, 155.0, 45.0, 9, 9, "Loses stamina quickly when startled", "witch.jpg");
+        creature("Wild dog", CreatureType.BEAST, 80.0, 35.0, 10, 10, "Wants to play fetch", "dog.jpg");
+        creature("Friendly bear", CreatureType.UNKNOWN, 170.0, 60.0, 1, 1, "Wants to snuggle", "bear.jpg");
         Area stockade = area("The Central Stockade",
                 "The Central Stockade is a soul prison located in the middle of Newborn City. " +
                         "It contains a number of especially dangerous demons and undeads, amongst " +
@@ -76,7 +79,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         user("admin", "admin@admin.cz", UserRole.ADMIN, "admin");
     }
 
-    private Creature creature(String name, CreatureType type, Double height, Double weight, Integer agility, Integer ferocity, String weakness) {
+    private Creature creature(String name, CreatureType type, Double height, Double weight, Integer agility, Integer ferocity, String weakness, String imageName) {
         Creature creature = new Creature();
         creature.setType(type);
         creature.setName(name);
@@ -85,6 +88,12 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         creature.setAgility(agility);
         creature.setFerocity(ferocity);
         creature.setWeakness(weakness);
+        try {
+            creature.setImage(readImage(imageName));
+        } catch (IOException e) {
+            // IO problem
+        }
+        creature.setImageMimeType("image/jpeg");
         creatureService.createCreature(creature);
         return creature;
     }
@@ -115,5 +124,18 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         user.setRole(role);
         userService.registerUser(user, password);
         return user;
+    }
+
+    private byte[] readImage(String file) throws IOException {
+        try (InputStream is = this.getClass().getResourceAsStream("/" + file)) {
+            int nRead;
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[1024];
+            while ((nRead = is.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            return buffer.toByteArray();
+        }
     }
 }

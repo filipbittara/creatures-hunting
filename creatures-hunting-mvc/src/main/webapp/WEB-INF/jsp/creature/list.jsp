@@ -64,7 +64,7 @@
                     <div class="accordian-body collapse" id="${creature.id}detail">
                         <div class="row">
                             <div class="col-md-6">
-                                <img class="image-responsive" src="${pageContext.request.contextPath}/creature/creatureImage/${creature.id}"/>
+                                <img width="300" height="300" src="${pageContext.request.contextPath}/creature/creatureImage/${creature.id}"/>
                             </div>
                             <div class="col-md-6">
                                 <table class="table">

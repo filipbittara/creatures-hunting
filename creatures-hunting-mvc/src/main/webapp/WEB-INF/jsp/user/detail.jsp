@@ -11,7 +11,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:template title="${user.username} - User">
+<my:template title="User details">
 <jsp:attribute name="body">
     <div class="container">
       <div class="row">

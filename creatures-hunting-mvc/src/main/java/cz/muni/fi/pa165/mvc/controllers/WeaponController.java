@@ -73,9 +73,9 @@ public class WeaponController {
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {
             if (userFacade.isAdmin(user)) {
-                model.addAttribute("authenticatedAdmin", user.getEmail());
+                model.addAttribute("authenticatedAdmin", user.getUsername());
             } else {
-                model.addAttribute("authenticatedUser", user.getEmail());
+                model.addAttribute("authenticatedUser", user.getUsername());
             }
         }
         return "/weapon/list";

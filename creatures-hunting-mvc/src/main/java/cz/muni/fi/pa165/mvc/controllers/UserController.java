@@ -37,16 +37,22 @@ public class UserController {
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {
             if (userFacade.isAdmin(user)) {
-                model.addAttribute("authenticatedAdmin", user.getEmail());
-                model.addAttribute("users", userFacade.getAllUsers());
+                setUser(model, user);
                 return "user/list";
             } else {
-                model.addAttribute("authenticatedUser", user.getEmail());
-                model.addAttribute("user", user);
-                return "user/current";
+                setUser(model, user);
+                return "user/detail";
             }
         }
         return "user/list";
+    }
+    
+    @RequestMapping(value="/current", method=RequestMethod.GET)
+    public String current(Model model) {
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        model.addAttribute("user", user);
+        setUser(model, user);
+        return ("user/detail");
     }
 
     @RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
@@ -74,6 +80,18 @@ public class UserController {
             ServletOutputStream out = response.getOutputStream();
             out.write(image);
             out.flush();
+        }
+    }
+    
+    public void setUser(Model model, UserDTO user) {
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+                model.addAttribute("users", userFacade.getAllUsers());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+                model.addAttribute("user", user);
+            }
         }
     }
 }

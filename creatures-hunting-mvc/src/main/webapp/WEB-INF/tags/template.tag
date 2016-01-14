@@ -37,7 +37,15 @@
                 <li><my:a href="/creature/list">Creatures</my:a></li>
                 <li><my:a href="/weapon/list">Weapons</my:a></li>
                 <li><my:a href="/area/list">Areas</my:a></li>
+                <c:if test="${not empty authenticatedAdmin}">
                 <li><my:a href="/user/list">Users</my:a></li>
+                </c:if>
+                <c:if test="${not empty authenticatedUser}">
+                <li><my:a href="/user/current">Logged: <c:out value="${authenticatedUser}"/></my:a></li>
+                </c:if>
+                <c:if test="${not empty authenticatedAdmin}">
+                <li><my:a href="/user/current">Logged: <c:out value="${authenticatedAdmin}"/></my:a></li>
+                </c:if>
                 <li><my:a href="/login/logout">Logout</my:a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -53,32 +61,6 @@
         </div>
     </c:if>
 
-
-    <c:if test="${not empty authenticatedUser}">
-    <div class="row">
-        <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <c:out value="${authenticatedUser}"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    </c:if>
-    
-        <c:if test="${not empty authenticatedAdmin}">
-    <div class="row">
-        <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <c:out value="${authenticatedAdmin}"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    </c:if>
 
 
     <c:if test="${not empty alert_danger}">

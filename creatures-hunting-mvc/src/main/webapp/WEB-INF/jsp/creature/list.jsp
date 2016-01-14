@@ -15,6 +15,26 @@
 
 <my:template title="List of creatures">
 <jsp:attribute name="body">
+    
+    <script  type="text/javascript">
+        function removeLastSlash(str) {
+            return str.replace(/\/(\s+)?$/, '');   
+        }
+        
+        function submit_filter() {
+            if(event.keyCode == 13) {
+                location.href = '${pageContext.request.contextPath}' + '/creature/list/filter/' + filter_page.value        
+            }
+        }
+    </script>
+    <div class="input-group col-md-6">
+        <input type="text" id="filter_page" onkeydown="submit_filter()" class="form-control" value="${filter}"/>
+        <span class="input-group-btn">
+            <input type="button" value="Filter" class="btn btn-primary" onclick="location.href = '${pageContext.request.contextPath}' + '/creature/list/filter/' + filter_page.value"/>
+        </span>
+    </div>
+    
+    
     <c:if test="${not empty authenticatedAdmin}">
     <my:a href="/creature/admin/new" class="btn btn-primary">
         Add new creature

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -60,15 +63,38 @@ public class CreatureController {
     @Autowired 
     private HttpSession session;
 
-    @RequestMapping(value="/list", method=RequestMethod.GET)
-    public String list(Model model) {
+    @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)
+    public String emptyFilter(RedirectAttributes attributes) {
+        return "redirect:/creature/list";
+    }
+    
+    @RequestMapping(value = {"/list/filter/{word}"}, method = RequestMethod.GET)
+    public String filteredList(Model model, @PathVariable String word) {
         List<CreatureDTO> creatures = creatureFacade.getAllCreatures();
+        List<CreatureDTO> filteredCreatures = new ArrayList<CreatureDTO>();
         Map<Long, String> creatureAreas = new HashMap<Long, String>();
         Map<Long, String> creatureWeapons = new HashMap<Long, String>();
         
-        model.addAttribute("creatures", creatures);
+        if(word != null) {
+            for(CreatureDTO c : creatures) {
+                if((c.getAgility()!= null && c.getAgility().toString().contains(word)) ||
+                        (c.getFerocity()!= null &&  c.getFerocity().toString().contains(word)) ||
+                        (c.getHeight()!= null &&  c.getHeight().toString().contains(word)) ||
+                        (c.getId().toString().contains(word)) ||
+                        (c.getWeight()!= null &&  c.getWeight().toString().contains(word)) ||
+                        (c.getName()!= null &&  c.getName().toLowerCase().contains(word.toLowerCase())) ||
+                        (c.getType()!= null &&  c.getType().toString().toLowerCase().contains(word.toLowerCase())) ||
+                        (c.getWeakness()!= null &&  c.getWeakness().toLowerCase().contains(word.toLowerCase()))) {
+                    filteredCreatures.add(c);
+                }
+            }
+            model.addAttribute("filter", word);
+        } else {
+            filteredCreatures = creatures;
+        }
+        model.addAttribute("creatures", filteredCreatures);
         String areas;
-        for(CreatureDTO creature : creatures) {           
+        for(CreatureDTO creature : filteredCreatures) {           
             areas = "";
             for(AreaDTO area : areaFacade.getAreasForCreature(creature)) {
                 areas += area.getName() + ", ";
@@ -81,7 +107,7 @@ public class CreatureController {
             creatureAreas.put(creature.getId(),areas);
         }
         String weapons;
-        for(CreatureDTO creature : creatures) {           
+        for(CreatureDTO creature : filteredCreatures) {           
             weapons = "";
             for(WeaponDTO weapon : weaponFacade.getWeaponsByCreature(creature)) {
                 weapons += weapon.getName() + ", ";
@@ -105,6 +131,12 @@ public class CreatureController {
                 }   
             }
         return "/creature/list";
+    }
+    
+    
+    @RequestMapping(value="/list", method=RequestMethod.GET)
+    public String list(Model model) {
+        return filteredList(model, null);
     }
     
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)

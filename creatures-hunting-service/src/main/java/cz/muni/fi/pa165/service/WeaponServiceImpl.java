@@ -2,10 +2,12 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.persistence.dao.WeaponManager;
 import cz.muni.fi.pa165.persistence.dao.CreatureManager;
+import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
 import cz.muni.fi.pa165.service.exception.ManagerDataAccessException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import java.util.HashSet;
 import java.util.List;
@@ -106,6 +108,40 @@ public class WeaponServiceImpl implements WeaponService {
 			throw new IllegalArgumentException();
 		}
 	}
+        
+        
+
+        public List<Weapon> getWeaponsToGoTroughAreas(Collection<Area> areas) {
+            List<Weapon> result = new ArrayList<Weapon>();
+            Set<Creature> creatures = new HashSet<Creature>();
+            Set<Weapon> weapons = new HashSet<Weapon>();
+            for (Area a : areas) {
+                creatures.addAll(a.getCreatures());
+            }
+            while(creatures.size() > 0) {
+                for(Creature c : creatures) {
+                    weapons.addAll(c.getWeapons());
+                }
+                int maxCount = 0;
+                Weapon bestWeapon = null;
+                for(Weapon w : weapons) {
+                    Set<Creature> tempCreatures = w.getCreatures();
+                    tempCreatures.retainAll(creatures);
+                    if(tempCreatures.size() > maxCount) {
+                        maxCount = w.getCreatures().size();
+                        bestWeapon = w;
+                    }
+                }
+                if(bestWeapon != null) {
+                    creatures.removeAll(bestWeapon.getCreatures());
+                    result.add(bestWeapon);
+                } else {
+                    //something went horribly wrong
+                    break;
+                }
+            }
+            return result;
+        }
 
 	
 	

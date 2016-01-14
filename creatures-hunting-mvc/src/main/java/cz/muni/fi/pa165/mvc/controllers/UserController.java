@@ -37,10 +37,10 @@ public class UserController {
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {
             if (userFacade.isAdmin(user)) {
-                setUser(model, user);
+                setUser(model);
                 return "user/list";
             } else {
-                setUser(model, user);
+                setUser(model);
                 return "user/detail";
             }
         }
@@ -51,13 +51,14 @@ public class UserController {
     public String current(Model model) {
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         model.addAttribute("user", user);
-        setUser(model, user);
+        setUser(model);
         return ("user/detail");
     }
 
     @RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) {
         model.addAttribute("user", userFacade.findUserById(id));
+        setUser(model);
         return ("user/detail");
     }
 
@@ -83,7 +84,8 @@ public class UserController {
         }
     }
     
-    public void setUser(Model model, UserDTO user) {
+    public void setUser(Model model) {
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {
             if (userFacade.isAdmin(user)) {
                 model.addAttribute("authenticatedAdmin", user.getUsername());

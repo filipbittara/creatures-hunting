@@ -73,10 +73,10 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         weapon("Baseball bat", 3.0, AmmunitionType.NONE, "bat.jpg");
         weapon("Nuclear grenade", 8000.0, AmmunitionType.OTHER, "grenade.jpg");
         weapon("Tank", 200.0, AmmunitionType.BULLET, "tank.jpg");
-        user("filip", "filip", UserRole.USER, "fuck");
-        user("ondra", "a@b.c", UserRole.USER, "123");
-        user("user", "user@user.cz", UserRole.USER, "user");
-        user("admin", "admin@admin.cz", UserRole.ADMIN, "admin");
+        user("filip", "filip", UserRole.USER, "fuck", "user1.jpg");
+        user("ondra", "a@b.c", UserRole.USER, "123", "user2.jpg");
+        user("user", "user@user.cz", UserRole.USER, "user", "user3.jpg");
+        user("admin", "admin@admin.cz", UserRole.ADMIN, "admin", "user4.jpg");
     }
 
     private Creature creature(String name, CreatureType type, Double height, Double weight, Integer agility, Integer ferocity, String weakness, String imageName) {
@@ -129,11 +129,17 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         return weapon;
     }
 
-    private User user(String username, String email, UserRole role, String password) {
+    private User user(String username, String email, UserRole role, String password, String imageName) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setRole(role);
+        try {
+            user.setImage(readImage(imageName));
+        } catch (IOException e) {
+            // IO problem
+        }
+        user.setImageMimeType("image/jpeg");
         userService.registerUser(user, password);
         return user;
     }

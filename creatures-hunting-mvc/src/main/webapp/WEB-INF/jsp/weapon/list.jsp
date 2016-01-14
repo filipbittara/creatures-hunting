@@ -53,7 +53,7 @@
                     <div class="accordian-body collapse" id="${weapon.id}detail">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img class="image-responsive" src="${pageContext.request.contextPath}/weapon/weaponImage/${weapon.id}"/>
+                                    <img width="300" height="300" src="${pageContext.request.contextPath}/weapon/weaponImage/${weapon.id}"/>
                                 </div>
                                 <div class="col-md-6">
                                     <table class="table">

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.dto.AreaDTO;
+import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.persistence.entity.Area;
@@ -82,6 +83,13 @@ public class AreaFacadeImpl implements AreaFacade{
     @Override
     public void removeCreatureFromArea(Long creatureId, Long areaId) {
         areaService.removeCreatureFromArea(creatureService.getCreature(creatureId), areaService.getArea(areaId));
+    }
+    
+    @Override
+    public void changeImage(ChangeImageDTO imageChange) {
+        Area a = areaService.getArea(imageChange.getId());
+        a.setImage(imageChange.getImage());
+        a.setImageMimeType(imageChange.getImageMimeType());
     }
     
 }

@@ -4,11 +4,14 @@ package cz.muni.fi.pa165.dto;
  * @author Filip Bittara
  */
 public class AreaDTO {
+
     private Long id;
     private String name;
     private String description;
     private double latitude;
     private double longitude;
+    private byte[] image;
+    private String imageMimeType;
 
     public Long getId() {
         return id;
@@ -48,5 +51,21 @@ public class AreaDTO {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 }

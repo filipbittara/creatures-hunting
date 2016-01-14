@@ -47,32 +47,32 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
                 "The Central Stockade is a soul prison located in the middle of Newborn City. " +
                         "It contains a number of especially dangerous demons and undeads, amongst " +
                         "them the infamous Anubis himself.",
-                0.0, 0.0);
+                0.0, 0.0, "stockade.jpg");
         area("Riverdown Valley",
                 "Riverdown Valley is a one of the nicer zones covering the inhabitant's reactions to the " +
                         "Stonewrought Dam bursting during the Shattering and the resulting loss of water " +
                         "and environmental changes.",
-                0.3, 1.31);
+                0.3, 1.31, "riverdown.jpg");
         area("Dun Morogh", "Dun Morogh is a snowy region located between the magma-strewn wasteland of the" + 
                 " Searing Gorge to the south, the gentle ridges of Loch Modan to the east", 
-                2.2, 2.3);
+                2.2, 2.3, "morogh.jpg");
         area("Rostok", "A desert oasis of sorts - a place completely devoid of anomalies and mutants. Be "+
                 "sure to check out the 100 Rads bar in the vaults.", 
-                3.0, 5.5);
+                3.0, 5.5, "rostok.jpg");
         area("Great Swamp", "The marshlands consist mostly of murky irradiated water and tall reeds, with thin passages of safe"+
                 " land stretching like labyrinthine bridges all over.",
-                5.2, 6.0);
+                5.2, 6.0, "swamp.jpg");
         area("Red Forest", "A dreadful place. Easy to vanish without a trace there, no matter how lucky you have been in life so far. ",
-                6.0, 2.0);
-        Weapon knife = weapon("Knife", 1.0, AmmunitionType.NONE);
+                6.0, 2.0, "forest.jpg");
+        Weapon knife = weapon("Knife", 1.0, AmmunitionType.NONE, "knife.jpg");
         weaponService.assignCreature(knife, bongun);
         areaService.addCreatureToArea(bongun, stockade);
-        weapon("Shotgun", 20.0, AmmunitionType.SHELL);
-        weapon("Chainsaw", 3.0, AmmunitionType.OTHER);
-        weapon("Sixshooter", 30.0, AmmunitionType.BULLET);
-        weapon("Baseball bat", 3.0, AmmunitionType.NONE);
-        weapon("Nuclear grenade", 8000.0, AmmunitionType.OTHER);
-        weapon("Tank", 200.0, AmmunitionType.BULLET);
+        weapon("Shotgun", 20.0, AmmunitionType.SHELL, "shotgun.jpg");
+        weapon("Chainsaw", 3.0, AmmunitionType.OTHER, "chainsaw.jpg");
+        weapon("Sixshooter", 30.0, AmmunitionType.BULLET, "sixshooter.jpg");
+        weapon("Baseball bat", 3.0, AmmunitionType.NONE, "bat.jpg");
+        weapon("Nuclear grenade", 8000.0, AmmunitionType.OTHER, "grenade.jpg");
+        weapon("Tank", 200.0, AmmunitionType.BULLET, "tank.jpg");
         user("filip", "filip", UserRole.USER, "fuck");
         user("ondra", "a@b.c", UserRole.USER, "123");
         user("user", "user@user.cz", UserRole.USER, "user");
@@ -98,21 +98,33 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         return creature;
     }
 
-    private Area area(String name, String description, double latitude, double longitude) {
+    private Area area(String name, String description, double latitude, double longitude, String imageName) {
         Area area = new Area();
         area.setName(name);
         area.setDescription(description);
         area.setLatitude(latitude);
         area.setLongitude(longitude);
+        try {
+            area.setImage(readImage(imageName));
+        } catch (IOException e) {
+            // IO problem
+        }
+        area.setImageMimeType("image/jpeg");
         areaService.createArea(area);
         return area;
     }
 
-    private Weapon weapon(String name, Double gunReach, AmmunitionType ammunition) {
+    private Weapon weapon(String name, Double gunReach, AmmunitionType ammunition, String imageName) {
         Weapon weapon = new Weapon();
         weapon.setName(name);
         weapon.setGunReach(gunReach);
         weapon.setAmmunition(ammunition);
+        try {
+            weapon.setImage(readImage(imageName));
+        } catch (IOException e) {
+            // IO problem
+        }
+        weapon.setImageMimeType("image/jpeg");
         weaponService.addWeapon(weapon);
         return weapon;
     }

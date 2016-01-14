@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
@@ -19,31 +20,34 @@ import javax.validation.constraints.NotNull;
  *
  * @author Ondrej Klein
  */
-
 @Entity
 public class Area {
-    
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotNull
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     private String name;
-    
+
     private String description;
-    
+
     private double latitude;
     private double longitude;
-    
+
     @ManyToMany
     private Set<Creature> creatures = new HashSet<Creature>();
-    
+
+    @Lob
+    private byte[] image;
+    private String imageMimeType;
+
     public Long getId() {
         return id;
     }
-	
-	public void setId(Long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,15 +90,16 @@ public class Area {
     public void setCreatures(Set<Creature> creatures) {
         this.creatures = creatures;
     }
-	
+
     public void addCreature(Creature c) {
-	    creatures.add(c);
-        if (!c.getAreas().contains(this))
+        creatures.add(c);
+        if (!c.getAreas().contains(this)) {
             c.addArea(this);
+        }
     }
-    
+
     public void removeCreature(Creature c) {
-	if(creatures.contains(c)) {
+        if (creatures.contains(c)) {
             creatures.remove(c);
             c.removeArea(this);
         } else {
@@ -102,34 +107,45 @@ public class Area {
         }
     }
 
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = 23 * hash + ((name == null) ? 0 : name.hashCode());
-		return hash;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + ((name == null) ? 0 : name.hashCode());
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Area)) {
-			return false;
-		}
-		final Area other = (Area) obj;
-		if (!Objects.equals(this.name, other.name)) {
-			return false;
-		}
-		return true;
-	}
-	
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Area)) {
+            return false;
+        }
+        final Area other = (Area) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
 }
-
-
-

@@ -6,9 +6,13 @@ import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.UserFacade;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -106,5 +110,19 @@ public class AreaController {
         areaFacade.deleteArea(area);
         redirectAttributes.addFlashAttribute("alert_success", "Product \"" + area.getName() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
+    }
+    
+    @RequestMapping("/areaImage/{id}")
+    public void areaImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        AreaDTO areaDTO = areaFacade.getArea(id);
+        byte[] image = areaDTO.getImage();
+        if (image == null) {
+            response.sendRedirect(request.getContextPath() + "/no-image.svg");
+        } else {
+            response.setContentType(areaDTO.getImageMimeType());
+            ServletOutputStream out = response.getOutputStream();
+            out.write(image);
+            out.flush();
+        }
     }
 }

@@ -17,7 +17,7 @@
                 <form:errors path="name" cssClass="help-block"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group ${name_error?'has-error':''}">
             <form:label path="type" cssClass="col-sm-2 control-label">Type</form:label>
             <div class="col-sm-10">
                 <form:select path="type" cssClass="form-control">
@@ -28,35 +28,35 @@
                 <form:errors path="type" cssClass="error"/>
             </div>
         </div>
-                    <div class="form-group ${name_error?'has-error':''}">
+        <div class="form-group ${name_error?'has-error':''}">
             <form:label path="height" cssClass="col-sm-2 control-label">Height</form:label>
             <div class="col-sm-10">
                 <form:input path="height" cssClass="form-control"/>
                 <form:errors path="height" cssClass="help-block"/>
             </div>
         </div>
-                    <div class="form-group ${name_error?'has-error':''}">
+        <div class="form-group ${name_error?'has-error':''}">
             <form:label path="weight" cssClass="col-sm-2 control-label">Weight</form:label>
             <div class="col-sm-10">
                 <form:input path="weight" cssClass="form-control"/>
                 <form:errors path="weight" cssClass="help-block"/>
             </div>
         </div>
-                    <div class="form-group ${name_error?'has-error':''}">
+        <div class="form-group ${name_error?'has-error':''}">
             <form:label path="agility" cssClass="col-sm-2 control-label">Agility</form:label>
             <div class="col-sm-10">
                 <form:input path="agility" cssClass="form-control"/>
                 <form:errors path="agility" cssClass="help-block"/>
             </div>
         </div>
-                    <div class="form-group ${name_error?'has-error':''}">
+        <div class="form-group ${name_error?'has-error':''}">
             <form:label path="ferocity" cssClass="col-sm-2 control-label">Ferocity</form:label>
             <div class="col-sm-10">
                 <form:input path="ferocity" cssClass="form-control"/>
                 <form:errors path="ferocity" cssClass="help-block"/>
             </div>
         </div>
-                    <div class="form-group ${name_error?'has-error':''}">
+        <div class="form-group ${name_error?'has-error':''}">
             <form:label path="weakness" cssClass="col-sm-2 control-label">Weakness</form:label>
             <div class="col-sm-10">
                 <form:input path="weakness" cssClass="form-control"/>

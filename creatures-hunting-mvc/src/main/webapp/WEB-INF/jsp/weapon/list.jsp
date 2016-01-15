@@ -15,6 +15,11 @@
 
 <my:template title="List of weapons">
 <jsp:attribute name="body">
+    <c:if test="${not empty authenticatedAdmin}">
+    <my:a href="/weapon/admin/new" class="btn btn-primary">
+        Add new weapon
+    </my:a>
+    </c:if>
     <table class="table">
         <thead>
             <tr>
@@ -43,6 +48,9 @@
                                 <button type="submit" disabled class="btn btn-primary">Delete</button>
                             </c:otherwise>
                         </c:choose> 
+                    </form>
+                    <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/weapon/admin/update/${weapon.id}">                      
+                        <button type="submit" class="btn btn-primary">Update</button>  
                     </form>
                     </c:if>
                 </td>

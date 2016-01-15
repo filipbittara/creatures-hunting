@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
+import cz.muni.fi.pa165.enums.AmmunitionType;
 import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.UserFacade;
 import cz.muni.fi.pa165.facade.WeaponFacade;
@@ -16,13 +17,18 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -125,6 +131,94 @@ public class WeaponController {
             out.write(image);
             out.flush();
         }
+    }
+    
+    @ModelAttribute("types")
+    public AmmunitionType[] types() {
+        return AmmunitionType.values();
+    }
+    
+    @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
+    public String newProduct(Model model) {
+        model.addAttribute("weaponCreate", new WeaponDTO());
+        return "weapon/new";
+    }
+    
+    @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("weaponCreate") WeaponDTO formBean, BindingResult bindingResult,
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        //in case of validation error forward back to the the form
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                //log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "weapon/new";
+        }
+        
+        MultipartFile image = formBean.getMultipartImage();
+
+        if (image.getSize() > 0) {
+            try {
+                formBean.validateImage();
+            } catch (RuntimeException re) {
+                bindingResult.reject(re.getMessage());
+                return "weapon/new";
+            }
+        }
+        //create product
+        Long id = weaponFacade.addWeapon(formBean);
+        //report success
+        redirectAttributes.addFlashAttribute("alert_success", "Weapon " + formBean.getName() + " was created");
+        return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
+    }
+    
+    @RequestMapping(value = {"/admin/update/{id}"}, method = RequestMethod.GET)
+    public String update(@PathVariable long id, Model model ) {
+        
+        WeaponDTO weapon = weaponFacade.getWeaponById(id);
+        model.addAttribute("weaponUpdate", weapon);
+        return "weapon/edit";
+    }
+    
+    @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
+    public String update(
+            @Valid @ModelAttribute("weaponUpdate") WeaponDTO formBean,
+            BindingResult bindingResult,
+            @PathVariable long id,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            UriComponentsBuilder uriBuilder) {
+
+        if (bindingResult.hasErrors()) {
+             for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                //log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }   
+            return "weapon/edit";
+        }
+        
+        MultipartFile image = formBean.getMultipartImage();
+
+        if (image.getSize() > 0) {
+            try {
+                formBean.validateImage();
+            } catch (RuntimeException re) {
+                bindingResult.reject(re.getMessage());
+                return "weapon/edit";
+            }
+        }
+        // if no image was assigned, keep the previous image
+        if (formBean.getImage() == null) {
+            formBean.setImage(weaponFacade.getWeaponById(formBean.getId()).getImage());
+        }
+        weaponFacade.updateWeapon(formBean);
+        redirectAttributes.addFlashAttribute("alert_success", "Weapon " + formBean.getName()+ " updated");
+        return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
 
 }

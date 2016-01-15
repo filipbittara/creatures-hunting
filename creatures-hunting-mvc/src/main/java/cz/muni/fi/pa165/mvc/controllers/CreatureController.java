@@ -195,7 +195,7 @@ public class CreatureController {
 
         if (image.getSize() > 0) {
             try {
-                validateImage(image);
+                formBean.validateImage();
             } catch (RuntimeException re) {
                 bindingResult.reject(re.getMessage());
                 return "creature/new";
@@ -206,12 +206,6 @@ public class CreatureController {
         //report success
         redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName() + " was created");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
-    }
-    
-    private void validateImage(MultipartFile image) {
-        if (!image.getContentType().equals("image/jpeg")) {
-            throw new RuntimeException("Only JPG images are accepted");
-        }
     }
     
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
@@ -237,7 +231,7 @@ public class CreatureController {
 
         if (image.getSize() > 0) {
             try {
-                validateImage(image);
+                formBean.validateImage();
             } catch (RuntimeException re) {
                 bindingResult.reject(re.getMessage());
                 return "creature/edit";

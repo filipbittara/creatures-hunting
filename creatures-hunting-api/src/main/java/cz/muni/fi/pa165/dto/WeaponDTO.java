@@ -2,9 +2,11 @@ package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.enums.AmmunitionType;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -18,6 +20,7 @@ public class WeaponDTO {
 	private Set<CreatureDTO> creatures = new HashSet<>();
 	private byte[] image;
 	private String imageMimeType;
+        private MultipartFile multipartImage;
 
 	public Long getId() {
 		return id;
@@ -81,6 +84,25 @@ public class WeaponDTO {
 		}
 	}
 
+        public MultipartFile getMultipartImage() {
+            return multipartImage;
+        }
+
+        public void setMultipartImage(MultipartFile multipartImage) throws IOException {
+            this.multipartImage = multipartImage;
+            if (multipartImage.getSize() > 0) {
+            this.image = multipartImage.getBytes();
+            } else {
+                this.image = null;
+            }
+        }
+        
+        public void validateImage() {
+            if (!multipartImage.getContentType().equals("image/jpeg")) {
+                throw new RuntimeException("Only JPG images are accepted");
+            }
+        }
+        
 	@Override
 	public int hashCode() {
 		int hash = 3;

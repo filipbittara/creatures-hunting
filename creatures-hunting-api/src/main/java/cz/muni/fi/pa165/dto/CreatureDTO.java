@@ -111,6 +111,12 @@ public class CreatureDTO {
             this.image = null;
         }
     }
+    
+    public void validateImage() {
+        if (!multipartImage.getContentType().equals("image/jpeg")) {
+            throw new RuntimeException("Only JPG images are accepted");
+        }
+    }
 
     @Override
     public int hashCode() {

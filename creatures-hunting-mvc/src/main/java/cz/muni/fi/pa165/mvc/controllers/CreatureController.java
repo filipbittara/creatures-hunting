@@ -34,6 +34,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -145,7 +147,8 @@ public class CreatureController {
     
     @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("creatureCreate") CreatureDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, 
+                         @RequestParam(value = "multipartImage", required = false) MultipartFile image) {
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -156,11 +159,33 @@ public class CreatureController {
             }
             return "creature/new";
         }
+
+        if (!image.isEmpty()) {
+            try {
+                validateImage(image);
+            } catch (RuntimeException re) {
+                bindingResult.reject(re.getMessage());
+                return "creature/new";
+            }
+            
+        }
+        try {
+            formBean.setImage(image.getBytes());
+        } catch (IOException e) {
+            bindingResult.reject(e.getMessage());
+            return "creature/new";
+        }
         //create product
         Long id = creatureFacade.createCreature(formBean);
         //report success
         redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName() + " was created");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
+    }
+    
+    private void validateImage(MultipartFile image) {
+        if (!image.getContentType().equals("image/jpeg")) {
+            throw new RuntimeException("Only JPG images are accepted");
+        }
     }
     
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)

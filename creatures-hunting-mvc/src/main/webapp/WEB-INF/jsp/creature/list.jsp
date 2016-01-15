@@ -121,7 +121,7 @@
                                 <c:set var="showed" value="0"/>        
                                 </div>
                                 
-                                <a data-toggle="collapse" data-target="#${creature.id}removeWeapon" class="accordion-toggle clickable">Do you thing one of the listed weapons is ineffective against this monster?</a>
+                                <a data-toggle="collapse" data-target="#${creature.id}removeWeapon" class="accordion-toggle clickable">Do you think one of the listed weapons is ineffective against this monster?</a>
                                 <div class="accordian-body collapse" id="${creature.id}removeWeapon">
                                 <c:set var="showed" value="0"/>
                                 <c:forEach items="${weapons}" var="weapon">

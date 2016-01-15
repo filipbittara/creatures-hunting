@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.enums.CreatureType;
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public class CreatureDTO {
     private String weakness;
     private byte[] image;
     private String imageMimeType;
+    private MultipartFile multipartImage;
 
     public Long getId() {
         return id;
@@ -95,6 +97,14 @@ public class CreatureDTO {
     public void setImageMimeType(String imageMimeType) {
         this.imageMimeType = imageMimeType;
     }
+    
+    public MultipartFile getMultipartImage() {
+        return multipartImage;
+    }
+
+    public void setMultipartImage(MultipartFile multipartImage) {
+        this.multipartImage = multipartImage;
+    }
 
     @Override
     public int hashCode() {
@@ -117,4 +127,5 @@ public class CreatureDTO {
         }
         return true;
     }
+
 }

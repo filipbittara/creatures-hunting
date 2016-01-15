@@ -16,6 +16,12 @@
             <artifactId>creatures-hunting-persistence</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.2.3.RELEASE</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     

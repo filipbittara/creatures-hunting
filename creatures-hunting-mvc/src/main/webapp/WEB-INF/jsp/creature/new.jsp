@@ -9,7 +9,7 @@
 <jsp:attribute name="body">
 
     <form:form method="post" action="${pageContext.request.contextPath}/creature/admin/create"
-               modelAttribute="creatureCreate" cssClass="form-horizontal">
+               modelAttribute="creatureCreate" cssClass="form-horizontal" enctype="multipart/form-data">
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
             <div class="col-sm-10">
@@ -61,6 +61,13 @@
             <div class="col-sm-10">
                 <form:input path="weakness" cssClass="form-control"/>
                 <form:errors path="weakness" cssClass="help-block"/>
+            </div>
+        </div>
+        <div class="form-group ${name_error?'has-error':''}">
+            <form:label path="multipartImage" cssClass="col-sm-2 control-label">Image</form:label>
+            <div class="col-sm-10">
+                <form:input path="multipartImage" cssClass="form-control" type="file"/>
+                <form:errors path="multipartImage" cssClass="help-block"/>
             </div>
         </div>
       

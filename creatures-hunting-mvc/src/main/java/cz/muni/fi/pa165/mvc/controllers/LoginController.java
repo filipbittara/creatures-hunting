@@ -48,7 +48,7 @@ public class LoginController {
             }
             session.setAttribute("authenticated", user);
             return "home";
-            
+            //TODO solve area population problem
             
             
         }

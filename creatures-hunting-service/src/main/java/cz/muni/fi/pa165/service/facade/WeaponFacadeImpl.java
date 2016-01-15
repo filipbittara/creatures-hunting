@@ -1,14 +1,19 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.facade.WeaponFacade;
+import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.WeaponService;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,9 @@ public class WeaponFacadeImpl implements WeaponFacade {
 
         @Autowired
         private CreatureService creatureService;
+        
+        @Autowired
+        private AreaService areaService;
         
 	@Autowired
         private BeanMappingService beanMappingService;
@@ -95,4 +103,12 @@ public class WeaponFacadeImpl implements WeaponFacade {
 		w.setImage(imageChange.getImage());
 		w.setImageMimeType(imageChange.getImageMimeType());
 	}
+        
+        public List<WeaponDTO> getWeaponsToGoTroughAreas(Collection<AreaDTO> areas) {
+            List<Area> areaList = new ArrayList<Area>();
+            for(AreaDTO a: areas) {
+                areaList.add(areaService.getArea(a.getId()));
+            }
+            return beanMappingService.mapTo(weaponService.getWeaponsToGoTroughAreas(areaList), WeaponDTO.class);
+        }
 }

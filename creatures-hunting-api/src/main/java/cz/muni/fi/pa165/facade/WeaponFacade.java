@@ -1,8 +1,10 @@
 package cz.muni.fi.pa165.facade;
 
+import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -84,4 +86,6 @@ public interface WeaponFacade {
 	 * @param imageChange new weapon image
 	 */
         public void changeImage(ChangeImageDTO imageChange);
+        
+        public List<WeaponDTO> getWeaponsToGoTroughAreas(Collection<AreaDTO> areas);
 }

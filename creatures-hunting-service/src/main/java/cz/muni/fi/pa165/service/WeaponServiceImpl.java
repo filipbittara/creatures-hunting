@@ -118,6 +118,15 @@ public class WeaponServiceImpl implements WeaponService {
             for (Area a : areas) {
                 creatures.addAll(a.getCreatures());
             }
+            
+            ArrayList<Creature> toRemove = new ArrayList<>();
+            for (Creature c : creatures) {
+                if (c.getWeapons().size() < 1) {
+                    toRemove.add(c);
+                }
+            }
+            creatures.removeAll(toRemove);
+        
             while(creatures.size() > 0) {
                 for(Creature c : creatures) {
                     weapons.addAll(c.getWeapons());

@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
 import cz.muni.fi.pa165.persistence.entity.Weapon;
+import java.util.Collection;
 
 import java.util.List;
 import java.util.Set;
@@ -81,4 +83,6 @@ public interface WeaponService {
 	 * @return list of all weapons
 	 */
     List<Weapon> findAllWeapons();
+    
+    public List<Weapon> getWeaponsToGoTroughAreas(Collection<Area> areas);
 }

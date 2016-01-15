@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.service.facade;
 import cz.muni.fi.pa165.dto.AreaDTO;
 import cz.muni.fi.pa165.dto.ChangeImageDTO;
 import cz.muni.fi.pa165.dto.CreatureDTO;
+import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.persistence.entity.Area;
 import cz.muni.fi.pa165.persistence.entity.Creature;
@@ -10,6 +11,7 @@ import cz.muni.fi.pa165.service.AreaService;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.CreatureService;
 import cz.muni.fi.pa165.service.WeaponService;
+import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +92,5 @@ public class AreaFacadeImpl implements AreaFacade{
         Area a = areaService.getArea(imageChange.getId());
         a.setImage(imageChange.getImage());
         a.setImageMimeType(imageChange.getImageMimeType());
-    }
-    
+    }    
 }

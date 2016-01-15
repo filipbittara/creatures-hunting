@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.enums.CreatureType;
 import cz.muni.fi.pa165.persistence.entity.Creature;
+import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
@@ -102,8 +103,13 @@ public class CreatureDTO {
         return multipartImage;
     }
 
-    public void setMultipartImage(MultipartFile multipartImage) {
+    public void setMultipartImage(MultipartFile multipartImage) throws IOException {
         this.multipartImage = multipartImage;
+        if (multipartImage.getSize() > 0) {
+            this.image = multipartImage.getBytes();
+        } else {
+            this.image = null;
+        }
     }
 
     @Override

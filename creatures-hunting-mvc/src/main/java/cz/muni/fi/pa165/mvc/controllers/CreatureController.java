@@ -179,8 +179,7 @@ public class CreatureController {
     
     @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("creatureCreate") CreatureDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder, 
-                         @RequestParam(value = "multipartImage", required = false) MultipartFile image) {
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -191,21 +190,16 @@ public class CreatureController {
             }
             return "creature/new";
         }
+        
+        MultipartFile image = formBean.getMultipartImage();
 
-        if (!image.isEmpty()) {
+        if (image.getSize() > 0) {
             try {
                 validateImage(image);
             } catch (RuntimeException re) {
                 bindingResult.reject(re.getMessage());
                 return "creature/new";
             }
-            
-        }
-        try {
-            formBean.setImage(image.getBytes());
-        } catch (IOException e) {
-            bindingResult.reject(e.getMessage());
-            return "creature/new";
         }
         //create product
         Long id = creatureFacade.createCreature(formBean);
@@ -235,10 +229,24 @@ public class CreatureController {
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-            }
+            }   
             return "creature/edit";
         }
         
+        MultipartFile image = formBean.getMultipartImage();
+
+        if (image.getSize() > 0) {
+            try {
+                validateImage(image);
+            } catch (RuntimeException re) {
+                bindingResult.reject(re.getMessage());
+                return "creature/edit";
+            }
+        }
+        // if no image was assigned, keep the previous image
+        if (formBean.getImage() == null) {
+            formBean.setImage(creatureFacade.getCreature(formBean.getId()).getImage());
+        }
         creatureFacade.updateCreature(formBean);
         redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName()+ " updated");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();

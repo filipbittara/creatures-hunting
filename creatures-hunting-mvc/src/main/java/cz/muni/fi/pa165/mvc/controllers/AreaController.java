@@ -14,13 +14,18 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -124,5 +129,88 @@ public class AreaController {
             out.write(image);
             out.flush();
         }
+    }
+    
+    @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
+    public String newProduct(Model model) {
+        model.addAttribute("areaCreate", new AreaDTO());
+        return "area/new";
+    }
+    
+    @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("areaCreate") AreaDTO formBean, BindingResult bindingResult,
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+        //in case of validation error forward back to the the form
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                //log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "area/new";
+        }
+        
+        MultipartFile image = formBean.getMultipartImage();
+
+        if (image.getSize() > 0) {
+            try {
+                formBean.validateImage();
+            } catch (RuntimeException re) {
+                bindingResult.reject(re.getMessage());
+                return "area/new";
+            }
+        }
+        //create product
+        Long id = areaFacade.createArea(formBean);
+        //report success
+        redirectAttributes.addFlashAttribute("alert_success", "Area " + formBean.getName() + " was created");
+        return "redirect:" + uriBuilder.path("/area/list").toUriString();
+    }
+    
+    @RequestMapping(value = {"/admin/update/{id}"}, method = RequestMethod.GET)
+    public String update(@PathVariable long id, Model model ) {
+        
+        AreaDTO area = areaFacade.getArea(id);
+        model.addAttribute("areaUpdate", area);
+        return "area/edit";
+    }
+    
+    @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
+    public String update(
+            @Valid @ModelAttribute("areaUpdate") AreaDTO formBean,
+            BindingResult bindingResult,
+            @PathVariable long id,
+            Model model,
+            RedirectAttributes redirectAttributes,
+            UriComponentsBuilder uriBuilder) {
+
+        if (bindingResult.hasErrors()) {
+             for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                //log.trace("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }   
+            return "area/edit";
+        }
+        
+        MultipartFile image = formBean.getMultipartImage();
+
+        if (image.getSize() > 0) {
+            try {
+                formBean.validateImage();
+            } catch (RuntimeException re) {
+                bindingResult.reject(re.getMessage());
+                return "area/edit";
+            }
+        }
+        // if no image was assigned, keep the previous image
+        if (formBean.getImage() == null) {
+            formBean.setImage(areaFacade.getArea(formBean.getId()).getImage());
+        }
+        areaFacade.updateArea(formBean);
+        redirectAttributes.addFlashAttribute("alert_success", "Area " + formBean.getName()+ " updated");
+        return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
 }

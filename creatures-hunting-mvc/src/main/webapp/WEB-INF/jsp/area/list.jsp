@@ -14,6 +14,12 @@
 
 <my:template title="List of areas">
     <jsp:attribute name="body">
+        
+        <c:if test="${not empty authenticatedAdmin}">
+            <my:a href="/area/admin/new" class="btn btn-primary">
+                Add new area
+            </my:a>
+        </c:if>
         <table class="table">
             <thead>
                 <tr>
@@ -42,6 +48,9 @@
                                             <button type="submit" disabled class="btn btn-primary">Delete</button>
                                         </c:otherwise>
                                     </c:choose>
+                                </form>
+                                <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/area/admin/update/${area.id}">                      
+                                    <button type="submit" class="btn btn-primary">Update</button>  
                                 </form>
                             </c:if>
                         </td>

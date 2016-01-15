@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.UserFacade;
 import cz.muni.fi.pa165.facade.WeaponFacade;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,13 +58,35 @@ public class WeaponController {
         return creatureFacade.getAllCreatures();
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model) {
+     @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)
+    public String emptyFilter(RedirectAttributes attributes) {
+        return "redirect:/weapon/list";
+    }
+
+    @RequestMapping(value = {"/list/filter/{word}"}, method = RequestMethod.GET)
+    public String filteredList(Model model, @PathVariable String word) {
         List<WeaponDTO> weapons = weaponFacade.getAllWeapons();
-        model.addAttribute("weapons", weapons);
+        List<WeaponDTO> filteredWeapons = new ArrayList<>();
         String creatures;
         Map<Long, String> creatureWeapon = new HashMap<Long, String>();
-        for (WeaponDTO weapon : weapons) {
+        
+        if(word != null) {
+            for(WeaponDTO w : weapons) {
+                if((w.getGunReach()!= null && w.getGunReach().toString().contains(word)) || 
+                        (w.getAmmunition()!= null && w.getAmmunition().toString().toLowerCase().contains(word.toLowerCase())) ||
+                        (w.getId().toString().contains(word)) ||
+                        (w.getName() != null && w.getName().toLowerCase().contains(word.toLowerCase()))) {
+                    filteredWeapons.add(w);
+                }
+            }
+            model.addAttribute("filter", word);
+        } else {
+            filteredWeapons = weapons;
+        }
+        model.addAttribute("weapons", filteredWeapons);
+        
+        
+        for (WeaponDTO weapon : filteredWeapons) {
             creatures = "";
             for (CreatureDTO creature : creatureFacade.getCreaturesByWeapon(weapon.getName())) {
                 creatures += creature.getName() + ", ";
@@ -85,6 +108,11 @@ public class WeaponController {
             }
         }
         return "/weapon/list";
+    }
+    
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model) {
+        return filteredList(model, null);
     }
 
     @RequestMapping(value = "/addCreature/{cid}/to/{id}", method = RequestMethod.GET)

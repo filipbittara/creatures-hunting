@@ -11,8 +11,8 @@ public class AreaDTO {
     private Long id;
     private String name;
     private String description;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
     private byte[] image;
     private String imageMimeType;
     private MultipartFile multipartImage;
@@ -41,7 +41,7 @@ public class AreaDTO {
         this.description = description;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
@@ -49,7 +49,7 @@ public class AreaDTO {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 

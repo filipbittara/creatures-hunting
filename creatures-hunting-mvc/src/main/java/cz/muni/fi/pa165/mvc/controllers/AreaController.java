@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.UserFacade;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,21 +43,40 @@ public class AreaController {
 
     @Autowired
     private HttpSession session;
-    
+
     @Autowired
     private UserFacade userFacade;
 
     @Autowired
     private CreatureFacade creatureFacade;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model) {
+    @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)
+    public String emptyFilter(RedirectAttributes attributes) {
+        return "redirect:/area/list";
+    }
 
+    @RequestMapping(value = {"/list/filter/{word}"}, method = RequestMethod.GET)
+    public String filteredList(Model model, @PathVariable String word) {
         List<AreaDTO> areas = areaFacade.getAllAreas();
-        model.addAttribute("areas", areas);
+        List<AreaDTO> filteredAreas = new ArrayList<>();
         String creatures;
         Map<Long, String> creatureAreas = new HashMap<Long, String>();
-        for (AreaDTO area : areas) {
+        if(word != null) {
+            for(AreaDTO a : areas) {
+                if((a.getLatitude()!= null && a.getLatitude().toString().contains(word)) || 
+                        (a.getLongitude()!= null && a.getLongitude().toString().contains(word)) ||
+                        (a.getId().toString().contains(word)) ||
+                        (a.getDescription()!= null && a.getDescription().toLowerCase().contains(word.toLowerCase())) ||
+                        (a.getName() != null && a.getName().toLowerCase().contains(word.toLowerCase()))) {
+                    filteredAreas.add(a);
+                }
+            }
+            model.addAttribute("filter", word);
+        } else {
+            filteredAreas = areas;
+        }
+        model.addAttribute("areas", filteredAreas);
+        for (AreaDTO area : filteredAreas) {
             creatures = "";
             for (CreatureDTO creature : creatureFacade.getCreaturesByArea(area.getName())) {
                 creatures += creature.getName() + ", ";
@@ -80,6 +100,11 @@ public class AreaController {
         return "/area/list";
     }
 
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model) {
+        return filteredList(model, null);
+    }
+
     @ModelAttribute("creatures")
     public List<CreatureDTO> creatures() {
         return creatureFacade.getAllCreatures();
@@ -93,7 +118,7 @@ public class AreaController {
         redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
-    
+
     @RequestMapping(value = "/removeCreature/{cid}/from/{id}", method = RequestMethod.GET)
     public String removeCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(cid);
@@ -116,7 +141,7 @@ public class AreaController {
         redirectAttributes.addFlashAttribute("alert_success", "Product \"" + area.getName() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
-    
+
     @RequestMapping("/areaImage/{id}")
     public void areaImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         AreaDTO areaDTO = areaFacade.getArea(id);
@@ -130,16 +155,16 @@ public class AreaController {
             out.flush();
         }
     }
-    
+
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
     public String newProduct(Model model) {
         model.addAttribute("areaCreate", new AreaDTO());
         return "area/new";
     }
-    
+
     @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("areaCreate") AreaDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -150,7 +175,7 @@ public class AreaController {
             }
             return "area/new";
         }
-        
+
         MultipartFile image = formBean.getMultipartImage();
 
         if (image.getSize() > 0) {
@@ -167,15 +192,15 @@ public class AreaController {
         redirectAttributes.addFlashAttribute("alert_success", "Area " + formBean.getName() + " was created");
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
-    
+
     @RequestMapping(value = {"/admin/update/{id}"}, method = RequestMethod.GET)
-    public String update(@PathVariable long id, Model model ) {
-        
+    public String update(@PathVariable long id, Model model) {
+
         AreaDTO area = areaFacade.getArea(id);
         model.addAttribute("areaUpdate", area);
         return "area/edit";
     }
-    
+
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
     public String update(
             @Valid @ModelAttribute("areaUpdate") AreaDTO formBean,
@@ -186,15 +211,15 @@ public class AreaController {
             UriComponentsBuilder uriBuilder) {
 
         if (bindingResult.hasErrors()) {
-             for (ObjectError ge : bindingResult.getGlobalErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 //log.trace("ObjectError: {}", ge);
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-            }   
+            }
             return "area/edit";
         }
-        
+
         MultipartFile image = formBean.getMultipartImage();
 
         if (image.getSize() > 0) {
@@ -210,7 +235,7 @@ public class AreaController {
             formBean.setImage(areaFacade.getArea(formBean.getId()).getImage());
         }
         areaFacade.updateArea(formBean);
-        redirectAttributes.addFlashAttribute("alert_success", "Area " + formBean.getName()+ " updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Area " + formBean.getName() + " updated");
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
 }

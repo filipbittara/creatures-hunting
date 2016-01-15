@@ -17,10 +17,6 @@
 <jsp:attribute name="body">
     
     <script  type="text/javascript">
-        function removeLastSlash(str) {
-            return str.replace(/\/(\s+)?$/, '');   
-        }
-        
         function submit_filter() {
             if(event.keyCode == 13) {
                 location.href = '${pageContext.request.contextPath}' + '/creature/list/filter/' + filter_page.value        

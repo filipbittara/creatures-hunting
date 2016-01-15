@@ -33,8 +33,8 @@ public class Area {
 
     private String description;
 
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     @ManyToMany
     private Set<Creature> creatures = new HashSet<Creature>();
@@ -67,7 +67,7 @@ public class Area {
         this.description = description;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
@@ -75,7 +75,7 @@ public class Area {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 

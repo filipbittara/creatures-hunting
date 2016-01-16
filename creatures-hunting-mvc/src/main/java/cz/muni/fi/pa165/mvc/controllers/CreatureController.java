@@ -52,41 +52,41 @@ public class CreatureController {
 
     @Autowired
     private CreatureFacade creatureFacade;
-    
+
     @Autowired
     private WeaponFacade weaponFacade;
-    
+
     @Autowired
     private AreaFacade areaFacade;
-    
+
     @Autowired
     private UserFacade userFacade;
-    
-    @Autowired 
+
+    @Autowired
     private HttpSession session;
 
     @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)
     public String emptyFilter(RedirectAttributes attributes) {
         return "redirect:/creature/list";
     }
-    
+
     @RequestMapping(value = {"/list/filter/{word}"}, method = RequestMethod.GET)
     public String filteredList(Model model, @PathVariable String word) {
         List<CreatureDTO> creatures = creatureFacade.getAllCreatures();
         List<CreatureDTO> filteredCreatures = new ArrayList<CreatureDTO>();
         Map<Long, String> creatureAreas = new HashMap<Long, String>();
         Map<Long, String> creatureWeapons = new HashMap<Long, String>();
-        
-        if(word != null) {
-            for(CreatureDTO c : creatures) {
-                if((c.getAgility()!= null && c.getAgility().toString().contains(word)) ||
-                        (c.getFerocity()!= null &&  c.getFerocity().toString().contains(word)) ||
-                        (c.getHeight()!= null &&  c.getHeight().toString().contains(word)) ||
-                        (c.getId().toString().contains(word)) ||
-                        (c.getWeight()!= null &&  c.getWeight().toString().contains(word)) ||
-                        (c.getName()!= null &&  c.getName().toLowerCase().contains(word.toLowerCase())) ||
-                        (c.getType()!= null &&  c.getType().toString().toLowerCase().contains(word.toLowerCase())) ||
-                        (c.getWeakness()!= null &&  c.getWeakness().toLowerCase().contains(word.toLowerCase()))) {
+
+        if (word != null) {
+            for (CreatureDTO c : creatures) {
+                if ((c.getAgility() != null && c.getAgility().toString().contains(word))
+                        || (c.getFerocity() != null && c.getFerocity().toString().contains(word))
+                        || (c.getHeight() != null && c.getHeight().toString().contains(word))
+                        || (c.getId().toString().contains(word))
+                        || (c.getWeight() != null && c.getWeight().toString().contains(word))
+                        || (c.getName() != null && c.getName().toLowerCase().contains(word.toLowerCase()))
+                        || (c.getType() != null && c.getType().toString().toLowerCase().contains(word.toLowerCase()))
+                        || (c.getWeakness() != null && c.getWeakness().toLowerCase().contains(word.toLowerCase()))) {
                     filteredCreatures.add(c);
                 }
             }
@@ -96,90 +96,105 @@ public class CreatureController {
         }
         model.addAttribute("creatures", filteredCreatures);
         String areas;
-        for(CreatureDTO creature : filteredCreatures) {           
+        for (CreatureDTO creature : filteredCreatures) {
             areas = "";
-            for(AreaDTO area : areaFacade.getAreasForCreature(creature)) {
+            for (AreaDTO area : areaFacade.getAreasForCreature(creature)) {
                 areas += area.getName() + ", ";
             }
-            if("".equals(areas)) {
+            if ("".equals(areas)) {
                 areas = "nowhere";
             } else {
                 areas = areas.substring(0, areas.length() - 2);
             }
-            creatureAreas.put(creature.getId(),areas);
+            creatureAreas.put(creature.getId(), areas);
         }
         String weapons;
-        for(CreatureDTO creature : filteredCreatures) {           
+        for (CreatureDTO creature : filteredCreatures) {
             weapons = "";
-            for(WeaponDTO weapon : weaponFacade.getWeaponsByCreature(creature)) {
+            for (WeaponDTO weapon : weaponFacade.getWeaponsByCreature(creature)) {
                 weapons += weapon.getName() + ", ";
             }
-            if("".equals(weapons)) {
-                 weapons = "nothing";
+            if ("".equals(weapons)) {
+                weapons = "nothing";
             } else {
                 weapons = weapons.substring(0, weapons.length() - 2);
             }
-            creatureWeapons.put(creature.getId(),weapons);
+            creatureWeapons.put(creature.getId(), weapons);
         }
 
-            model.addAttribute("creatureAreas", creatureAreas);
-            model.addAttribute("creatureWeapons", creatureWeapons);
-            UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
-            if (user != null) {
-                if (userFacade.isAdmin(user)) {
-                    model.addAttribute("authenticatedAdmin", user.getUsername());
-                } else {
-                    model.addAttribute("authenticatedUser", user.getUsername());
-                }   
+        model.addAttribute("creatureAreas", creatureAreas);
+        model.addAttribute("creatureWeapons", creatureWeapons);
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
             }
+        }
         return "/creature/list";
     }
-    
-    
-    @RequestMapping(value="/list", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
         return filteredList(model, null);
     }
-    
+
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
     public String newProduct(Model model) {
         model.addAttribute("creatureCreate", new CreatureDTO());
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+            }
+        }
         return "creature/new";
     }
-    
+
     @RequestMapping(value = {"/admin/update/{id}"}, method = RequestMethod.GET)
-    public String update(@PathVariable long id, Model model ) {
-        
+    public String update(@PathVariable long id, Model model) {
+
         CreatureDTO creature = creatureFacade.getCreature(id);
         model.addAttribute("creatureUpdate", creature);
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+            }
+        }
         return "creature/edit";
     }
-    
+
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         if (binder.getTarget() instanceof CreatureDTO) {
             binder.addValidators(new CreatureDTOValidator());
         }
     }
-    
+
     @ModelAttribute("types")
     public CreatureType[] types() {
         return CreatureType.values();
     }
-    
+
     @ModelAttribute("weapons")
     public List<WeaponDTO> weapons() {
         return weaponFacade.getAllWeapons();
     }
-    
+
     @ModelAttribute("areas")
     public List<AreaDTO> areas() {
         return areaFacade.getAllAreas();
     }
-    
+
     @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("creatureCreate") CreatureDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -190,7 +205,7 @@ public class CreatureController {
             }
             return "creature/new";
         }
-        
+
         MultipartFile image = formBean.getMultipartImage();
 
         if (image.getSize() > 0) {
@@ -207,7 +222,7 @@ public class CreatureController {
         redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName() + " was created");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
-    
+
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
     public String update(
             @Valid @ModelAttribute("creatureUpdate") CreatureDTO formBean,
@@ -218,15 +233,15 @@ public class CreatureController {
             UriComponentsBuilder uriBuilder) {
 
         if (bindingResult.hasErrors()) {
-             for (ObjectError ge : bindingResult.getGlobalErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 //log.trace("ObjectError: {}", ge);
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-            }   
+            }
             return "creature/edit";
         }
-        
+
         MultipartFile image = formBean.getMultipartImage();
 
         if (image.getSize() > 0) {
@@ -242,7 +257,7 @@ public class CreatureController {
             formBean.setImage(creatureFacade.getCreature(formBean.getId()).getImage());
         }
         creatureFacade.updateCreature(formBean);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName()+ " updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Creature " + formBean.getName() + " updated");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
@@ -253,43 +268,43 @@ public class CreatureController {
         redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
-    
-    @RequestMapping(value = "/addWeapon/{wid}/to/{id}", method = RequestMethod.GET) 
+
+    @RequestMapping(value = "/addWeapon/{wid}/to/{id}", method = RequestMethod.GET)
     public String addWeapon(@PathVariable long id, @PathVariable long wid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(id);
         WeaponDTO weapon = weaponFacade.getWeaponById(wid);
         weaponFacade.assignCreature(weapon, creature);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \""+ weapon.getName() + "\".");
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \"" + weapon.getName() + "\".");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
-    
-    @RequestMapping(value = "/removeWeapon/{wid}/from/{id}", method = RequestMethod.GET) 
+
+    @RequestMapping(value = "/removeWeapon/{wid}/from/{id}", method = RequestMethod.GET)
     public String removeWeapon(@PathVariable long id, @PathVariable long wid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(id);
         WeaponDTO weapon = weaponFacade.getWeaponById(wid);
         weaponFacade.removeCreature(weapon, creature);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could not be harmed by weapon \""+ weapon.getName() + "\".");
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could not be harmed by weapon \"" + weapon.getName() + "\".");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
-    @RequestMapping(value = "/addArea/{aid}/to/{id}", method = RequestMethod.GET) 
+    @RequestMapping(value = "/addArea/{aid}/to/{id}", method = RequestMethod.GET)
     public String addArea(@PathVariable long id, @PathVariable long aid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(id);
         AreaDTO area = areaFacade.getArea(aid);
         areaFacade.addCreatureToArea(creature.getId(), area.getId());
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \""+ area.getName() + "\".");
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
-    
-    @RequestMapping(value = "/removeArea/{aid}/from/{id}", method = RequestMethod.GET) 
+
+    @RequestMapping(value = "/removeArea/{aid}/from/{id}", method = RequestMethod.GET)
     public String removeArea(@PathVariable long id, @PathVariable long aid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(id);
         AreaDTO area = areaFacade.getArea(aid);
         areaFacade.removeCreatureFromArea(creature.getId(), area.getId());
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \""+ area.getName() + "\".");
+        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \"" + area.getName() + "\".");
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
-    
+
     @RequestMapping("/creatureImage/{id}")
     public void creatureImage(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         CreatureDTO creatureDTO = creatureFacade.getCreature(id);
@@ -304,4 +319,3 @@ public class CreatureController {
         }
     }
 }
-

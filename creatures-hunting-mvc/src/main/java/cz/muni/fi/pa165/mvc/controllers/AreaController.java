@@ -61,13 +61,13 @@ public class AreaController {
         List<AreaDTO> filteredAreas = new ArrayList<>();
         String creatures;
         Map<Long, String> creatureAreas = new HashMap<Long, String>();
-        if(word != null) {
-            for(AreaDTO a : areas) {
-                if((a.getLatitude()!= null && a.getLatitude().toString().contains(word)) || 
-                        (a.getLongitude()!= null && a.getLongitude().toString().contains(word)) ||
-                        (a.getId().toString().contains(word)) ||
-                        (a.getDescription()!= null && a.getDescription().toLowerCase().contains(word.toLowerCase())) ||
-                        (a.getName() != null && a.getName().toLowerCase().contains(word.toLowerCase()))) {
+        if (word != null) {
+            for (AreaDTO a : areas) {
+                if ((a.getLatitude() != null && a.getLatitude().toString().contains(word))
+                        || (a.getLongitude() != null && a.getLongitude().toString().contains(word))
+                        || (a.getId().toString().contains(word))
+                        || (a.getDescription() != null && a.getDescription().toLowerCase().contains(word.toLowerCase()))
+                        || (a.getName() != null && a.getName().toLowerCase().contains(word.toLowerCase()))) {
                     filteredAreas.add(a);
                 }
             }
@@ -159,6 +159,14 @@ public class AreaController {
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
     public String newProduct(Model model) {
         model.addAttribute("areaCreate", new AreaDTO());
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+            }
+        }
         return "area/new";
     }
 
@@ -198,6 +206,14 @@ public class AreaController {
 
         AreaDTO area = areaFacade.getArea(id);
         model.addAttribute("areaUpdate", area);
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+            }
+        }
         return "area/edit";
     }
 

@@ -46,7 +46,7 @@ public class WeaponController {
 
     @Autowired
     private CreatureFacade creatureFacade;
-    
+
     @Autowired
     private UserFacade userFacade;
 
@@ -58,7 +58,7 @@ public class WeaponController {
         return creatureFacade.getAllCreatures();
     }
 
-     @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)
     public String emptyFilter(RedirectAttributes attributes) {
         return "redirect:/weapon/list";
     }
@@ -69,13 +69,13 @@ public class WeaponController {
         List<WeaponDTO> filteredWeapons = new ArrayList<>();
         String creatures;
         Map<Long, String> creatureWeapon = new HashMap<Long, String>();
-        
-        if(word != null) {
-            for(WeaponDTO w : weapons) {
-                if((w.getGunReach()!= null && w.getGunReach().toString().contains(word)) || 
-                        (w.getAmmunition()!= null && w.getAmmunition().toString().toLowerCase().contains(word.toLowerCase())) ||
-                        (w.getId().toString().contains(word)) ||
-                        (w.getName() != null && w.getName().toLowerCase().contains(word.toLowerCase()))) {
+
+        if (word != null) {
+            for (WeaponDTO w : weapons) {
+                if ((w.getGunReach() != null && w.getGunReach().toString().contains(word))
+                        || (w.getAmmunition() != null && w.getAmmunition().toString().toLowerCase().contains(word.toLowerCase()))
+                        || (w.getId().toString().contains(word))
+                        || (w.getName() != null && w.getName().toLowerCase().contains(word.toLowerCase()))) {
                     filteredWeapons.add(w);
                 }
             }
@@ -84,8 +84,7 @@ public class WeaponController {
             filteredWeapons = weapons;
         }
         model.addAttribute("weapons", filteredWeapons);
-        
-        
+
         for (WeaponDTO weapon : filteredWeapons) {
             creatures = "";
             for (CreatureDTO creature : creatureFacade.getCreaturesByWeapon(weapon.getName())) {
@@ -109,7 +108,7 @@ public class WeaponController {
         }
         return "/weapon/list";
     }
-    
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
         return filteredList(model, null);
@@ -123,7 +122,7 @@ public class WeaponController {
         redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \"" + weapon.getName() + "\".");
         return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
-    
+
     @RequestMapping(value = "/removeCreature/{cid}/from/{id}", method = RequestMethod.GET)
     public String removeCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
         CreatureDTO creature = creatureFacade.getCreature(cid);
@@ -160,21 +159,29 @@ public class WeaponController {
             out.flush();
         }
     }
-    
+
     @ModelAttribute("types")
     public AmmunitionType[] types() {
         return AmmunitionType.values();
     }
-    
+
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
     public String newProduct(Model model) {
         model.addAttribute("weaponCreate", new WeaponDTO());
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+            }
+        }
         return "weapon/new";
     }
-    
+
     @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("weaponCreate") WeaponDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
+            Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) {
         //in case of validation error forward back to the the form
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
@@ -185,7 +192,7 @@ public class WeaponController {
             }
             return "weapon/new";
         }
-        
+
         MultipartFile image = formBean.getMultipartImage();
 
         if (image.getSize() > 0) {
@@ -202,15 +209,23 @@ public class WeaponController {
         redirectAttributes.addFlashAttribute("alert_success", "Weapon " + formBean.getName() + " was created");
         return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
-    
+
     @RequestMapping(value = {"/admin/update/{id}"}, method = RequestMethod.GET)
-    public String update(@PathVariable long id, Model model ) {
-        
+    public String update(@PathVariable long id, Model model) {
+
         WeaponDTO weapon = weaponFacade.getWeaponById(id);
         model.addAttribute("weaponUpdate", weapon);
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (user != null) {
+            if (userFacade.isAdmin(user)) {
+                model.addAttribute("authenticatedAdmin", user.getUsername());
+            } else {
+                model.addAttribute("authenticatedUser", user.getUsername());
+            }
+        }
         return "weapon/edit";
     }
-    
+
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
     public String update(
             @Valid @ModelAttribute("weaponUpdate") WeaponDTO formBean,
@@ -221,15 +236,15 @@ public class WeaponController {
             UriComponentsBuilder uriBuilder) {
 
         if (bindingResult.hasErrors()) {
-             for (ObjectError ge : bindingResult.getGlobalErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 //log.trace("ObjectError: {}", ge);
             }
             for (FieldError fe : bindingResult.getFieldErrors()) {
                 model.addAttribute(fe.getField() + "_error", true);
-            }   
+            }
             return "weapon/edit";
         }
-        
+
         MultipartFile image = formBean.getMultipartImage();
 
         if (image.getSize() > 0) {
@@ -245,7 +260,7 @@ public class WeaponController {
             formBean.setImage(weaponFacade.getWeaponById(formBean.getId()).getImage());
         }
         weaponFacade.updateWeapon(formBean);
-        redirectAttributes.addFlashAttribute("alert_success", "Weapon " + formBean.getName()+ " updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Weapon " + formBean.getName() + " updated");
         return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
 

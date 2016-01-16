@@ -98,7 +98,7 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
         return creature;
     }
 
-    private Area area(String name, String description, double latitude, double longitude, String imageName) {
+    private Area area(String name, String description, Double latitude, Double longitude, String imageName) {
         Area area = new Area();
         area.setName(name);
         area.setDescription(description);

@@ -41,15 +41,8 @@ public class LoginController {
         authDTO.setPassword(password);
         if (userFacade.authenticate(authDTO)) {
             // authenticated
-            if (userFacade.isAdmin(user)) {
-                model.addAttribute("authenticatedAdmin", user.getUsername());
-            } else {
-                model.addAttribute("authenticatedUser", user.getUsername());           
-            }
             session.setAttribute("authenticated", user);
-            return "home";
-            //TODO solve area population problem
-            
+            return "redirect:/home";            
             
         }
         return "redirect:/";

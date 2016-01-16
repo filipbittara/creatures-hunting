@@ -58,6 +58,10 @@ public class UserController {
     @RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) {
         model.addAttribute("user", userFacade.findUserById(id));
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        if (!userFacade.isAdmin(user)) {
+            return "redirect:/user/current";
+        }
         setUser(model);
         return ("user/detail");
     }

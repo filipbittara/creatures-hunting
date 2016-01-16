@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author David Kizivat
  */
 
-@WebFilter(urlPatterns={})
+@WebFilter(urlPatterns={"/creature/*", "/home/*","/user/*", "/area/*", "/weapon/*"})
 public class AdminFilter implements Filter {
 
     final static Logger log = LoggerFactory.getLogger(AdminFilter.class);
@@ -33,46 +33,10 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-        String auth = request.getHeader("Authorization");
-
-        if (auth == null) {
-            response401(response);
-            return;
+         if (request.getSession().getAttribute("authenticated") == null) {
+            response.sendRedirect(request.getContextPath());
         }
-
-        String[] credentials = new String(DatatypeConverter.parseBase64Binary(auth.split(" ")[1])).split(":", 2);
-        String loginName = credentials[0];
-        String password = credentials[1];
-
-        UserFacade userFacade = WebApplicationContextUtils.getWebApplicationContext(servletRequest.getServletContext()).getBean(UserFacade.class);
-        UserDTO matchingUser = userFacade.findUserByEmail(loginName);
-        
-
-        if (matchingUser == null) {
-            log.warn("no user with email {}", loginName);
-            response401(response);
-            return;
-        }
-
-        UserAuthenticateDTO userAuthenticateDTO = new UserAuthenticateDTO();
-        userAuthenticateDTO.setUserId(matchingUser.getId());
-        userAuthenticateDTO.setPassword(password);
-
-        if (!userFacade.authenticate(userAuthenticateDTO)) {
-            log.warn("wrong credentials: user={} password={}", loginName, password);
-            return;
-        }
-
-        request.setAttribute("authenticatedUser", matchingUser);
-
         filterChain.doFilter(request, response);
-    }
-
-    private void response401(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setHeader("WWW-Authenticate", "Basic realm=\"email and password here\"");
-        response.getWriter().println("<html><body><h1>401 Unauthorized</h1> You are not authorized to view this page.</body></html>");
     }
 
     @Override

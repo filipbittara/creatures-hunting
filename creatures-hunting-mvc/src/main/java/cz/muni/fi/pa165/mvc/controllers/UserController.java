@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.dto.UserAuthenticateDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.facade.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -64,6 +66,16 @@ public class UserController {
         }
         setUser(model);
         return ("user/detail");
+    }
+    
+    @RequestMapping(value="/changePassword", method=RequestMethod.POST)
+    public String changePassword(Model model, @RequestParam("current") String current, @RequestParam("new") String newPassword) {
+        UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
+        UserAuthenticateDTO auth = new UserAuthenticateDTO();
+        auth.setUserId(user.getId());
+        auth.setPassword(current);
+        userFacade.changePassword(auth, newPassword);
+        return "redirect:/user/current";
     }
 
 //    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)

@@ -34,10 +34,14 @@ public class CreatureManagerImpl implements CreatureManager {
 
     @Override
     public void updateCreature(Creature creature) {
+        if (creature == null) {
+            throw new IllegalArgumentException("Creature could not be null.");
+        }
         if(em.find(Creature.class, creature.getId()) == null) {
             throw new IllegalArgumentException("Creature could not be found in DB");
         }
         em.merge(creature);
+        em.flush();
     }
 
     @Override

@@ -25,6 +25,22 @@
                     $('#enter_name').css('display', 'none');
                 }
             });
+
+            $('input#gunReach').on("change paste keyup", function() {
+                if ($('input#gunReach').val().length == 0
+                        || parseFloat($('input#gunReach').val()) < 0
+                        || $.isNumeric($('input#gunReach').val()) == false) {
+                    $('#reach_err').css('display', 'block');
+                } else {
+                    $('#reach_err').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
         });
     </script>
     <form:form method="post" action="${pageContext.request.contextPath}/weapon/admin/create"
@@ -63,7 +79,8 @@
         </div>
       
         <button class="btn btn-primary" disabled="disabled" type="submit">Create weapon</button>
-        <span style="color: red; display: block" id="enter_name">- You must <strong>name</strong> the weapon.</span>
+        <span style="color: red; display: block" id="enter_name" class="input-err">You must <strong>name</strong> the weapon.</span>
+        <span style="color: red; display: block" id="reach_err" class="input-err">The <strong>reach</strong> of the weapon must be >=0.</span>
     </form:form>
 
 </jsp:attribute>

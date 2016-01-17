@@ -22,7 +22,14 @@ public class CreatureDTOValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         CreatureDTO creatureDTO = (CreatureDTO) target;
+        if (creatureDTO.getName() != null) return;
         if (creatureDTO.getHeight() < 0)
             errors.rejectValue("height", "Creature too small");
+        if (creatureDTO.getWeight() < 0)
+            errors.rejectValue("weight", "Creature too light");
+        if (creatureDTO.getAgility() < 0 || creatureDTO.getAgility() > 10)
+            errors.rejectValue("agility", "Creature's agility out of range");
+        if (creatureDTO.getFerocity() < 0 || creatureDTO.getFerocity() > 10)
+            errors.rejectValue("Ferocity", "Creature's ferocity out of range");
     } 
 }

@@ -20,16 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import cz.muni.fi.pa165.mvc.forms.WeaponCreateDTOValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -278,6 +278,13 @@ public class WeaponController {
             }
         }
         return "weapon/edit";
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (binder.getTarget() instanceof CreatureDTO) {
+            binder.addValidators(new WeaponCreateDTOValidator());
+        }
     }
 
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)

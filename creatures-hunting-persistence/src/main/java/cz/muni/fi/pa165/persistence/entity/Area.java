@@ -4,6 +4,8 @@
  */
 package cz.muni.fi.pa165.persistence.entity;
 
+import org.hibernate.validator.constraints.Range;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -33,7 +35,10 @@ public class Area {
 
     private String description;
 
+    @Range(min=-180, max=180)
     private Double latitude;
+
+    @Range(min=-180, max=180)
     private Double longitude;
 
     @ManyToMany

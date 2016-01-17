@@ -25,6 +25,40 @@
                         $('#enter_name').css('display', 'none');
                     }
                 });
+
+                $('input#latitude').on("change paste keyup", function() {
+                    if ($('input#latitude').val().length == 0
+                            || parseFloat($('input#latitude').val()) < -180
+                            || parseFloat($('input#latitude').val()) > 180
+                            || $.isNumeric($('input#latitude').val()) == false) {
+                        $('#lat_err').css('display', 'block');
+                    } else {
+                        $('#lat_err').css('display', 'none');
+                    }
+                    console.log($('span.input-err:visible').length);
+                    if ($('span.input-err:visible').length == 0) {
+                        $('button[type="submit"]').removeAttr('disabled');
+                    } else {
+                        $('button[type="submit"]').attr('disabled', 'disabled');
+                    }
+                });
+
+                $('input#longitude').on("change paste keyup", function() {
+                    if ($('input#longitude').val().length == 0
+                            || parseFloat($('input#longitude').val()) < -180
+                            || parseFloat($('input#longitude').val()) > 180
+                            || $.isNumeric($('input#longitude').val()) == false) {
+                        $('#lon_err').css('display', 'block');
+                    } else {
+                        $('#lon_err').css('display', 'none');
+                    }
+                    console.log($('span.input-err:visible').length);
+                    if ($('span.input-err:visible').length == 0) {
+                        $('button[type="submit"]').removeAttr('disabled');
+                    } else {
+                        $('button[type="submit"]').attr('disabled', 'disabled');
+                    }
+                });
             });
     </script>
 
@@ -67,7 +101,9 @@
         </div>
       
         <button class="btn btn-primary" disabled="disabled" type="submit">Create area</button>
-        <span style="color: red; display: block" id="enter_name">You must <strong>name</strong> the area.</span>
+        <span style="color: red; display: block" id="enter_name" class="input-err">You must <strong>name</strong> the area.</span>
+        <span style="color: red; display: block" id="lat_err" class="input-err"><strong>Latitude</strong> must be in the interval [-180; 180].</span>
+        <span style="color: red; display: block" id="lon_err" class="input-err"><strong>Longitude</strong> must be in the interval [-180; 180].</span>
     </form:form>
 
 </jsp:attribute>

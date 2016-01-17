@@ -39,7 +39,13 @@ public class UserManagerImpl implements UserManager {
 
 	@Override
 	public void updateUser(User user) {
-		em.merge(user);
+            if (user == null) {
+                throw new IllegalArgumentException("User could not be null.");
+            } else if (em.find(User.class, user.getId()) == null) {
+                throw new IllegalArgumentException("User could not be found in DB.");
+            }
+            em.merge(user);
+            em.flush();
 	}
 
 	@Override

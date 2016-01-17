@@ -8,6 +8,91 @@
 <my:template title="New creature">
 <jsp:attribute name="body">
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input#name').on("change paste keyup", function() {
+                if ($('input#name').val().length == 0) {
+                    $('#enter_name').css('display', 'block');
+                } else {
+                    $('#enter_name').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
+
+            $('input#height').on("change paste keyup", function() {
+                if ($('input#height').val().length == 0
+                        || parseFloat($('input#height').val()) <= 0
+                        || $.isNumeric($('input#height').val()) == false) {
+                    $('#height_err').css('display', 'block');
+                } else {
+                    $('#height_err').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
+
+            $('input#weight').on("change paste keyup", function() {
+                if ($('input#weight').val().length == 0
+                        || parseFloat($('input#weight').val()) <= 0
+                        || $.isNumeric($('input#weight').val()) == false) {
+                    $('#weight_err').css('display', 'block');
+                } else {
+                    $('#weight_err').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
+
+            $('input#agility').on("change paste keyup", function() {
+                if ($('input#agility').val().length == 0
+                        || parseInt($('input#agility').val()) < 0
+                        || parseInt($('input#agility').val()) > 10
+                        || $.isNumeric($('input#agility').val()) == false) {
+                    $('#agi_err').css('display', 'block');
+                } else {
+                    $('#agi_err').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
+
+            $('input#ferocity').on("change paste keyup", function() {
+                if ($('input#ferocity').val().length == 0
+                        || parseInt($('input#ferocity').val()) < 0
+                        || parseInt($('input#ferocity').val()) > 10
+                        || $.isNumeric($('input#ferocity').val()) == false) {
+                    $('#fero_err').css('display', 'block');
+                } else {
+                    $('#fero_err').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
+
+        });
+    </script>
+
     <form:form method="post" action="${pageContext.request.contextPath}/creature/admin/create"
                modelAttribute="creatureCreate" cssClass="form-horizontal" enctype="multipart/form-data">
         <div class="form-group ${name_error?'has-error':''}">
@@ -71,7 +156,12 @@
             </div>
         </div>
       
-        <button class="btn btn-primary" type="submit">Create creature</button>
+        <button class="btn btn-primary" disabled="disabled" type="submit">Create creature</button>
+        <span style="color: red; display: block" id="enter_name" class="input-err">- You must <strong>name</strong> the creature.</span>
+        <span style="color: red; display: block" id="height_err" class="input-err">- The <strong>height</strong> of the creature must be a positive number.</span>
+        <span style="color: red; display: block" id="weight_err" class="input-err">- The <strong>weight</strong> of the creature must be a positive number.</span>
+        <span style="color: red; display: block" id="agi_err" class="input-err">- The <strong>agility</strong> of the creature must be an integer in the interval [0, 10].</span>
+        <span style="color: red; display: block" id="fero_err" class="input-err">- The <strong>ferocity</strong> of the creature must be an integer in the interval [0, 10].</span>
     </form:form>
 
 </jsp:attribute>

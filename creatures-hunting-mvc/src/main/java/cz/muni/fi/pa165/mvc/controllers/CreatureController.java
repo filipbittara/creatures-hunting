@@ -141,7 +141,7 @@ public class CreatureController {
     }
 
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
-    public String newProduct(Model model) {
+    public String newCreature(Model model) {
         model.addAttribute("creatureCreate", new CreatureDTO());
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {

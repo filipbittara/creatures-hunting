@@ -2,11 +2,14 @@ package cz.muni.fi.pa165.persistence.entity;
 
 
 import cz.muni.fi.pa165.persistence.entity.enums.CreatureType;
+import org.hibernate.validator.constraints.Range;
+
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -25,9 +28,17 @@ public class Creature {
     private String name;
     
     private CreatureType type;
+
+    @Min(value=0)
     private Double height;
+
+    @Min(value=0)
     private Double weight;
+
+    @Range(min=0, max=10)
     private Integer agility;
+
+    @Range(min=0, max=10)
     private Integer ferocity;
     private String weakness;
     

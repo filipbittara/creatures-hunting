@@ -220,7 +220,7 @@ public class WeaponController {
     }
 
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
-    public String newProduct(Model model) {
+    public String newWeapon(Model model) {
         model.addAttribute("weaponCreate", new WeaponDTO());
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {

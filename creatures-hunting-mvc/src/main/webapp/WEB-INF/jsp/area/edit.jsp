@@ -7,7 +7,26 @@
 
 <my:template title="New area">
 <jsp:attribute name="body">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input#name').on("change paste keyup", function() {
+                var empty = false;
+                $('input#name').each(function() {
+                    if ($(this).val().length == 0) {
+                        empty = true;
+                    }
+                });
 
+                if (empty) {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                    $('#enter_name').css('display', 'block');
+                } else {
+                    $('button[type="submit"]').removeAttr('disabled');
+                    $('#enter_name').css('display', 'none');
+                }
+            });
+        });
+    </script>
     <form:form method="post" action="${pageContext.request.contextPath}/area/admin/update/${areaUpdate.id}"
                modelAttribute="areaUpdate" cssClass="form-horizontal" enctype="multipart/form-data">
         <div class="form-group ${name_error?'has-error':''}">
@@ -47,6 +66,7 @@
         </div>
       
         <button class="btn btn-primary" type="submit">Update area</button>
+        <span style="color: red; display: none" id="enter_name">- You must <strong>name</strong> the area.</span>
     </form:form>
 
 </jsp:attribute>

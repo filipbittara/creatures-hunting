@@ -165,7 +165,7 @@ public class AreaController {
     }
 
     @RequestMapping(value = "/admin/new", method = RequestMethod.GET)
-    public String newProduct(Model model) {
+    public String newArea(Model model) {
         model.addAttribute("areaCreate", new AreaDTO());
         UserDTO user = UserDTO.class.cast(session.getAttribute("authenticated"));
         if (user != null) {

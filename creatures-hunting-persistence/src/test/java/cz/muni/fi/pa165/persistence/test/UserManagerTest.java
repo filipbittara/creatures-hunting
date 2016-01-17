@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.persistence.test;
 import cz.muni.fi.pa165.persistence.PersistenceApplicationContext;
 import cz.muni.fi.pa165.persistence.dao.UserManager;
 import cz.muni.fi.pa165.persistence.entity.User;
+import cz.muni.fi.pa165.persistence.entity.enums.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -113,6 +114,14 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
     }
     
     /**
+     * Tests deletion of null user
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void deleteNull() {
+        userManager.deleteUser(null);
+    }
+    
+    /**
      * Checks that entity could be updated.
      */
     @Test
@@ -125,7 +134,18 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
             userManager.updateUser(u);
             Assert.assertEquals(userManager.findUser(u.getId()).getUsername(), "Other user");
     }
+    
+    /**
+     * Checks that updating null entity throws an exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void updateNull() {
+        userManager.updateUser(null);
+    }
 
+    /**
+     * Checks that finding user by email works.
+     */
     @Test
     public void findUserByEmailTest() {
         User u = new User();
@@ -141,6 +161,59 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(res.getEmail(), u.getEmail());
         Assert.assertEquals(res.getPassword(), u.getPassword());
         Assert.assertEquals(res.getRole(), u.getRole());
+    }
+    
+    /**
+     * Checks that finding user by email works.
+     */
+    @Test
+    public void findUserByUsernameTest() {
+        User u = new User();
+        u.setUsername("admin");
+        u.setEmail("admin@admin.cz");
+        u.setRole(UserRole.ADMIN);
+
+        userManager.addUser(u);
+
+        User res = userManager.findUserByUsername("admin");
+
+        Assert.assertEquals(res.getId(), u.getId());
+        Assert.assertEquals(res.getUsername(), u.getUsername());
+        Assert.assertEquals(res.getEmail(), u.getEmail());
+        Assert.assertEquals(res.getPassword(), u.getPassword());
+        Assert.assertEquals(res.getRole(), u.getRole());
+    }
+    
+    /**
+     * Checks that finding user by null email throws exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findUserNullEmail() {
+        userManager.findUserByEmail(null);
+    }
+    
+    /**
+     * Checks that finding user by empty email throws exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findUserEmptyEmail() {
+        userManager.findUserByEmail("");
+    }
+    
+    /**
+     * Checks that finding user by null username throws exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findUserNullUsername() {
+        userManager.findUserByUsername(null);
+    }
+    
+    /**
+     * Checks that finding user by empty username throws exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findUserEmptyUsername() {
+        userManager.findUserByUsername("");
     }
 }
 

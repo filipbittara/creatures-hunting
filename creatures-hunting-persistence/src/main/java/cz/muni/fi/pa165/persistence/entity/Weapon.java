@@ -43,13 +43,11 @@ public class Weapon {
         getCreatures().add(creature);
     }
 	
-	public void removeCreature(Creature creature) {
-		Set<Creature> creatures = getCreatures();
-		if (creatures.contains(creature)) {
-			creatures.remove(creature);
-			setCreatures(creatures);
-		}
-	}
+    public void removeCreature(Creature creature) {
+        if (creatures.contains(creature)) {
+                creatures.remove(creature);
+        }
+    }
 
     public Long getId() {
         return id;

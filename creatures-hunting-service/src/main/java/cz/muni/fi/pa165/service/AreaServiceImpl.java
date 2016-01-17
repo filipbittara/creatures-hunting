@@ -89,7 +89,6 @@ public class AreaServiceImpl implements AreaService {
         } else {
             throw new IllegalArgumentException();
         }
-        area.addCreature(creature);
     }
 
     @Override

@@ -37,8 +37,8 @@ public class DataLoadingFacadeImpl implements DataLoadingFacade {
 
     @Override
     public void loadData() {
-        Creature bongun = creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 32, "Ice", "bongun.jpg");
-        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 12, 10, "Fire attacks", "anubis.jpg");
+        Creature bongun = creature("Bongun", CreatureType.UNDEAD, 43.2, 12.31, 9, 5, "Ice", "bongun.jpg");
+        creature("Anubis", CreatureType.UNDEAD, 183.9, 43.4, 10, 10, "Fire attacks", "anubis.jpg");
         creature("Jockey", CreatureType.HUMANOID, 120.3, 30.0, 7, 8, "Small and stupid", "jockey.jpg");
         creature("Witch", CreatureType.SPIRIT, 155.0, 45.0, 9, 9, "Loses stamina quickly when startled", "witch.jpg");
         creature("Wild dog", CreatureType.BEAST, 80.0, 35.0, 10, 10, "Wants to play fetch", "dog.jpg");

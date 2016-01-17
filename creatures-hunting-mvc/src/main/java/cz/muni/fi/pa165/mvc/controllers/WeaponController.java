@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dto.CreatureDTO;
 import cz.muni.fi.pa165.dto.UserDTO;
 import cz.muni.fi.pa165.dto.WeaponDTO;
 import cz.muni.fi.pa165.enums.AmmunitionType;
+import cz.muni.fi.pa165.facade.AreaFacade;
 import cz.muni.fi.pa165.facade.CreatureFacade;
 import cz.muni.fi.pa165.facade.UserFacade;
 import cz.muni.fi.pa165.facade.WeaponFacade;
@@ -51,11 +52,50 @@ public class WeaponController {
     private UserFacade userFacade;
 
     @Autowired
+    private AreaFacade areaFacade;
+    
+    @Autowired
     HttpSession session;
 
     @ModelAttribute("creatures")
     public List<CreatureDTO> creatures() {
         return creatureFacade.getAllCreatures();
+    }
+    
+    @ModelAttribute("areas")
+    public List<AreaDTO> getAreas() {    
+        return areaFacade.getAllAreas();
+    }
+    
+    @RequestMapping(value = {"/areas"}, method = RequestMethod.POST)
+    public String areas(Model model, HttpServletRequest request, RedirectAttributes red) {
+        String result = "";
+        List<AreaDTO> areas = new ArrayList<>(); 
+        for(String name : request.getParameterValues("field")) {
+            if(!"".equals(name)) {
+                for(AreaDTO a : areaFacade.getAllAreas()) {
+                    if(name.equals(a.getName())) {
+                        areas.add(a);
+                    }
+                }
+            }
+        }
+              
+        for(WeaponDTO w : weaponFacade.getWeaponsToGoTroughAreas(areas)) {
+            result += w.getName() + ", ";
+        }
+        
+        if(result.length() > 0) {
+            result = result.substring(0, result.length() - 2);
+        }
+        
+        model.addAttribute("weaponUse", result);
+        if(!"".equals(result)) {
+            red.addFlashAttribute("alert_success","You should bring at least these weapons: " + result + ".");
+        } else {
+            red.addFlashAttribute("alert_success","No weapon can be recommended.");
+        }
+        return "redirect:/weapon/list";
     }
 
     @RequestMapping(value = {"/list/filter"}, method = RequestMethod.GET)

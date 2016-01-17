@@ -56,49 +56,10 @@ public class HomeController {
         }
         return "/home";
     }
-    
-    @RequestMapping(value = {"/circle/{x}/{y}/{radius}"}, method = RequestMethod.GET)
-    public String circle(Model model, @PathVariable double x, @PathVariable double y, @PathVariable double radius) {
-        String creatures = "";
-        for (CreatureDTO c: creatureFacade.getCreaturesInCircle(y, x, radius)) {
-            creatures += c.getName() + ", ";
-        }
-        if(creatures.length() > 0) {
-            creatures = creatures.substring(0, creatures.length() - 2);
-        }
-        model.addAttribute("circle", creatures);
-        return "/home";
-    }
 
     @ModelAttribute("areas")
     public List<AreaDTO> getAreas() {    
         return areaFacade.getAllAreas();
-    }
-    
-    @RequestMapping(value = {"/areas"}, method = RequestMethod.POST)
-    public String areas(Model model, HttpServletRequest request) {
-        String result = "";
-        List<AreaDTO> areas = new ArrayList<>(); 
-        for(String name : request.getParameterValues("field")) {
-            if(!"".equals(name)) {
-                for(AreaDTO a : areaFacade.getAllAreas()) {
-                    if(name.equals(a.getName())) {
-                        areas.add(a);
-                    }
-                }
-            }
-        }
-              
-        for(WeaponDTO w : weaponFacade.getWeaponsToGoTroughAreas(areas)) {
-            result += w.getName() + ", ";
-        }
-        
-        if(result.length() > 0) {
-            result = result.substring(0, result.length() - 2);
-        }
-        
-        model.addAttribute("weaponUse", result);  
-        return "/home";
     }
 
 }

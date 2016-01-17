@@ -17,22 +17,6 @@
     <jsp:attribute name="body">
 
         <div class="container">
-            <c:if test="${circle != '' && circle != null}">
-                <div class="alert alert-success">
-                    I see you like my tools. <br/>
-                    Creatures that are around you:<b> ${circle}.</b>
-                    </div> <br/><br/>
-                    </c:if>
-
-
-                    <c:if test="${weaponUse != '' && weaponUse != null}">
-
-                        <div class="alert alert-success">
-
-                            I see you like my tools. <br/>
-                            You should bring these weapons:<b> ${weaponUse}.</b>
-                        </div><br/><br/>
-                    </c:if> 
 
 
                     <b>To anyone reading this, I probably won't be alive to tell you:</b><br />
@@ -77,7 +61,7 @@
                                 <label cssClass="col-sm-2 control-label">Radius</label>
                                 <input type="text" id="radius" class="form-control" value="${radius}"/>
                             </div>
-                            <input type="button" value="Show" class="btn btn-primary" onclick="location.href = '${pageContext.request.contextPath}' + '/home/circle/' + x.value + '/' + y.value + '/' + radius.value"/>
+                            <input type="button" value="Show" class="btn btn-primary" onclick="location.href = '${pageContext.request.contextPath}' + '/creature/circle/' + x.value + '/' + y.value + '/' + radius.value"/>
                         </div>
 
                     </div>
@@ -91,7 +75,7 @@
                             <div class="row"> 
                                 <div class="control-group" id="fields"> 
                                     <div class="controls"> 
-                                        <form id="areasw" role="form" action="${pageContext.request.contextPath}/home/areas" autocomplete="off" method="post"> 
+                                        <form id="areasw" role="form" action="${pageContext.request.contextPath}/weapon/areas" autocomplete="off" method="post"> 
                                             <label cssClass="col-sm-2 control-label">Fill in areas</label>
                                             <div class="entry input-group col-xs-3">
                                                 <select class="form-control" name="field">
@@ -113,7 +97,7 @@
                                         <button type="submit" value=" Send" class="btn btn-success" id="submit" onclick="areaWeaponFormSubmit()" />Submit</button> 
 
                                         <br> 
-                                        <small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field :)</small> 
+                                        <small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field</small> 
                                     </div> 
                                 </div> 
                             </div> 

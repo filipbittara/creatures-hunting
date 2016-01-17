@@ -342,4 +342,21 @@ public class CreatureController {
             out.flush();
         }
     }
+    
+    @RequestMapping(value = {"/circle/{x}/{y}/{radius}"}, method = RequestMethod.GET)
+    public String circle(Model model, @PathVariable double x, @PathVariable double y, @PathVariable double radius, RedirectAttributes red) {
+        String creatures = "";
+        for (CreatureDTO c: creatureFacade.getCreaturesInCircle(y, x, radius)) {
+            creatures += c.getName() + ", ";
+        }
+        if(creatures.length() > 0) {
+            creatures = creatures.substring(0, creatures.length() - 2);
+        }
+        if(!"".equals(creatures)) {
+            red.addFlashAttribute("alert_success","Creatures that are around you: " + creatures + ".");
+        } else {
+            red.addFlashAttribute("alert_success","No creatures around you.");
+        }
+        return "redirect:/creature/list";
+    }
 }

@@ -18,7 +18,7 @@ public interface AreaService {
     /**
      * Creates new area. Returns id of created area.
      * @param area area to be created
-     * @return id of created area
+     * @return instance of the area created
      */
     Area createArea(Area area);
     /**

@@ -11,7 +11,7 @@ public interface CreatureService {
     /**
      * Creates new creature. Returns id of created creature.
      * @param creature creature to be created
-     * @return id of created creature
+     * @return instance of the creature created
      */
     Creature createCreature(Creature creature);
     /**

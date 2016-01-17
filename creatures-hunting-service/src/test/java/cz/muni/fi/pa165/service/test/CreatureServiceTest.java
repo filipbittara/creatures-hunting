@@ -138,7 +138,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 	
 	@Test
 	public void getCreaturesInCircleTest() {
-		double radius = 2.0;
+		double radius = 410.0;
 		creature1.addArea(area);
 		creature2.addArea(area);
 		creature3.addArea(area2);
@@ -161,7 +161,7 @@ public class CreatureServiceTest extends AbstractTransactionalTestNGSpringContex
 		
 		when(areaManager.findAllAreas()).thenReturn(areas);
 		
-		Assert.assertEquals(creatureService.getCreaturesInCircle(radius, 4.0, 4.1), testCreatures);
+		Assert.assertEquals(creatureService.getCreaturesInCircle(4.1, 4.0, radius), testCreatures);
 		
 		
 	}

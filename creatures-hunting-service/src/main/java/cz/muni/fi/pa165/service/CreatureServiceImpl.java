@@ -68,11 +68,13 @@ public class CreatureServiceImpl implements CreatureService {
 
     @Override
     public Set<Creature> getCreaturesInCircle(double latitude, double longitude, double radius) {
+        //radius divided by aproximately one degree to km
+        radius = radius / 111.32D;
         Set<Creature> result = new HashSet<>();
         try {
             for(Area area : areaManager.findAllAreas()) {
-                double distance = Math.sqrt(Math.pow(latitude - area.getLatitude(), 2) + Math.pow(longitude - area.getLongitude(),2));
-                if(distance <= radius ) {
+                double distance = Math.sqrt(Math.pow(latitude - area.getLatitude(), 2) + Math.pow(longitude - area.getLongitude(),2));        
+                if(distance <= radius) { 
                     for(Creature creature : area.getCreatures()) {
                         result.add(creature);
                     }

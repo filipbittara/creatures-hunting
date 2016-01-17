@@ -48,9 +48,25 @@
                         <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
                             ${area.name}</td>
                         <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
-                            ${area.latitude}</td>
+                            <c:choose>
+                                <c:when test="${area.latitude < 0}">
+                                    ${-area.latitude} S
+                                </c:when>
+                                <c:otherwise>
+                                    ${area.latitude} N
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
-                            ${area.longitude}</td>
+                            <c:choose>
+                                <c:when test="${area.longitude < 0}">
+                                    ${-area.longitude} W
+                                </c:when>
+                                <c:otherwise>
+                                    ${area.longitude} E
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>    
                             <c:if test="${not empty authenticatedAdmin}">
                                 <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/area/admin/delete/${area.id}">                      
@@ -74,72 +90,91 @@
                             <c:choose>
                                 <c:when test="${area.id == shouldBeOpen}">
                                     <div class="accordian-body collapse in" id="${area.id}detail">
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="accordian-body collapse" id="${area.id}detail">
-                                </c:otherwise>
-                            </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="accordian-body collapse" id="${area.id}detail">
+                                        </c:otherwise>
+                                    </c:choose>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <img width="300" height="300" src="${pageContext.request.contextPath}/area/areaImage/${area.id}"/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img width="300" height="300" src="${pageContext.request.contextPath}/area/areaImage/${area.id}"/>
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <table class="table">
+                                                <caption>Area properties</caption>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <td>${area.name}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <td>${area.description}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Latitude</th>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${area.latitude < 0}">
+                                                                ${-area.latitude} S
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${area.latitude} N
+                                                            </c:otherwise>
+                                                        </c:choose>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Longitude</th>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${area.longitude < 0}">
+                                                                ${-area.longitude} W
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${area.longitude} E
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            Creatures seen in this area: ${creatureAreas[area.id]}. <br/>
+
+                                            <a data-toggle="collapse" data-target="#${area.id}addArea" class="accordion-toggle clickable">Have you seen any other monster here?</a><br/>
+                                            <div class="accordian-body collapse" id="${area.id}addArea">
+                                                <c:set var="showed" value="0"/>
+                                                <c:forEach items="${creatures}" var="creature">
+                                                    <c:if test="${not fn:contains(creatureAreas[area.id], creature.name)}">
+                                                        <my:a href="/area/addCreature/${creature.id}/to/${area.id}" class="text-success">I've seen ${creature.name}.</my:a><br/>
+                                                        <c:set var="showed" value="${showed + 1}"/>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <c:if test="${showed == 0}">
+                                                    Sorry, no other creature available.
+                                                </c:if>
                                             </div>
 
-                                            <div class="col-md-6">
-
-                                                <table class="table">
-                                                    <caption>Area properties</caption>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <td>${area.name}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Description</th>
-                                                        <td>${area.description}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Latitude</th>
-                                                        <td>${area.latitude}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Longitude</th>
-                                                        <td>${area.longitude}</td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="col-md-6">
-                                                Creatures seen in this area: ${creatureAreas[area.id]}. <br/>
-
-                                                <a data-toggle="collapse" data-target="#${area.id}addArea" class="accordion-toggle clickable">Have you seen any other monster here?</a><br/>
-                                                <div class="accordian-body collapse" id="${area.id}addArea">
-                                                    <c:set var="showed" value="0"/>
-                                                    <c:forEach items="${creatures}" var="creature">
-                                                        <c:if test="${not fn:contains(creatureAreas[area.id], creature.name)}">
-                                                            <my:a href="/area/addCreature/${creature.id}/to/${area.id}" class="text-success">I've seen ${creature.name}.</my:a><br/>
-                                                            <c:set var="showed" value="${showed + 1}"/>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <c:if test="${showed == 0}">
-                                                        Sorry, no other creature available.
+                                            <a data-toggle="collapse" data-target="#${area.id}removeArea" class="accordion-toggle clickable">Do you think one of the listed monsters is not here?</a>
+                                            <div class="accordian-body collapse" id="${area.id}removeArea">
+                                                <c:set var="showed" value="0"/>
+                                                <c:forEach items="${creatures}" var="creature">
+                                                    <c:if test="${fn:contains(creatureAreas[area.id], creature.name)}">
+                                                        <my:a href="/area/removeCreature/${creature.id}/from/${area.id}" class="text-success">Yes, ${creature.name} is not here.</my:a><br/>
+                                                        <c:set var="showed" value="${showed + 1}"/>
                                                     </c:if>
-                                                </div>
-
-                                                <a data-toggle="collapse" data-target="#${area.id}removeArea" class="accordion-toggle clickable">Do you think one of the listed monsters is not here?</a>
-                                                <div class="accordian-body collapse" id="${area.id}removeArea">
-                                                    <c:set var="showed" value="0"/>
-                                                    <c:forEach items="${creatures}" var="creature">
-                                                        <c:if test="${fn:contains(creatureAreas[area.id], creature.name)}">
-                                                            <my:a href="/area/removeCreature/${creature.id}/from/${area.id}" class="text-success">Yes, ${creature.name} is not here.</my:a><br/>
-                                                            <c:set var="showed" value="${showed + 1}"/>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <c:if test="${showed == 0}">
-                                                        Sorry, no creature listed.
-                                                    </c:if>
-                                                </div>
+                                                </c:forEach>
+                                                <c:if test="${showed == 0}">
+                                                    Sorry, no creature listed.
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                         </td>
                     </tr>
                 </c:forEach>

@@ -104,7 +104,15 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
             areaManager.deleteArea(a);
             Assert.assertNull(areaManager.findArea(a.getId()));
     }
-
+    
+    /**
+     * Testing of deleting null entity
+     */
+    @Test(expectedExceptions=IllegalArgumentException.class)
+    public void deleteNull() {
+        areaManager.deleteArea(null);
+    }
+    
     /**
      * Checks that entity could be updated.
      */
@@ -117,6 +125,14 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
             a.setName("Other area");
             areaManager.updateArea(a);
             Assert.assertEquals(areaManager.findArea(a.getId()).getName(), "Other area");
+    }
+    
+    /**
+     * Testing of updating null entity
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void updateNull() {
+        areaManager.updateArea(null);
     }
     
     /**
@@ -134,6 +150,17 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         Creature found = creatureManager.findCreature(c.getId());
         Assert.assertEquals(found.getAreas().size(), 1);
         Assert.assertEquals(found.getAreas().iterator().next().getName(), "Area 1");
+    }
+    /**
+     * Checks that finding area by id
+     */
+    @Test
+    public void findAreaTest() {
+        Area a = new Area();
+        a.setName("Area 1");
+        areaManager.addArea(a);
+        Area found = areaManager.findArea(a.getId());
+        Assert.assertEquals(found, a);
     }
 
     /**
@@ -154,4 +181,21 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.getLatitude(), a.getLatitude());
         Assert.assertEquals(result.getLongitude(), a.getLongitude());
     }
+    
+    /**
+     * Checks that finding area by null name throws exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findAreaNullName () {
+        areaManager.findAreaByName(null);
+    }
+    
+    /**
+     * Checks that finding area by empty name throws exception.
+     */
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void findAreaEmptyName () {
+        areaManager.findAreaByName("");
+    }
 }
+

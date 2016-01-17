@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.persistence.entity;
 
 import cz.muni.fi.pa165.persistence.entity.enums.AmmunitionType;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class Weapon {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Min(value=0)
     private Double gunReach;
 
     private AmmunitionType ammunition;

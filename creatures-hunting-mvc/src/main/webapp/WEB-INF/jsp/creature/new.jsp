@@ -157,11 +157,11 @@
         </div>
       
         <button class="btn btn-primary" disabled="disabled" type="submit">Create creature</button>
-        <span style="color: red; display: block" id="enter_name" class="input-err">- You must <strong>name</strong> the creature.</span>
-        <span style="color: red; display: block" id="height_err" class="input-err">- The <strong>height</strong> of the creature must be a positive number.</span>
-        <span style="color: red; display: block" id="weight_err" class="input-err">- The <strong>weight</strong> of the creature must be a positive number.</span>
-        <span style="color: red; display: block" id="agi_err" class="input-err">- The <strong>agility</strong> of the creature must be an integer in the interval [0, 10].</span>
-        <span style="color: red; display: block" id="fero_err" class="input-err">- The <strong>ferocity</strong> of the creature must be an integer in the interval [0, 10].</span>
+        <span style="color: red; display: block" id="enter_name" class="input-err">You must <strong>name</strong> the creature.</span>
+        <span style="color: red; display: block" id="height_err" class="input-err">The <strong>height</strong> of the creature must be a positive number.</span>
+        <span style="color: red; display: block" id="weight_err" class="input-err">The <strong>weight</strong> of the creature must be a positive number.</span>
+        <span style="color: red; display: block" id="agi_err" class="input-err">The <strong>agility</strong> of the creature must be an integer in the interval [0, 10].</span>
+        <span style="color: red; display: block" id="fero_err" class="input-err">The <strong>ferocity</strong> of the creature must be an integer in the interval [0, 10].</span>
     </form:form>
 
 </jsp:attribute>

@@ -66,7 +66,7 @@
         </div>
       
         <button class="btn btn-primary" type="submit">Update area</button>
-        <span style="color: red; display: none" id="enter_name">- You must <strong>name</strong> the area.</span>
+        <span style="color: red; display: none" id="enter_name">You must <strong>name</strong> the area.</span>
     </form:form>
 
 </jsp:attribute>

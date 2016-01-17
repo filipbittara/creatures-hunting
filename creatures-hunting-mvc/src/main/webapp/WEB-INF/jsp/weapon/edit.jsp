@@ -26,6 +26,22 @@
                     $('#enter_name').css('display', 'none');
                 }
             });
+
+            $('input#gunReach').on("change paste keyup", function() {
+                if ($('input#gunReach').val().length == 0
+                        || parseFloat($('input#gunReach').val()) < 0
+                        || $.isNumeric($('input#gunReach').val()) == false) {
+                    $('#reach_err').css('display', 'block');
+                } else {
+                    $('#reach_err').css('display', 'none');
+                }
+                console.log($('span.input-err:visible').length);
+                if ($('span.input-err:visible').length == 0) {
+                    $('button[type="submit"]').removeAttr('disabled');
+                } else {
+                    $('button[type="submit"]').attr('disabled', 'disabled');
+                }
+            });
         });
     </script>
 
@@ -65,7 +81,8 @@
         </div>
       
         <button class="btn btn-primary" type="submit">Update weapon</button>
-        <span style="color: red; display: none" id="enter_name">- You must <strong>name</strong> the weapon.</span>
+        <span style="color: red; display: none" id="enter_name" class="input-err">You must <strong>name</strong> the weapon.</span>
+        <span style="color: red; display: none" id="reach_err" class="input-err">The <strong>reach</strong> of the weapon must be >=0.</span>
     </form:form>
 
 </jsp:attribute>

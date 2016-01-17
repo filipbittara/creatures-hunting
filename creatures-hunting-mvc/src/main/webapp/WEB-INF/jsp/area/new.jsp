@@ -67,7 +67,7 @@
         </div>
       
         <button class="btn btn-primary" disabled="disabled" type="submit">Create area</button>
-        <span style="color: red; display: block" id="enter_name">- You must <strong>name</strong> the area.</span>
+        <span style="color: red; display: block" id="enter_name">You must <strong>name</strong> the area.</span>
     </form:form>
 
 </jsp:attribute>

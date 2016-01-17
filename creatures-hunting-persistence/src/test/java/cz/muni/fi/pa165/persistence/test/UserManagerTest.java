@@ -143,8 +143,34 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
         userManager.updateUser(null);
     }
     
+    /**
+     * Checks that updating name to null throws an exception.
+     */
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void updateNullName() {
+        User u = new User();
+        u.setUsername("admin");
+        userManager.addUser(u);
+        u.setUsername(null);
+        userManager.updateUser(u);
+    }
     
-
+    /**
+     * Checks that updating name to existing one throws an exception.
+     */
+    @Test(expectedExceptions = javax.persistence.PersistenceException.class)
+    public void updateToNonUniqueName() {
+        User u = new User();
+        u.setUsername("admin");
+        userManager.addUser(u);
+        
+        User u2 = new User();
+        u2.setUsername("user");
+        userManager.addUser(u2);
+        
+        u2.setUsername(u.getUsername());
+        userManager.updateUser(u2);
+    }
     /**
      * Checks that finding user by email works.
      */

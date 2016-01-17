@@ -135,6 +135,9 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         areaManager.updateArea(null);
     }
     
+    /**
+     * Checks that updating to null name throws an exception.
+     */
     @Test(expectedExceptions = ConstraintViolationException.class)
     public void updateNullName() {
         Area a = new Area();
@@ -145,6 +148,9 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         areaManager.updateArea(a);
     }
     
+    /**
+     * Checks that updating name to existing one throws an exception.
+     */
     @Test(expectedExceptions = javax.persistence.PersistenceException.class)
         public void updateToNonUniqueName() {
         Area a = new Area();

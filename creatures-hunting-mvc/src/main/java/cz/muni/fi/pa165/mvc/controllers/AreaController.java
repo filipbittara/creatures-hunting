@@ -112,33 +112,41 @@ public class AreaController {
 
     @RequestMapping(value = "/addCreature/{cid}/to/{id}", method = RequestMethod.GET)
     public String addCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(cid);
-        AreaDTO area = areaFacade.getArea(id);
-        areaFacade.addCreatureToArea(creature.getId(), area.getId());
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(cid);
+            AreaDTO area = areaFacade.getArea(id);       
+            areaFacade.addCreatureToArea(creature.getId(), area.getId());
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to assign creature with id " + cid + " to area with id " + id + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
 
     @RequestMapping(value = "/removeCreature/{cid}/from/{id}", method = RequestMethod.GET)
     public String removeCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(cid);
-        AreaDTO area = areaFacade.getArea(id);
-        areaFacade.removeCreatureFromArea(creature.getId(), area.getId());
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \"" + area.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(cid);
+            AreaDTO area = areaFacade.getArea(id);
+            areaFacade.removeCreatureFromArea(creature.getId(), area.getId());
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \"" + area.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to remove creature with id " + cid + " from area with id " + id + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
-    }
-
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String detail(@PathVariable long id, Model model) {
-        model.addAttribute("area", areaFacade.getArea(id));
-        return ("area/detail");
     }
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        AreaDTO area = areaFacade.getArea(id);
-        areaFacade.deleteArea(area);
-        redirectAttributes.addFlashAttribute("alert_success", "Product \"" + area.getName() + "\" was deleted.");
+        try {
+            AreaDTO area = areaFacade.getArea(id);
+            areaFacade.deleteArea(area);
+            redirectAttributes.addFlashAttribute("alert_success", "Product \"" + area.getName() + "\" was deleted.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to remove area with id " + id + ".");
+        }
         return "redirect:" + uriBuilder.path("/area/list").toUriString();
     }
 

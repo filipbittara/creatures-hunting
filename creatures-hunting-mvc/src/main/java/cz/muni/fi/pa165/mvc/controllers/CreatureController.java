@@ -263,45 +263,69 @@ public class CreatureController {
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(id);
-        creatureFacade.deleteCreature(id);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" was deleted.");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(id);
+            creatureFacade.deleteCreature(id);
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" was deleted.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to remove creature with id " + id + ".");
+        }
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
     @RequestMapping(value = "/addWeapon/{wid}/to/{id}", method = RequestMethod.GET)
     public String addWeapon(@PathVariable long id, @PathVariable long wid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(id);
-        WeaponDTO weapon = weaponFacade.getWeaponById(wid);
-        weaponFacade.assignCreature(weapon, creature);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \"" + weapon.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(id);
+            WeaponDTO weapon = weaponFacade.getWeaponById(wid);
+            weaponFacade.assignCreature(weapon, creature);
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \"" + weapon.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to assign weapon with id " + wid + " to creature with id " + id + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
     @RequestMapping(value = "/removeWeapon/{wid}/from/{id}", method = RequestMethod.GET)
     public String removeWeapon(@PathVariable long id, @PathVariable long wid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(id);
-        WeaponDTO weapon = weaponFacade.getWeaponById(wid);
-        weaponFacade.removeCreature(weapon, creature);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could not be harmed by weapon \"" + weapon.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(id);
+            WeaponDTO weapon = weaponFacade.getWeaponById(wid);
+            weaponFacade.removeCreature(weapon, creature);
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could not be harmed by weapon \"" + weapon.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to unassign weapon with id " + wid + " from creature with id " + id + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
     @RequestMapping(value = "/addArea/{aid}/to/{id}", method = RequestMethod.GET)
     public String addArea(@PathVariable long id, @PathVariable long aid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(id);
-        AreaDTO area = areaFacade.getArea(aid);
-        areaFacade.addCreatureToArea(creature.getId(), area.getId());
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(id);
+            AreaDTO area = areaFacade.getArea(aid);
+            areaFacade.addCreatureToArea(creature.getId(), area.getId());
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is in area \"" + area.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to assign creature with id " + id + " to area with id " + aid + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 
     @RequestMapping(value = "/removeArea/{aid}/from/{id}", method = RequestMethod.GET)
     public String removeArea(@PathVariable long id, @PathVariable long aid, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(id);
-        AreaDTO area = areaFacade.getArea(aid);
-        areaFacade.removeCreatureFromArea(creature.getId(), area.getId());
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \"" + area.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(id);
+            AreaDTO area = areaFacade.getArea(aid);
+            areaFacade.removeCreatureFromArea(creature.getId(), area.getId());
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" is no longer in area \"" + area.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to remove creature with id " + id + " from area with id " + aid + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/creature/list").toUriString();
     }
 

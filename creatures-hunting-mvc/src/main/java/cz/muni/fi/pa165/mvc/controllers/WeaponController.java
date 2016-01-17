@@ -116,19 +116,29 @@ public class WeaponController {
 
     @RequestMapping(value = "/addCreature/{cid}/to/{id}", method = RequestMethod.GET)
     public String addCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(cid);
-        WeaponDTO weapon = weaponFacade.getWeaponById(id);
-        weaponFacade.assignCreature(weapon, creature);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \"" + weapon.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(cid);
+            WeaponDTO weapon = weaponFacade.getWeaponById(id);
+            weaponFacade.assignCreature(weapon, creature);
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could be harmed by weapon \"" + weapon.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to assign weapon with id " + id + " to creature with id " + cid + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
 
     @RequestMapping(value = "/removeCreature/{cid}/from/{id}", method = RequestMethod.GET)
     public String removeCreature(@PathVariable long cid, @PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        CreatureDTO creature = creatureFacade.getCreature(cid);
-        WeaponDTO weapon = weaponFacade.getWeaponById(id);
-        weaponFacade.removeCreature(weapon, creature);
-        redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could not be harmed by weapon \"" + weapon.getName() + "\".");
+        try {
+            CreatureDTO creature = creatureFacade.getCreature(cid);
+            WeaponDTO weapon = weaponFacade.getWeaponById(id);
+            weaponFacade.removeCreature(weapon, creature);
+            redirectAttributes.addFlashAttribute("alert_success", "Creature \"" + creature.getName() + "\" could not be harmed by weapon \"" + weapon.getName() + "\".");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to unassign weapon with id " + id + " from creature with id " + cid + ".");
+        }
+        redirectAttributes.addFlashAttribute("shouldBeOpen", id);
         return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
 
@@ -140,9 +150,13 @@ public class WeaponController {
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) {
-        WeaponDTO weapon = weaponFacade.getWeaponById(id);
-        weaponFacade.removeWeapon(weapon);
-        redirectAttributes.addFlashAttribute("alert_success", "Weapon \"" + weapon.getName() + "\" was deleted.");
+        try {
+            WeaponDTO weapon = weaponFacade.getWeaponById(id);
+            weaponFacade.removeWeapon(weapon);
+            redirectAttributes.addFlashAttribute("alert_success", "Weapon \"" + weapon.getName() + "\" was deleted.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alert_error", "Error. Unable to remove creature with id " + id + ".");
+        }
         return "redirect:" + uriBuilder.path("/weapon/list").toUriString();
     }
 

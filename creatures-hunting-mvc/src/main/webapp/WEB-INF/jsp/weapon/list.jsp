@@ -75,61 +75,69 @@
 
                     <tr class="zeroPadding">
                         <td colspan="4" class="hiddenRow" style="padding: 0; border-top-width: 0">
-                            <div class="accordian-body collapse" id="${weapon.id}detail">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <img width="300" height="300" src="${pageContext.request.contextPath}/weapon/weaponImage/${weapon.id}"/>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <table class="table">
-                                            <caption>Weapon properties</caption>
-                                            <tr>
-                                                <th>Name</th>
-                                                <td>${weapon.name}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Gun Reach</th>
-                                                <td>${weapon.gunReach}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Ammunition</th>
-                                                <td>${weapon.ammunition}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6">
-                                        Creatures that can be injured with this weapon: ${creatureWeapon[weapon.id]}. <br/>
+                            <c:choose>
+                                <c:when test="${weapon.id == shouldBeOpen}">
+                                    <div class="accordian-body collapse in" id="${weapon.id}detail">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="accordian-body collapse" id="${weapon.id}detail">
+                                </c:otherwise>
+                            </c:choose>
 
-                                        <a data-toggle="collapse" data-target="#${weapon.id}addWeapon" class="accordion-toggle clickable">Have you injured any other creature with this weapon?</a><br/>
-                                        <div class="accordian-body collapse" id="${weapon.id}addWeapon">
-                                            <c:set var="showed" value="0"/>
-                                            <c:forEach items="${creatures}" var="creature">
-                                                <c:if test="${not fn:contains(creatureWeapon[weapon.id], creature.name)}">
-                                                    <my:a href="/weapon/addCreature/${creature.id}/to/${weapon.id}" class="text-success">I've hurt ${creature.name}.</my:a><br/>
-                                                    <c:set var="showed" value="${showed + 1}"/>
-                                                </c:if>
-                                            </c:forEach>
-                                            <c:if test="${showed == 0}">
-                                                Sorry, no other creature available.
-                                            </c:if>
-                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <img width="300" height="300" src="${pageContext.request.contextPath}/weapon/weaponImage/${weapon.id}"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <table class="table">
+                                                    <caption>Weapon properties</caption>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <td>${weapon.name}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Gun Reach</th>
+                                                        <td>${weapon.gunReach}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Ammunition</th>
+                                                        <td>${weapon.ammunition}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6">
+                                                Creatures that can be injured with this weapon: ${creatureWeapon[weapon.id]}. <br/>
 
-                                        <a data-toggle="collapse" data-target="#${weapon.id}removeWeapon" class="accordion-toggle clickable">Was this weapon ineffective against any listed creature?</a>
-                                        <div class="accordian-body collapse" id="${weapon.id}removeWeapon">
-                                            <c:set var="showed" value="0"/>
-                                            <c:forEach items="${creatures}" var="creature">
-                                                <c:if test="${fn:contains(creatureWeapon[weapon.id], creature.name)}">
-                                                    <my:a href="/weapon/removeCreature/${creature.id}/from/${weapon.id}" class="text-success">Yes, it is ineffective against ${creature.name}.</my:a><br/>
-                                                    <c:set var="showed" value="${showed + 1}"/>
-                                                </c:if>
-                                            </c:forEach>
-                                            <c:if test="${showed == 0}">
-                                                Sorry, no creatures listed.
-                                            </c:if>
+                                                <a data-toggle="collapse" data-target="#${weapon.id}addWeapon" class="accordion-toggle clickable">Have you injured any other creature with this weapon?</a><br/>
+                                                <div class="accordian-body collapse" id="${weapon.id}addWeapon">
+                                                    <c:set var="showed" value="0"/>
+                                                    <c:forEach items="${creatures}" var="creature">
+                                                        <c:if test="${not fn:contains(creatureWeapon[weapon.id], creature.name)}">
+                                                            <my:a href="/weapon/addCreature/${creature.id}/to/${weapon.id}" class="text-success">I've hurt ${creature.name}.</my:a><br/>
+                                                            <c:set var="showed" value="${showed + 1}"/>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${showed == 0}">
+                                                        Sorry, no other creature available.
+                                                    </c:if>
+                                                </div>
+
+                                                <a data-toggle="collapse" data-target="#${weapon.id}removeWeapon" class="accordion-toggle clickable">Was this weapon ineffective against any listed creature?</a>
+                                                <div class="accordian-body collapse" id="${weapon.id}removeWeapon">
+                                                    <c:set var="showed" value="0"/>
+                                                    <c:forEach items="${creatures}" var="creature">
+                                                        <c:if test="${fn:contains(creatureWeapon[weapon.id], creature.name)}">
+                                                            <my:a href="/weapon/removeCreature/${creature.id}/from/${weapon.id}" class="text-success">Yes, it is ineffective against ${creature.name}.</my:a><br/>
+                                                            <c:set var="showed" value="${showed + 1}"/>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${showed == 0}">
+                                                        Sorry, no creatures listed.
+                                                    </c:if>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
                         </td>
                     </tr>
                 </c:forEach>

@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="resources/css/signin.css">
+    <!-- jQuery -->
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+
     <jsp:invoke fragment="head"/>
 </head>
 <body>
@@ -73,6 +78,9 @@
     </c:if>
     <c:if test="${not empty alert_warning}">
         <div class="alert alert-warning" role="alert"><c:out value="${alert_warning}"/></div>
+    </c:if>
+    <c:if test="${not empty alert_error}">
+        <div class="alert alert-danger" role="alert"><c:out value="${alert_error}"/></div>
     </c:if>
 
 

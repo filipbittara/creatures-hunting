@@ -15,7 +15,7 @@
     <jsp:attribute name="body">
         <div class="container">
 
-            <form class="form-signin" action="<c:url value='login/login-check' />" method="POST">
+            <form id="loginform" class="form-signin" action="<c:url value='login/login-check' />" method="POST">
                 <h2 class="form-signin-heading">Please sign in</h2>
                 <label for="inputUsername" class="sr-only">Username</label>
                 <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
@@ -25,6 +25,14 @@
             </form>
 
         </div> <!-- /container -->
-
+        <script>
+            $('#loginform input[type=text],input[type=password]').on('change invalid', function() {
+                var textfield = $(this).get(0);
+                textfield.setCustomValidity('');
+                if (!textfield.validity.valid) {
+                  textfield.setCustomValidity('Fill in the box, please.');  
+                }
+            });            
+        </script>
     </jsp:attribute>
 </my:template-no-login>

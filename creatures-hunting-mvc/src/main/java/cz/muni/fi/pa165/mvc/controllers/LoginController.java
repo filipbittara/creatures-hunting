@@ -29,10 +29,11 @@ public class LoginController {
     private HttpSession session;
     
     @RequestMapping(value="/login-check", method=RequestMethod.POST)
-    public String loginCheck(Model model, @RequestParam("username") String username, @RequestParam("password") String password) {
+    public String loginCheck(Model model, @RequestParam("username") String username, @RequestParam("password") String password, RedirectAttributes redirectAttributes) {
         UserDTO user = userFacade.findUserByUsername(username);
         if (user == null) {
             // username does not exist
+            redirectAttributes.addFlashAttribute("alert_error","Wrong user name/password combination.");
             return "redirect:/";
         }
         
@@ -45,13 +46,14 @@ public class LoginController {
             return "redirect:/home";            
             
         }
+        redirectAttributes.addFlashAttribute("alert_error","Wrong user name/password combination.");
         return "redirect:/";
     }
     
     @RequestMapping(value="/logout", method=RequestMethod.GET)
     public String logout(RedirectAttributes red, HttpServletRequest request, HttpServletResponse response) {
         session.removeAttribute("authenticated");
-        red.addFlashAttribute("Info"," Successfully logged out");
+        red.addFlashAttribute("alert_info"," Successfully logged out");
         return "redirect:/";
     }
 }

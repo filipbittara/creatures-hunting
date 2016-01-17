@@ -135,6 +135,30 @@ public class AreaManagerTest extends AbstractTestNGSpringContextTests {
         areaManager.updateArea(null);
     }
     
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void updateNullName() {
+        Area a = new Area();
+        a.setName("Area 1");
+        areaManager.addArea(a);
+        Assert.assertEquals(areaManager.findArea(a.getId()).getName(), "Area 1");
+        a.setName(null);
+        areaManager.updateArea(a);
+    }
+    
+    @Test(expectedExceptions = javax.persistence.PersistenceException.class)
+        public void updateToNonUniqueName() {
+        Area a = new Area();
+        a.setName("Area 1");
+        areaManager.addArea(a);
+
+        Area a2 = new Area();
+        a2.setName("Area 2");
+        areaManager.addArea(a2);
+        
+        a2.setName(a.getName());
+        areaManager.updateArea(a2);
+    }
+    
     /**
      * Checks that assigning area to creature works.
      */

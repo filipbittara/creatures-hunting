@@ -39,7 +39,13 @@ public class AreaManagerImp implements AreaManager {
 
 	@Override
 	public void updateArea(Area a) {
-		em.merge(a);
+            if (a == null) {
+                throw new IllegalArgumentException("Area could not be null.");
+            } else if (em.find(Area.class, a.getId()) == null) {
+            throw new IllegalArgumentException("Area could not be found in DB.");
+            }
+            em.merge(a);
+            em.flush();
 	}
 
 	@Override

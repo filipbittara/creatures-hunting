@@ -142,6 +142,8 @@ public class UserManagerTest extends AbstractTestNGSpringContextTests {
     public void updateNull() {
         userManager.updateUser(null);
     }
+    
+    
 
     /**
      * Checks that finding user by email works.

@@ -13,7 +13,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<my:template title="List of creatures">
+<my:template title="Known creatures">
     <jsp:attribute name="body">
 
         <script  type="text/javascript">
@@ -70,7 +70,7 @@
             </thead>
             <tbody>
                 <c:forEach items="${creatures}" var="creature">
-                    <tr>
+                    <tr class="short-info-row">
                         <!--<td>${creature.id}</td>-->
                         <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
                             ${creature.name}</td>
@@ -78,17 +78,17 @@
                             ${creature.type}</td>
                         <td data-toggle="collapse" data-target="#${creature.id}detail" class="accordion-toggle clickable">
                             ${creature.weakness}</td>
-                        <td> 
+                        <td>
                             <c:if test="${not empty authenticatedAdmin}">
-                                <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/admin/delete/${creature.id}">                      
+                                <form style="display: inline;" method="post" action="${pageContext.request.contextPath}/creature/admin/delete/${creature.id}">
                                     <c:choose>
                                         <c:when test="${creatureWeapons[creature.id] == 'nothing' && creatureAreas[creature.id] == 'nowhere'}">
                                             <button type="submit" class="btn btn-primary">Delete</button>
                                         </c:when>
                                         <c:otherwise>
-                                            <button type="submit" disabled class="btn btn-primary">Delete</button>                            
+                                            <button type="submit" title="Cannot delete an item that has something other associated with it..." disabled class="btn btn-primary">Delete</button>
                                         </c:otherwise>
-                                    </c:choose>  
+                                    </c:choose>
                                 </form>
                                 <form style="display: inline;" method="get" action="${pageContext.request.contextPath}/creature/admin/update/${creature.id}">                      
                                     <button type="submit" class="btn btn-primary">Update</button>  

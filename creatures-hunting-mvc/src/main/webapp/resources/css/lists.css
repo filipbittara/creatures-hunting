@@ -1,0 +1,8 @@
+tbody tr.short-info-row:hover {
+    background-color: #D1D9E6;
+    cursor: pointer;
+}
+
+.clickable {
+    cursor: pointer;
+}

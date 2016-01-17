@@ -12,7 +12,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<my:template title="List of areas">
+<my:template title="Areas">
     <jsp:attribute name="body">
 
         <script  type="text/javascript">
@@ -44,7 +44,7 @@
             </thead>
             <tbody>
                 <c:forEach items="${areas}" var="area">
-                    <tr>
+                    <tr class="short-info-row">
                         <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
                             ${area.name}</td>
                         <td data-toggle="collapse" data-target="#${area.id}detail" class="accordion-toggle clickable">
@@ -75,7 +75,7 @@
                                             <button type="submit" class="btn btn-primary">Delete</button>
                                         </c:when>
                                         <c:otherwise>
-                                            <button type="submit" disabled class="btn btn-primary">Delete</button>
+                                            <button type="submit" title="Cannot delete an item that has something other associated with it..." disabled class="btn btn-primary">Delete</button>
                                         </c:otherwise>
                                     </c:choose>
                                 </form>

@@ -13,7 +13,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<my:template title="List of weapons">
+<my:template title="Weapons">
     <jsp:attribute name="body">
 
 
@@ -102,7 +102,7 @@
             </thead>
             <tbody>
                 <c:forEach items="${weapons}" var="weapon">
-                    <tr>
+                    <tr class="short-info-row">
                         <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
                             ${weapon.name}</td>
                         <td data-toggle="collapse" data-target="#${weapon.id}detail" class="accordion-toggle clickable">
@@ -117,7 +117,7 @@
                                             <button type="submit" class="btn btn-primary">Delete</button>
                                         </c:when>
                                         <c:otherwise>
-                                            <button type="submit" disabled class="btn btn-primary">Delete</button>
+                                            <button type="submit" title="Cannot delete an item that has something other associated with it..." disabled class="btn btn-primary">Delete</button>
                                         </c:otherwise>
                                     </c:choose> 
                                 </form>

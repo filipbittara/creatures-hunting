@@ -87,6 +87,8 @@ public class WeaponServiceTest extends AbstractTransactionalTestNGSpringContextT
         verify(weaponManager, times(1)).addWeapon(weapon1);
     }
     
+    
+    
     /**
      * Checks if deleteWeapon() method of weapon service uses weapon manager correctly.
      */

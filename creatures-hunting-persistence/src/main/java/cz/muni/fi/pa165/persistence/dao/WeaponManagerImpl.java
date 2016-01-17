@@ -13,9 +13,9 @@ import javax.persistence.NoResultException;
  *
  * @author David Kizivat
  */
-
 @Repository
 public class WeaponManagerImpl implements WeaponManager {
+
     @PersistenceContext
     private EntityManager em;
 
@@ -36,10 +36,14 @@ public class WeaponManagerImpl implements WeaponManager {
 
     @Override
     public void updateWeapon(Weapon weapon) {
+        if (weapon == null) {
+            throw new IllegalArgumentException("Weapon could not be null.");
+        }
         if (em.find(Weapon.class, weapon.getId()) == null) {
             throw new IllegalArgumentException("Weapon could not be found in DB.");
         }
         em.merge(weapon);
+        em.flush();
     }
 
     @Override
@@ -47,16 +51,16 @@ public class WeaponManagerImpl implements WeaponManager {
         return em.createQuery("select w from Weapon w", Weapon.class).getResultList();
     }
 
-    
     @Override
     public Weapon findWeaponByName(String name) {
-        if (name == null || name.isEmpty())
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Cannot search for null name");
+        }
         try {
             return em.createQuery("select w from Weapon w where name=:name", Weapon.class).setParameter("name", name).getSingleResult();
         } catch (NoResultException nre) {
             return null;
-        }   
+        }
     }
 
 }
